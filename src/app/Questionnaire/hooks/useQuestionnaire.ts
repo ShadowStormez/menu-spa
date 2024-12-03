@@ -39,12 +39,12 @@ export const useQuestionnaire = (questions = QuestionData) => {
     }
   }, [surveyComplete, responses, userInputs]);
 
-  const handleSliderChange = (id: number, label: string, value: number) => {
+  const handleSliderChange = (id: number, labelId: number, value: number) => {
     setResponses((prev) => ({
       ...prev,
       [id]: {
         ...(prev[id] || {}),
-        [label]: value,
+        [labelId]: value, // Use labelId (number) as key
       },
     }));
   };

@@ -4,10 +4,16 @@
 
 @font-face {
   font-family: 'Roboto'; /* The name of the font */
-  src: url('./fonts/Roboto/Roboto-Regular.ttf') format('ttf');/* Font file location and format */
+  src: url('./assets/fonts/Roboto/Roboto-Regular.ttf') format('truetype');/* Font file location and format */
   font-weight: normal; /* Specify the weight of the font (normal, bold, etc.) */
   font-style: normal;  /* Specify the style of the font (normal, italic, etc.) */
   font-display: swap;  /* Control how the font is displayed during loading */
+}
+@font-face {
+  font-family: 'VazirMatn'; /* Replace with the actual name of the font */
+  src: url('./assets/fonts/Vazirmatn/Vazirmatn-VariableFont_wght.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
 }
 
 :root {
@@ -17,8 +23,8 @@
 
 html,body {
   color: var(--foreground);
-  background: radial-gradient(circle at -1% 57.5%, rgb(19, 170, 82) 0%, rgb(0, 102, 43) 90%); 
-  font-family:'VazirMatn' ;
+  background: radial-gradient(circle at -1% 57.5%, rgb(19, 170, 82) 0%, rgb(0, 102, 43) 90%) no-repeat center center fixed; 
+  font-family:'VazirMatn';
   margin: 0;
   padding: 0;
   height:100%;

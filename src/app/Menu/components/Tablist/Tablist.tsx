@@ -1,7 +1,8 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect } from 'react';
 import { TablistStyle } from './Tablist.Style';
-import Image from 'next/image';
-import { burgerIcon } from '@/app/assets/icons';
+import Image, { StaticImageData } from "next/image";
+import { maincourse, appetizer, dessert, beverages } from '@/app/assets/icons';
+import { useDragAndTouchScroll } from '../../hooks/useDragScroll'; // import the custom hook
 
 interface TabListProps {
   categories: string[];
@@ -16,7 +17,16 @@ const TabList: React.FC<TabListProps> = ({
   onTabClick,
   isFixed,
 }) => {
-  const tabListRef = useRef<HTMLDivElement | null>(null);
+  const {
+    tabListRef,
+    handleMouseDown,
+    handleMouseMove,
+    handleMouseUp,
+    handleMouseLeave,
+    handleTouchStart,
+    handleTouchMove,
+    handleTouchEnd,
+  } = useDragAndTouchScroll();
 
   // Scroll the active tab into view whenever the active category changes
   useEffect(() => {
@@ -25,16 +35,30 @@ const TabList: React.FC<TabListProps> = ({
       activeTab.scrollIntoView({
         behavior: 'smooth',
         block: 'nearest',
-        inline: 'center', // Center the active tab horizontally
+        inline: 'start', // Center the active tab horizontally
       });
     }
-  }, [activeCategory]); // Triggered whenever the activeCategory changes
+  }, [activeCategory]);
+
+  const categoryImages: { [key: string]: string | StaticImageData } = {
+    'اصلی': maincourse,
+    "پیش غذا": appetizer,
+    'دسر': dessert,
+    "نوشیدنی‌": beverages,
+  };
 
   return (
     <TablistStyle>
       <div
         ref={tabListRef}
         className={`tablist ${isFixed ? 'fixed' : ''}`}
+        onMouseDown={handleMouseDown}  // Bind mouse events
+        onMouseMove={handleMouseMove}
+        onMouseUp={handleMouseUp}
+        onMouseLeave={handleMouseLeave}
+        onTouchStart={handleTouchStart} // Bind touch events
+        onTouchMove={handleTouchMove}
+        onTouchEnd={handleTouchEnd}
       >
         {categories.map((category) => (
           <button
@@ -43,10 +67,10 @@ const TabList: React.FC<TabListProps> = ({
             onClick={() => onTabClick(category)}
           >
             <div className="icon-container">
-           <Image src={burgerIcon} width={32} height={32} alt='category-icon'></Image>
+              <Image src={categoryImages[category]} width={35} height={35} alt="category-icon" />
             </div>
             {/* Only show category name when the tab is active */}
-            <span className={`category-name ${activeCategory === category ? 'show' : ''}`}>
+            <span className="category-name">
               {category}
             </span>
           </button>

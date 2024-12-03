@@ -2,11 +2,15 @@ import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from '@/app/store/index';
 import { incrementQuantity, decrementQuantity, clearCart } from '@/app/store/cartSlice';
-import { Button, Dialog, DialogTitle, DialogContent, DialogActions, List, ListItem, ListItemText, TextField,Box } from '@mui/material';
+import { Button, Dialog, DialogTitle, DialogContent, DialogActions, List, ListItem, ListItemText, TextField} from '@mui/material';
+import { useMediaQuery } from '@mui/material';
 import { CartModalStyle } from './CartModal.Style';
 import Image from 'next/image';
 
 const CartModal: React.FC<{ open: boolean; onClose: () => void }> = ({ open, onClose }) => {
+
+  const isSmallScreen = useMediaQuery('(max-width:550px)');
+
   const cart = useSelector((state: RootState) => state.cart.items);
   const dispatch = useDispatch();
 
@@ -27,12 +31,23 @@ const CartModal: React.FC<{ open: boolean; onClose: () => void }> = ({ open, onC
     <CartModalStyle>
       <Dialog open={open} onClose={onClose}>
         <DialogTitle>سفارش ها</DialogTitle>
-        <DialogContent>
-          <List style={{display: 'flex',flexDirection:'column',gap:'10px'}}>
+        <DialogContent sx={{ width:'100%',overflowY: "auto",
+         scrollbarWidth: 'none', // Hides scrollbar in Firefox
+         msOverflowStyle: 'none', // Hides scrollbar in IE/Edge
+         '&::-webkit-scrollbar': {
+           display: 'none', // Hides scrollbar in WebKit browsers (Chrome/Safari)
+         },}}>
+          <List sx={{display: 'flex',flexDirection:'column',gap:'10px'}}>
             {cart.map(item => (
               <ListItem key={item.id} style={{ display: 'flex', alignItems: 'center', boxShadow: '0px 4px 8px rgba(0, 0, 0, 0.1)',borderRadius:'8px',background:'#fff' }}>
                 {/* Display item image */}
-                <div className="cart-image-container">
+                <div style={{
+                display: 'flex',
+                alignItems: isSmallScreen ? 'flex-start' : 'center',
+                flexDirection: isSmallScreen ? 'column' : 'row',
+                gap: '10px',
+                justifyContent: 'flex-start',
+              }}>
                 <Image  
                   src={item.imageUncropped} 
                   alt={item.name}
@@ -41,13 +56,21 @@ const CartModal: React.FC<{ open: boolean; onClose: () => void }> = ({ open, onC
                   objectFit="cover"
                   style={{ borderRadius: '8px' }}
                 />
-                </div>
                 <ListItemText
+                style={{textAlign:'right'}}
                   primary={item.name}
                   secondary={`تعداد: ${item.quantity} | قیمت: ${item.price * item.quantity} تومان`}
                 />
+                </div>
+                <div style={{display:'flex',
+                    flexDirection: 'row',
+                    justifyContent:'space-between',
+                    alignItems: 'center',
+                    gap:'10px'}}>
                 <Button variant='cart' onClick={() => dispatch(incrementQuantity(item.id))}>+</Button>
                 <Button variant='cart' onClick={() => dispatch(decrementQuantity(item.id))}>-</Button>
+                </div>
+        
               </ListItem>
             ))}
           </List>

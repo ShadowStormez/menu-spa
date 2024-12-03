@@ -1,7 +1,6 @@
 // Menu.tsx
 'use client'
 import { useScrollManager } from './hooks/useScrollManager';
-import { useDragScroll } from './hooks/useDragScroll';
 import { MenuPageStyle } from './page.Style';
 import MenuHero from './components/MenuHero/MenuHero';
 import { MenuHeroBG } from '../assets/images';
@@ -13,7 +12,6 @@ import MenuItem from './components/MenuItem/MenuItem';
 
 export default function Menu() {
   const { categoryRefs, tabListRef, activeCategory, isTabListFixed, handleTabClick } = useScrollManager(menu);
-  const { handleMouseDown, handleMouseMove, handleMouseUp, handleMouseLeave } = useDragScroll();
 
   const categories = menu.map((category) => category.category);
 
@@ -27,10 +25,6 @@ export default function Menu() {
             activeCategory={activeCategory}
             onTabClick={handleTabClick}
             isFixed={isTabListFixed}
-            onMouseDown={handleMouseDown}
-            onMouseMove={handleMouseMove}
-            onMouseUp={handleMouseUp}
-            onMouseLeave={handleMouseLeave}
           />
         </div>
 

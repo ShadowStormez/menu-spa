@@ -49,7 +49,7 @@ export const MenuHeroStyle=styled.div`
 
 .hero-title {
   font-size: 4rem;
-  font-weight: bold;
+  font-weight: 600;
   margin: 0;
 
   span{

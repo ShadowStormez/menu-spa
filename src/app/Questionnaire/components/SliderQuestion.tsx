@@ -2,37 +2,36 @@ import React, { useState } from 'react';
 import { Box, Slider, Typography } from '@mui/material';
 
 type SliderProps = {
-  sliders: { label: string; min: number; max: number; step: number }[];
-  onChange: (label: string, value: number) => void;
+  sliders: { labelId: number; label?: string; min: number; max: number; step: number }[];
+  onChange: (labelId: number, value: number) => void;
 };
 
 const SliderQuestion: React.FC<SliderProps> = ({ sliders, onChange }) => {
-  const [localValues, setLocalValues] = useState(
-    sliders.reduce((acc, slider) => {
-      // Ensure midpoint calculation is consistent
-      const midpoint = (slider.min + slider.max) / 2;
-      acc[slider.label] = midpoint; // Fallback for empty labels
+  // Ensure all sliders are initialized with midpoint values
+  const [localValues, setLocalValues] = useState(() => {
+    return sliders.reduce((acc, slider) => {
+      acc[slider.labelId] = (slider.min + slider.max) / 2; // Initialize each slider with midpoint
       return acc;
-    }, {} as { [key: string]: number })
-  );
-  
-  
+    }, {} as { [key: number]: number });
+  });
 
-  const handleSliderChange = (label: string, value: number) => {
+  const handleSliderChange = (labelId: number, value: number) => {
     setLocalValues((prev) => ({
       ...prev,
-      [label]: value,
+      [labelId]: value,
     }));
-    onChange(label, value); // Notify parent of changes
+    onChange(labelId, value); // Notify parent of changes
   };
 
   return (
     <Box>
       {sliders.map((slider) => (
-        <Box key={slider.label} sx={{ mb: 3,direction:'rtl' }}>
-          <Typography>{slider.label || ''}</Typography>
+        <Box key={slider.labelId} sx={{ mb: 3, direction: 'rtl' }}>
+          {/* Render label if it exists */}
+          {slider.label && <Typography>{slider.label}</Typography>}
+
           <Slider
-            value={localValues[slider.label]} // Correctly bound to state
+            value={localValues[slider.labelId] || slider.min + slider.max / 2} // Use labelId for value tracking
             min={slider.min}
             max={slider.max}
             step={slider.step}
@@ -41,7 +40,7 @@ const SliderQuestion: React.FC<SliderProps> = ({ sliders, onChange }) => {
               { value: slider.max, label: slider.max.toString() },
             ]}
             valueLabelDisplay="auto"
-            onChange={(_, value) => handleSliderChange(slider.label, value as number)}
+            onChange={(_, value) => handleSliderChange(slider.labelId, value as number)}
           />
         </Box>
       ))}

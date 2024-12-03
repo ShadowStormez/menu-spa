@@ -5,7 +5,7 @@ export const MenuPageStyle=styled.div`
   position: relative;
 }
 .menu-container {
-  background: radial-gradient(circle at -1% 57.5%, rgb(19, 170, 82) 0%, rgb(0, 102, 43) 90%); 
+  /* background: radial-gradient(circle at -1% 57.5%, rgb(19, 170, 82) 0%, rgb(0, 102, 43) 90%);  */
   padding: 20px;
   display: flex;
   flex-direction: column;

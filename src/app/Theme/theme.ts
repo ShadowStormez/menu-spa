@@ -9,7 +9,6 @@ declare module '@mui/material/Button' {
 
 const theme = createTheme({
   typography: {
-
     fontFamily: 'VazirMatn, Roboto, Arial, sans-serif', // Replace 'Vazir' with your desired RTL font
   },
   components: {
@@ -55,7 +54,8 @@ const theme = createTheme({
           alignItems: 'center',
           justifyContent: 'space-between',
           gap: '30px',
-          minWidth:'400px'
+          width:'90vw',
+          minWidth:'100px',
         },
       },
     },
@@ -105,6 +105,21 @@ const theme = createTheme({
           "& .MuiInputBase-input": {
             direction: "rtl",
             textAlign: "right",
+          },
+        },
+      },
+    },
+    MuiOutlinedInput: {
+      styleOverrides: {
+        notchedOutline: {
+          '& legend': {
+            // Ensure the legend text is aligned right
+            textAlign: 'right', // Align legend text to the right
+            direction: 'rtl', // Force RTL direction in legend
+          },
+          '& span': {
+            textAlign: 'right', // Align span inside legend to the right
+            direction: 'rtl', // Ensure span follows the RTL direction
           },
         },
       },

@@ -5,42 +5,53 @@ export const TablistStyle=styled.div`
     background: white;
     display: flex;
     flex-direction: row;
-    justify-content: space-around;
+    justify-content: space-between;
+    gap:5px;
     align-items: center;
     direction: rtl;
-    overflow-x: hidden;
-    padding: 10px;
+    overflow-x:auto;
+    padding: 5px 10px;
     transition: all 0.3s ease-in-out;
-    width: 80%;
-  border-radius: 30px;
-  margin: 20px auto;
-  }
+    width: 90%;
+    border-radius: 30px;
+    margin: 20px auto;
+    overflow-x: auto;
+    scrollbar-width: none; /* For Firefox */
+    -ms-overflow-style: none; /* For Internet Explorer */
+    .tablist::-webkit-scrollbar {
+      display: none; /* Hide scrollbar for WebKit browsers */
+    }
+    }
 
   .tab {
+    direction:ltr;
     display: flex;
+    flex-direction:row;
     align-items: center;
-    justify-content: center;
-    width:60px;
+    justify-content: space-between;
+    gap:5px;
+    width:fit-content;
     height:60px;
-    border-radius: 50%;
+    border-radius: 30px;
     transition: all 0.3s ease;
     background-color:#15803d;
     border: none;
     cursor: pointer;
+    padding:0 5px;
 
     &.active {
     background-color:#22c55e;
-      height: 105px;
+      width:60px;
+      height: 100px;
       border-radius: 50px;
       display: flex;
       flex-direction: column;
-      justify-content: flex-end;
+      justify-content: space-evenly;
       align-items:center;
-      padding:20px 0;
       .icon-container{
-        background-color:white;
-        border-radius:50%;
-        min-height:50px;
+        width:50px;
+        height:50px;
+        background-color:#15803d;
       }
     }
     &:hover {
@@ -48,18 +59,19 @@ export const TablistStyle=styled.div`
     }
 
     .icon-container {
-      width: 50px;
-      height: 50px;
-      margin-bottom: 8px;
+      width:50px;
+      height:50px;
+      background-color:#22c55e;
+      border-radius:50%;
       display: flex;
       justify-content: center;
       align-items: center;
     }
 
     .category-name {
-      display: none;
+      display: block;
       font-size: 14px;
-      font-weight: bold;
+      font-weight: 500;
       text-align: center;
       color: white;
 
