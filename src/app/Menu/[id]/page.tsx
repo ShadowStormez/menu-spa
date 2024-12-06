@@ -3,9 +3,8 @@ import { menu } from "../components/menuData";
 import Image, { StaticImageData } from "next/image";
 import { Badge, Button, ButtonGroup, IconButton, ThemeProvider } from "@mui/material";
 import { MenuItemIdStyle } from "./page.Style";
-import { arrowLeft, cartIcon, chilly, vegan, vegetarian } from "@/app/assets/icons";
-import { foodDefault, foodDefaultBG } from "@/app/assets/images";
-import Link from "next/link";
+import {  cartIcon, chilly, vegan, vegetarian } from "@/app/assets/icons";
+import { foodDefaultBG } from "@/app/assets/images";
 import Header from "../components/Header/Header";
 
 import { useDispatch, useSelector } from 'react-redux';
@@ -36,7 +35,7 @@ export default function MenuItemPage({ params }: { params: Promise<{ id: string 
     return <div>Item not found</div>;
   }
 
-  const { name, description, price, category, image } = menuItem;
+  const { name, description, price, category, imageUncropped } = menuItem;
 
   // Map category to the appropriate icon
   const categoryIcons: { [key: string]: StaticImageData } = {
@@ -56,7 +55,7 @@ export default function MenuItemPage({ params }: { params: Promise<{ id: string 
 
   // Add to cart
   const handleAddToCart = () => {
-    dispatch(addItem({ id: itemId, name, price, image })); // Add item to cart
+    dispatch(addItem({ id: itemId, name, price, imageUncropped })); // Add item to cart
     toast.success(`${name} به سفارش های شما اضافه شد`);
   };
 

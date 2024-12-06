@@ -1,7 +1,11 @@
 import styled from "@emotion/styled"
 export const MenuItemIdStyle=styled.div`
+height:100vh;
 .Item-Container{
+  display:flex;
+  flex-direction:column;
   position:relative;
+  height:100%;
   .image-container {
   position: relative;
   width: 100%;
@@ -37,6 +41,7 @@ export const MenuItemIdStyle=styled.div`
     flex-direction: column;
     justify-content: space-between;
     align-items: flex-start;
+    flex-grow:1;
     width:100%;
     padding: 10px;
     background-color:#fff;
