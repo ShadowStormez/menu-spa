@@ -21,7 +21,7 @@ const MenuHero: React.FC<HeroProps> = ({ backgroundImageUUID,logoUUID,name }) =>
   const [firstWord, ...restWords] = name.split(' ');
 
       const [open, setOpen] = useState(false);
-      const cartCount = useSelector((state: RootState) => state.cart.items.reduce((acc, item) => acc + item.quantity, 0));
+      const cartCount = useSelector((state: RootState) => state.cart.items.reduce((acc, item) => acc + item.number, 0));
     
 
   return (

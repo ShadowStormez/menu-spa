@@ -8,7 +8,7 @@ import { foodDefaultBG } from "@/app/assets/images";
 import Header from "../components/Header/Header";
 
 import { useDispatch, useSelector } from 'react-redux';
-import { addItem, decrementQuantity, incrementQuantity } from '@/app/store/cartSlice';
+import { addItem, decrementNumber, incrementNumber } from '@/app/store/cartSlice';
 import toast from "react-hot-toast";
 import { RootState } from "@/app/store";
 import theme from "@/app/Theme/theme";
@@ -24,13 +24,13 @@ export default function MenuItemPage({ params }: { params: Promise<{ id: string 
   const restaurantId = useSelector((state: RootState) => state.global.restaurantId);
   const { menuItems } = useMenuItem(restaurantId || '');
   const [open, setOpen] = useState(false);
-  const cartCount = useSelector((state: RootState) => state.cart.items.reduce((acc, item) => acc + item.quantity, 0));
+  const cartCount = useSelector((state: RootState) => state.cart.items.reduce((acc, item) => acc + item.number, 0));
 
   const dispatch = useDispatch();
 
-  // Get quantity from Redux state
-  const quantity = useSelector((state: RootState) =>
-    state.cart.items.find((item) => item.id === itemId)?.quantity || 0
+  // Get number from Redux state
+  const number = useSelector((state: RootState) =>
+    state.cart.items.find((item) => item.id === itemId)?.number || 0
   );
 
   menuItems?.forEach((menuItem) => {
@@ -47,19 +47,19 @@ export default function MenuItemPage({ params }: { params: Promise<{ id: string 
 
   // Add to cart
   const handleAddToCart = () => {
-    dispatch(addItem({ id: itemId, name, price, images,quantity })); // Add item to cart
+    dispatch(addItem({ id: itemId, name, price, images,number })); // Add item to cart
     toast.success(`${name} به سفارش های شما اضافه شد`);
   };
 
-  // Increment quantity
+  // Increment number
   const handleIncrement = () => {
-    dispatch(incrementQuantity(itemId));
+    dispatch(incrementNumber(itemId));
     toast.success(`${name} به سفارش های شما اضافه شد`);
   };
 
-  // Decrement quantity
+  // Decrement number
   const handleDecrement = () => {
-    dispatch(decrementQuantity(itemId));
+    dispatch(decrementNumber(itemId));
     toast.error(`${name} از سفارش های شما کم شد`);
   };
 
@@ -110,7 +110,7 @@ export default function MenuItemPage({ params }: { params: Promise<{ id: string 
               <p>{price}</p>
             </div>
           {/* Add Cart / Increment-Decrement Buttons */}
-          {quantity === 0 ? (
+          {number === 0 ? (
             <Button
             sx={{
               width: '30%',
@@ -133,8 +133,8 @@ export default function MenuItemPage({ params }: { params: Promise<{ id: string 
               >
                 +
               </Button>
-                <div className="quantity-container">
-                  <span>{quantity}</span>
+                <div className="number-container">
+                  <span>{number}</span>
                 </div>
               <Button
                 variant="cart"

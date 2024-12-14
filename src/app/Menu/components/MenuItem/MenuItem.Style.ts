@@ -100,7 +100,7 @@ box-shadow: 9px 9px 25px -3px rgba(0,0,0,0.75);
     width: 50px;
     height: 50px;
 
-    .quantity-container{
+    .number-container{
     background-color:green;
     border-radius:50%;
     width: 40px;

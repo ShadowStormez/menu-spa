@@ -6,7 +6,7 @@ import { Button, ButtonGroup } from "@mui/material";
 import Link from "next/link";
 
 import { useDispatch, useSelector } from 'react-redux';
-import { addItem, decrementQuantity, incrementQuantity } from '@/app/store/cartSlice';
+import { addItem, decrementNumber, incrementNumber } from '@/app/store/cartSlice';
 import toast from "react-hot-toast";
 import { RootState } from "@/app/store";
 import { foodDefaultBG } from "@/app/assets/images";
@@ -22,23 +22,23 @@ interface MenuItemProps {
 
 const MenuItem: React.FC<MenuItemProps> = ({ name, description, price,id,images}) => {
   const dispatch = useDispatch();
-  // Get quantity from Redux state
-  const quantity = useSelector((state: RootState) =>
-    state.cart.items.find(item => item.id === id)?.quantity || 0
+  // Get number from Redux state
+  const number = useSelector((state: RootState) =>
+    state.cart.items.find(item => item.id === id)?.number || 0
   );
 
   const handleAddToCart = () => {
-    dispatch(addItem({ id, name, price,quantity,images })); // Add item to cart
+    dispatch(addItem({ id, name, price,number,images })); // Add item to cart
     toast.success(`${name} به سفارش های شما اضافه شد`);
   };
 
   const handleIncrement = () => {
-    dispatch(incrementQuantity(id)); // Increment item quantity in Redux
+    dispatch(incrementNumber(id)); // Increment item number in Redux
     toast.success(`${name} به سفارش های شما اضافه شد`);
   };
 
   const handleDecrement = () => {
-    dispatch(decrementQuantity(id)); // Decrement item quantity in Redux
+    dispatch(decrementNumber(id)); // Decrement item number in Redux
     toast.error(`${name} از سفارش های شما کم شد`);
   };
 
@@ -82,7 +82,7 @@ const MenuItem: React.FC<MenuItemProps> = ({ name, description, price,id,images}
         </div>
 
    {/* Add Cart / Increment-Decrement Buttons */}
-   {quantity === 0 ? (
+   { number === 0 ? (
           <Button
             variant="contained"
             color="primary"
@@ -95,9 +95,9 @@ const MenuItem: React.FC<MenuItemProps> = ({ name, description, price,id,images}
           <ButtonGroup fullWidth>
             <Button style={{borderRadius:'8px'}} variant="incrementDecrement" onClick={handleIncrement}>+</Button>
             <div className="white-space">
-            <div className="quantity-container">
+            <div className="number-container">
             <span>
-              {quantity}
+              {number}
             </span>
             </div>
             </div>

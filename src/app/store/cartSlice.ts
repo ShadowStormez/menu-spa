@@ -6,7 +6,7 @@ interface CartItem {
   id: string;
   name: string;
   price: number;
-  quantity: number;
+  number: number;
   images: string[] // Allow string or StaticImageData
 }
 
@@ -25,25 +25,25 @@ const cartSlice = createSlice({
     addItem: (state, action: PayloadAction<CartItem>) => {
       const existingItem = state.items.find(item => item.id === action.payload.id);
       if (existingItem) {
-        existingItem.quantity += 1;
+        existingItem.number += 1;
         toast.success(`${name} به سفارش های شما اضافه شد`);
       } else {
-        state.items.push({ ...action.payload, quantity: 1 });
+        state.items.push({ ...action.payload, number: 1 });
       }
     },
     removeItem: (state, action: PayloadAction<string>) => {
       state.items = state.items.filter(item => item.id !== action.payload);
     },
-    incrementQuantity: (state, action: PayloadAction<string>) => {
+    incrementNumber: (state, action: PayloadAction<string>) => {
       const item = state.items.find(item => item.id === action.payload);
       if (item) {
-        item.quantity += 1;
+        item.number += 1;
       }
     },
-    decrementQuantity: (state, action: PayloadAction<string>) => {
+    decrementNumber: (state, action: PayloadAction<string>) => {
       const item = state.items.find(item => item.id === action.payload);
-      if (item && item.quantity > 1) {
-        item.quantity -= 1;
+      if (item && item.number > 1) {
+        item.number -= 1;
       } else {
         state.items = state.items.filter(item => item.id !== action.payload);
       }
@@ -54,6 +54,6 @@ const cartSlice = createSlice({
   },
 });
 
-export const { addItem, removeItem, incrementQuantity, decrementQuantity, clearCart } = cartSlice.actions;
+export const { addItem, removeItem, incrementNumber, decrementNumber, clearCart } = cartSlice.actions;
 
 export default cartSlice.reducer;

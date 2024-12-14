@@ -1,27 +1,59 @@
 import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from '@/app/store/index';
-import { incrementQuantity, decrementQuantity, clearCart } from '@/app/store/cartSlice';
+import { incrementNumber, decrementNumber, clearCart } from '@/app/store/cartSlice';
 import { Button, Dialog, DialogTitle, DialogContent, DialogActions, List, ListItem, ListItemText, TextField} from '@mui/material';
 import { useMediaQuery } from '@mui/material';
 import { CartModalStyle } from './CartModal.Style';
 import Image from 'next/image';
 import { foodDefaultBG } from '@/app/assets/images';
 
+import { createOrder } from '../../../utils/createOrder'
+
 const CartModal: React.FC<{ open: boolean; onClose: () => void }> = ({ open, onClose }) => {
 
   const isSmallScreen = useMediaQuery('(max-width:550px)');
-
+  const { userId } = useSelector((state: any) => state.auth);
+  const tableId = useSelector((state: RootState) => state.global.tableId) ?? 0;
+  const restaurantName = useSelector((state: RootState) => state.global.restaurantName) ?? '';
+  const restaurantAddress = useSelector((state: RootState) => state.global.restaurantAddress) ?? '';
+  
   const cart = useSelector((state: RootState) => state.cart.items);
+
+  const generateRandomUUID = (): string => {
+    return crypto.randomUUID();
+  };
+  
   const dispatch = useDispatch();
 
   const [orderDescription, setOrderDescription] = useState<string>('');
 
-  const handleCheckout = () => {
-    // Mock API call or integration
-    console.log('Checkout data:', cart, 'Description:', orderDescription);
-    dispatch(clearCart());
-    onClose();
+  const handleCheckout = async () => {
+    try {
+
+      const items = cart.map(item => ({
+        id: item.id,
+        name: item.name,
+        number: item.number
+      }));
+
+      const order = {
+        id: generateRandomUUID(),
+        restaurant: restaurantName,
+        user: { id: userId },
+        tableNumber: tableId,
+        address: restaurantAddress,
+        items: items,
+        specialRequests: orderDescription,
+        __meta: {},
+      };
+
+      await createOrder(order);
+      dispatch(clearCart());
+      onClose();
+    } catch (error) {
+      console.error('Error during checkout:', error);
+    }
   };
 
   const handleDescriptionChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -60,7 +92,7 @@ const CartModal: React.FC<{ open: boolean; onClose: () => void }> = ({ open, onC
                 <ListItemText
                 style={{textAlign:'right'}}
                   primary={item.name}
-                  secondary={`تعداد: ${item.quantity} | قیمت: ${item.price * item.quantity} تومان`}
+                  secondary={`تعداد: ${item.number} | قیمت: ${item.price * item.number} تومان`}
                 />
                 </div>
                 <div style={{display:'flex',
@@ -68,8 +100,8 @@ const CartModal: React.FC<{ open: boolean; onClose: () => void }> = ({ open, onC
                     justifyContent:'space-between',
                     alignItems: 'center',
                     gap:'10px'}}>
-                <Button variant='cart' onClick={() => dispatch(incrementQuantity(item.id))}>+</Button>
-                <Button variant='cart' onClick={() => dispatch(decrementQuantity(item.id))}>-</Button>
+                <Button variant='cart' onClick={() => dispatch(incrementNumber(item.id))}>+</Button>
+                <Button variant='cart' onClick={() => dispatch(decrementNumber(item.id))}>-</Button>
                 </div>
         
               </ListItem>
