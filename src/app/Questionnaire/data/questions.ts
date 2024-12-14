@@ -18,9 +18,9 @@ export const questions: Question[] = [
   // Single Slider Questions
   {
     id:1,
-    question: "لطفاً نام، نام خانوادگی و شماره تلفن خود را وارد کنید:",
+    question: "لطفاً نام کاربری، شماره تلفن و رمز عبور خود را وارد کنید:",
     type: "text-input",
-    inputFields: ["نام", "نام خانوادگی", "شماره تلفن"],
+    inputFields: ["نام کاربری", "رمز عبور", "شماره تلفن"],
   },
   {
     id:2,

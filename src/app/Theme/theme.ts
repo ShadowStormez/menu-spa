@@ -63,7 +63,7 @@ const theme = createTheme({
         styleOverrides: {
           root:{
             position:'relative',
-            backgroundColor:'#22c55e',
+            backgroundColor:'var(--secondary-color)',
             display:'flex',
             flexDirection:'row',
             justifyContent:'space-between',
@@ -78,10 +78,10 @@ const theme = createTheme({
         root: {
           "& .MuiOutlinedInput-root": {
             "&:hover fieldset": {
-              borderColor: "#22c55e", // Border color on hover
+              borderColor: "var(--secondary-color)", // Border color on hover
             },
             "&.Mui-focused fieldset": {
-              borderColor: "#15803d", // Border color on focus
+              borderColor: "var(--primary-color)", // Border color on focus
             },
           },
           "& .MuiInputLabel-root": {
@@ -93,10 +93,10 @@ const theme = createTheme({
             color: "gray", // Default label color
             "&.Mui-focused": {
               direction:'rtl',
-              color: "#15803d", // Label color on focus
+              color: "var(--primary-color)", // Label color on focus
             },
             "&:Mui-hover": {
-              color: "#22c55e", // Label color on hover
+              color: "var(--secondary-color)", // Label color on hover
             },
           },
           "& .MuiInputLabel-shrink": {
@@ -127,13 +127,13 @@ const theme = createTheme({
     MuiButton: {
       styleOverrides: {
         root: {
-          backgroundColor: "#15803d",
+          backgroundColor: "var(--primary-color)",
           color: "white",
           borderRadius: "8px",
           padding: "10px 20px",
           transition: "all 0.3s ease",
           "&:hover": {
-            backgroundColor: "#22c55e"
+            backgroundColor: "var(--secondary-color)"
           }
         }
       },
@@ -160,32 +160,32 @@ const theme = createTheme({
     MuiSlider: {
       styleOverrides: {
         thumb: {
-          backgroundColor: '#15803d', // Thumb color
+          backgroundColor: 'var(--primary-color)', // Thumb color
           width: 24,
           height: 24,
           border: 'none',
           boxShadow: 'none', // Removes any visual artifact around the thumb
           '&:hover': {
-            boxShadow: '0 0 10px #22c55e', // Add hover glow
+            boxShadow: '0 0 10px var(--secondary-color)', // Add hover glow
           },
           '&:focus': {
             outline: 'none', // Removes blue outline during focus
           },
           '&:active': {
-            boxShadow: '0 0 15px #22c55e', // Active interaction glow
+            boxShadow: '0 0 15px var(--secondary-color)', // Active interaction glow
           },
           '&:before': {
             boxShadow: 'none', // Removes the inner white dot entirely
           },
         },
         track: {
-          backgroundColor: '#15803d',
+          backgroundColor: 'var(--primary-color)',
           height: 8,
           borderRadius: 4,
           border:'none'
         },
         rail: {
-          backgroundColor: '#22c55e',
+          backgroundColor: 'var(--secondary-color)',
           opacity: 0.5,
           height: 8,
           borderRadius: 4,
@@ -198,7 +198,7 @@ const theme = createTheme({
           color: '#000', // You can customize this if needed
         },
         valueLabel: {
-          backgroundColor: '#15803d',
+          backgroundColor: 'var(--primary-color)',
           color: '#fff',
           fontSize: '12px',
           borderRadius: '50%',

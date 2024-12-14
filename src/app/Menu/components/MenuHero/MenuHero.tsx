@@ -1,22 +1,24 @@
 import React, { useState } from 'react';
 import { MenuHeroStyle } from './MenuHero.Style';
-import Image, { StaticImageData } from 'next/image';
+import Image from 'next/image';
 import { Badge, IconButton } from '@mui/material';
 import { cartIcon } from '@/app/assets/icons';
 import CartModal from '../CartModal/CartModal';
 import { useSelector } from 'react-redux';
 import { RootState } from '@/app/store';
+import { getImageUrl } from '@/app/utils/getImageUrl';
 
 interface HeroProps {
-  backgroundImage: string | StaticImageData;
+  backgroundImageUUID: string ;
+  logoUUID:string;
+  name:string;
 }
 
-const MenuHero: React.FC<HeroProps> = ({ backgroundImage }) => {
+const MenuHero: React.FC<HeroProps> = ({ backgroundImageUUID,logoUUID,name }) => {
 
-  const backgroundImageUrl =
-    typeof backgroundImage === 'string'
-      ? backgroundImage
-      : backgroundImage.src;
+  const backgroundImageUrl = getImageUrl(backgroundImageUUID);
+  const logoUrl = getImageUrl(logoUUID);
+  const [firstWord, ...restWords] = name.split(' ');
 
       const [open, setOpen] = useState(false);
       const cartCount = useSelector((state: RootState) => state.cart.items.reduce((acc, item) => acc + item.quantity, 0));
@@ -38,8 +40,8 @@ const MenuHero: React.FC<HeroProps> = ({ backgroundImage }) => {
         style={{ backgroundImage: `url(${backgroundImageUrl})` }}
       ></div>
       <div className="hero-content">
-        <h1 className="hero-title">دکتر <span>کالری</span></h1>
-        <p className="hero-subtitle">شعبه توحید</p>
+        <h1 className="hero-title"><span>{firstWord}</span>{' '}
+        {restWords.join(' ')}</h1>
         <p className="animated-text">Powered by Men<span>YOU</span></p>
       </div>
     </div>

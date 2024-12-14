@@ -1,7 +1,7 @@
 import { HeaderStyle } from './Header.Style';
 import Link from 'next/link';
 import Image from 'next/image';
-import { arrowLeft } from '@/app/assets/icons';
+import { ArrowLeft } from '@/app/assets/icons';
 
 const Header: React.FC = () => {
 
@@ -9,7 +9,7 @@ const Header: React.FC = () => {
     <HeaderStyle>
     <div className="header">
         <Link href={`/Menu`}>
-            <Image src={arrowLeft} width={25} height={25} alt={`arrow-image`} className="arrow-icon" />
+        <ArrowLeft width={15} height={15} fill="#fff"/>
         </Link>
     </div>
     </HeaderStyle>

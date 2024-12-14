@@ -1,5 +1,5 @@
-// Menu.tsx
-'use client'
+'use client';
+
 import { useScrollManager } from './hooks/useScrollManager';
 import { MenuPageStyle } from './page.Style';
 import MenuHero from './components/MenuHero/MenuHero';
@@ -10,15 +10,35 @@ import theme from '../Theme/theme';
 import { menu } from './components/menuData';
 import MenuItem from './components/MenuItem/MenuItem';
 
-export default function Menu() {
-  const { categoryRefs, tabListRef, activeCategory, isTabListFixed, handleTabClick } = useScrollManager(menu);
+import { useSelector } from 'react-redux';
+import { RootState } from '../store'; 
 
-  const categories = menu.map((category) => category.category);
+// utils
+import useRestaurantProfile from '@/app/utils/useRestaurantProfile';
+import useAllMenus from '@/app/utils/useAllMenus';
+import useMenuItem from '@/app/utils/useMenuItem';
+
+export default function Menu() {
+  const restaurantId = useSelector((state: RootState) => state.global.restaurantId);
+  const tableId = useSelector((state: RootState) => state.global.tableId);
+  const { restaurantData } = useRestaurantProfile(restaurantId || ''); 
+  const { menuData } = useAllMenus(restaurantId || '');
+  const { menuItems } = useMenuItem(restaurantId || '');
+
+  const { categoryRefs, tabListRef, activeCategory, isTabListFixed, handleTabClick } = useScrollManager(menuData ?? []);
+
+
+  // Check if the data is available
+  if (!menuData || !menuItems || !restaurantData) {
+    return <div>Loading...</div>; // Return loading state if data is not available
+  }
+
+  const categories = menuData?.map((menu) => menu?.category || 'default-category');
 
   return (
     <ThemeProvider theme={theme}>
       <MenuPageStyle>
-        <MenuHero backgroundImage={MenuHeroBG} />
+        <MenuHero logoUUID={restaurantData?.logoIds[1]} backgroundImageUUID={restaurantData?.logoIds[0]} name={restaurantData?.name} />
         <div ref={tabListRef}>
           <TabList
             categories={categories}
@@ -30,28 +50,24 @@ export default function Menu() {
 
         {/* Menu Items */}
         <div className="menu-container">
-          {menu.map((category) => (
-            
+          {menuData?.map((menuData) => (
             <div
-              key={category.category}
+              key={menuData.id}
               className="menu-category"
               ref={(el) => {
-                categoryRefs.current[category.category] = el;
+                categoryRefs.current[menuData.category] = el;
               }}
             >
-              <h2>{category.category}</h2>
+              <h2>{menuData.category}</h2>
               <div className="menu-items">
-                {category.items.map((item) => (
+                {menuItems?.map((menuItem) => (
                   <MenuItem
-                    key={item.id}
-                    name={item.name}
-                    description={item.description}
-                    price={item.price}
-                    category={item.category}
-                    id={item.id}
-                    imageBackground={item.imageBackground}
-                    imageUncropped={item.imageUncropped}
-                    imageDefault={item.imageDefault}
+                    key={menuItem.id}
+                    name={menuItem.item.name}
+                    description={menuItem.item.description}
+                    price={menuItem.item.price}
+                    id={menuItem.id}
+                    images={menuItem.item.logoIds}
                   />
                 ))}
               </div>

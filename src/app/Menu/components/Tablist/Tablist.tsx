@@ -5,7 +5,7 @@ import { maincourse, appetizer, dessert, beverages } from '@/app/assets/icons';
 import { useDragAndTouchScroll } from '../../hooks/useDragScroll'; // import the custom hook
 
 interface TabListProps {
-  categories: string[];
+  categories: string[] | undefined;
   activeCategory: string;
   onTabClick: (category: string) => void;
   isFixed: boolean;
@@ -38,7 +38,7 @@ const TabList: React.FC<TabListProps> = ({
         inline: 'start', // Center the active tab horizontally
       });
     }
-  }, [activeCategory]);
+  }, [activeCategory, tabListRef]);
 
   const categoryImages: { [key: string]: string | StaticImageData } = {
     'اصلی': maincourse,
@@ -60,7 +60,7 @@ const TabList: React.FC<TabListProps> = ({
         onTouchMove={handleTouchMove}
         onTouchEnd={handleTouchEnd}
       >
-        {categories.map((category) => (
+        {categories?.map((category) => (
           <button
             key={category}
             className={`tab ${activeCategory === category ? 'active' : ''}`}

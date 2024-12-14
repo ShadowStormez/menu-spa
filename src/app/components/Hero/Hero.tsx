@@ -1,12 +1,16 @@
 'use client'
 import { ReactTyped } from "react-typed";
 import { HeroStyle } from "./Hero.Style";
-export default function Hero() {
+
+interface HeroProps {
+  restaurantName?: string | undefined;
+}
+const Hero= ({ restaurantName }: HeroProps)=> {
     return (
         <HeroStyle>  
             <div className="Hero-Container">
         <ReactTyped
-          strings={['👋...به منیو خوش آمدید']}
+          strings={[`👋به ${restaurantName} خوش آمدید`]}
           typeSpeed={40}
           backSpeed={50}
           loop={false}
@@ -17,3 +21,4 @@ export default function Hero() {
     
     );
   }
+  export default Hero

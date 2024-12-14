@@ -1,14 +1,13 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import toast from 'react-hot-toast';
-import  { StaticImageData } from "next/image";
 
 
 interface CartItem {
-  id: number;
+  id: string;
   name: string;
   price: number;
   quantity: number;
-  imageUncropped?: string | StaticImageData;  // Allow string or StaticImageData
+  images: string[] // Allow string or StaticImageData
 }
 
 interface CartState {
@@ -32,16 +31,16 @@ const cartSlice = createSlice({
         state.items.push({ ...action.payload, quantity: 1 });
       }
     },
-    removeItem: (state, action: PayloadAction<number>) => {
+    removeItem: (state, action: PayloadAction<string>) => {
       state.items = state.items.filter(item => item.id !== action.payload);
     },
-    incrementQuantity: (state, action: PayloadAction<number>) => {
+    incrementQuantity: (state, action: PayloadAction<string>) => {
       const item = state.items.find(item => item.id === action.payload);
       if (item) {
         item.quantity += 1;
       }
     },
-    decrementQuantity: (state, action: PayloadAction<number>) => {
+    decrementQuantity: (state, action: PayloadAction<string>) => {
       const item = state.items.find(item => item.id === action.payload);
       if (item && item.quantity > 1) {
         item.quantity -= 1;

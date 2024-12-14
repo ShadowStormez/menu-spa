@@ -27,9 +27,6 @@ export const HomeCardStyle=styled.div`
     align-items: center;
     gap: 10px;
   }
-  .arrow-icon{
-    filter: invert(31%) sepia(99%) saturate(474%) hue-rotate(105deg) brightness(92%) contrast(86%);
-  }
   .MuiButtonBase-root{
     background-color: #000;
   color: #fff;

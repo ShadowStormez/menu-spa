@@ -1,9 +1,15 @@
-import type { NextConfig } from "next";
+import { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  /* config options here */
-  images: {
-    domains: ['via.placeholder.com'], // Add the domain here
+  webpack: (config) => {
+    // Add custom rules for SVG handling
+    config.module.rules.push({
+      test: /\.svg$/,
+      use: ["@svgr/webpack"],
+    });
+
+    // Always return the modified config
+    return config;
   },
 };
 

@@ -40,7 +40,7 @@ box-shadow: 9px 9px 25px -3px rgba(0,0,0,0.75);
       display:flex;
       align-items:center;
       font-size:12px;
-      color:#15803d;
+      color:var(--primary-color);
       .arrow-icon{
     filter: invert(31%) sepia(99%) saturate(474%) hue-rotate(105deg) brightness(92%) contrast(86%);
   }
@@ -74,7 +74,7 @@ box-shadow: 9px 9px 25px -3px rgba(0,0,0,0.75);
     }
 
     .price-container {
-      background-color: #22c55e;
+      background-color: var(--secondary-color);
       color:#fff;
       border-radius: 30px;
       display: flex;

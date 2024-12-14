@@ -1,26 +1,26 @@
 import React from "react";
 import Image, { StaticImageData } from "next/image";
 import { MenuItemStyle } from "./MenuItem.Style";
-import { vegan, vegetarian, chilly, arrowLeft } from "@/app/assets/icons"; // Import necessary icons
-import { Badge,Button, ButtonGroup } from "@mui/material";
+import { vegan, vegetarian, chilly, ArrowLeft } from "@/app/assets/icons"; // Import necessary icons
+import { Button, ButtonGroup } from "@mui/material";
 import Link from "next/link";
 
 import { useDispatch, useSelector } from 'react-redux';
 import { addItem, decrementQuantity, incrementQuantity } from '@/app/store/cartSlice';
 import toast from "react-hot-toast";
 import { RootState } from "@/app/store";
+import { foodDefaultBG } from "@/app/assets/images";
 
 interface MenuItemProps {
-  id:number;
+  id:string;
   name: string;
   description: string;
   price: number;
-  category: string;
-  imageDefault?: string | StaticImageData;  // Allow string or StaticImageData
-  imageUncropped?: string | StaticImageData;  // Allow string or StaticImageData
+  // category: string;
+  images:string[]
 }
 
-const MenuItem: React.FC<MenuItemProps> = ({ name, description, price, category,id,imageDefault,imageUncropped}) => {
+const MenuItem: React.FC<MenuItemProps> = ({ name, description, price,id,images}) => {
   const dispatch = useDispatch();
   // Get quantity from Redux state
   const quantity = useSelector((state: RootState) =>
@@ -28,7 +28,7 @@ const MenuItem: React.FC<MenuItemProps> = ({ name, description, price, category,
   );
 
   const handleAddToCart = () => {
-    dispatch(addItem({ id, name, price,quantity,imageUncropped })); // Add item to cart
+    dispatch(addItem({ id, name, price,quantity,images })); // Add item to cart
     toast.success(`${name} به سفارش های شما اضافه شد`);
   };
 
@@ -49,17 +49,12 @@ const MenuItem: React.FC<MenuItemProps> = ({ name, description, price, category,
     chilly,
   };
 
-  // Fallback to a default icon if category is invalid or undefined
-  const icon = categoryIcons[category.toLowerCase()] || chilly;
-
-
-
   return (
     <MenuItemStyle>
       <div className="menu-item">
         <div className="menu-item-image-wrapper">
           <Image
-            src={imageDefault} // Fallback to default image
+            src={foodDefaultBG} // Fallback to default image
             alt={name}
             width={300} // Set width for image
             height={200} // Set height for image
@@ -73,9 +68,6 @@ const MenuItem: React.FC<MenuItemProps> = ({ name, description, price, category,
             <h3>{name}</h3>
             <p className="description">{description}</p>
             </div>
-            <Badge className={`menu-item-category ${category.toLowerCase()}`}>
-            <Image src={icon} width={20} height={20} alt={`${category} Icon`} />
-            </Badge>
           </div>
         <div className="menu-item-links">
           <div className="price-container">
@@ -84,7 +76,7 @@ const MenuItem: React.FC<MenuItemProps> = ({ name, description, price, category,
           </div>
         <Link href={`/Menu/${id}`}>
             <span>جزییات </span>
-            <Image src={arrowLeft} width={20} height={20} alt={`arrow-image`} className="arrow-icon" />
+            <ArrowLeft width={15} height={15} fill="var(--lightblue-color)"/>
         </Link>
         </div>
         </div>

@@ -1,3 +1,5 @@
-node_modules
-npm-debug.log
+next.config.ts
 .git
+.gitignore
+Dockerfile.dev
+ 

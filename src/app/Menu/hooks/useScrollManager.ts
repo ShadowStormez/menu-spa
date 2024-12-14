@@ -1,10 +1,10 @@
 'use client'
 import { useState, useEffect, useRef } from 'react';
 
-export const useScrollManager = (menu: { category: string }[]) => {
+export const useScrollManager = (menuData: { category: string }[]) => {
   const categoryRefs = useRef<{ [key: string]: HTMLElement | null }>({});
   const tabListRef = useRef<HTMLDivElement | null>(null);
-  const [activeCategory, setActiveCategory] = useState(menu[0].category);
+  const [activeCategory, setActiveCategory] = useState(menuData[0]?.category);
   const [isTabListFixed, setIsTabListFixed] = useState(false);
   const [isTabClicked, setIsTabClicked] = useState(false); // Track if a tab is clicked
 
@@ -19,7 +19,7 @@ export const useScrollManager = (menu: { category: string }[]) => {
       if (isTabClicked) return; // Skip scroll-based activeCategory update if tab was clicked
 
       const scrollPosition = window.scrollY;
-      for (const category of menu) {
+      for (const category of menuData) {
         const section = categoryRefs.current[category.category];
         if (
           section &&
@@ -34,7 +34,7 @@ export const useScrollManager = (menu: { category: string }[]) => {
 
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
-  }, [menu, isTabClicked]); // Re-run effect when menu changes, but skip when tab is clicked
+  }, [menuData, isTabClicked]); // Re-run effect when menu changes, but skip when tab is clicked
 
   const handleTabClick = (category: string) => {
     setIsTabClicked(true); // Mark tab as clicked

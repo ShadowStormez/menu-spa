@@ -13,7 +13,7 @@ export const MenuHeroStyle=styled.div`
     background:transparent;
     
     .MuiBadge-badge{
-      background-color:#22c55e;
+      background-color:var(--secondary-color);
     }
 }
 .hero-container {
@@ -55,11 +55,6 @@ export const MenuHeroStyle=styled.div`
   span{
     color:green
   }
-}
-
-.hero-subtitle {
-  font-size: 1.5rem;
-  margin-top: 1rem;
 }
 
 .animated-text {

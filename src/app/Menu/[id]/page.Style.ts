@@ -23,7 +23,7 @@ height:100vh;
     left: 10px;
     width: 50px;
     height: 50px;
-    background-color:#15803d; 
+    background-color:var(--primary-color); 
     border-radius: 50%;
     display: flex;
     flex-direction: row;
@@ -31,7 +31,7 @@ height:100vh;
     align-items: center;
 
     .MuiBadge-badge{
-      background-color:#22c55e;
+      background-color:var(--secondary-color);
     }
   }
 }
@@ -76,7 +76,7 @@ height:100vh;
       }
     }
     .price-container {
-      background-color: #22c55e;
+      background-color: var(--secondary-color);
       color:#fff;
       border-radius: 30px;
       display: flex;

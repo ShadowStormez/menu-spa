@@ -1,127 +1,114 @@
-'use client'
 import React, { useState } from 'react';
-import {
-  Box,
-  Button,
-  Modal,
-  Typography,
-  CircularProgress,
-  ThemeProvider,
-} from '@mui/material';
-import { useQuestionnaire } from './hooks/useQuestionnaire';
-import SliderQuestion from './components/SliderQuestion';
-import TextInput from './components/TextInput';
-import theme from '../Theme/theme';
-import { questions } from './data/questions'; // Import the data source
+import { Box, Button, TextField, Slider, Typography, LinearProgress } from '@mui/material';
+import useAllQuestions from '../utils/getQuestions'; // Custom hook for fetching questions
+import SignUpModal from './components/SignUpModal'; // Sign-up modal component
+import LoginModal from './components/loginModal'; // Login modal component
+import { useQuestionnaire } from './hooks/useQuestionnaire'; // Custom hook for questionnaire logic
+import { useSelector } from 'react-redux';
+import { RootState } from '../store'; 
 
-const Questionnaire: React.FC = () => {
+const QuestionnairePage = () => {
+  const { questions, loading, error } = useAllQuestions(); // Fetch all questions
+  const [showSignUpModal, setShowSignUpModal] = useState(false);
+  const [showLoginModal, setShowLoginModal] = useState(false);
+  const { isLoggedIn } = useSelector((state: any) => state.auth);
+  const restaurantId = useSelector((state: RootState) => state.global.restaurantId);
+
+  // Using the custom hook
   const {
-    userInputs,
     currentQuestionIndex,
-    surveyComplete,
-    handleSliderChange,
-    handleYesNo,
+    answers,
+    handleNextQuestion,
     handleInputChange,
-    handleNext,
-  } = useQuestionnaire(questions); // Pass questions as a prop to the hook
+    handleChoice, // Added handleChoice here
+    handleSignUp,
+    handleLogin,
+    submitAnswers,
+  } = useQuestionnaire(questions,restaurantId);
 
-  const currentQuestion = questions[currentQuestionIndex]; // Fetch from questions, not responses
+  // Conditional rendering based on loading or error states
+  if (loading) return <LinearProgress />;
+  if (error) return <Typography color="error">{error}</Typography>;
 
-  const [open, setOpen] = useState(false);
-  
-  const handleOpen = () => setOpen(true);
-  const handleClose = () => setOpen(false)
+  const handleStartQuestionnaire = () => {
+    setShowSignUpModal(true); // Trigger sign-up modal
+  };
 
   return (
-    <ThemeProvider theme={theme}>
-      <Box sx={{
-        display: 'flex',
-        flexDirection: 'column',
-        margin: '20px',
-        justifyContent: 'center',
-        alignItems: 'center',
-        boxShadow: '9px 9px 25px -3px rgba(0,0,0,0.75)',
-        borderRadius: '8px',
-        padding: '20px',
-        textAlign: 'center',
-        background: '#fff'
-      }}>
-        <Typography variant="h6" sx={{ mb: 3 }}>
-          <p>
-            سلام! ممنون می‌شیم چند دقیقه وقت با ارزش‌تو بزاری و به این سوال‌ها جواب بدی 😊&rlm;
-          </p>
-        </Typography>
-        <Button variant="contained" onClick={handleOpen}>
-          برای شروع کلیک کن
+    <Box sx={{ padding: 3 }}>
+      <Typography variant="h4" align="center">سلام! ممنون می‌شیم چند دقیقه وقت با ارزش‌تو بزاری و به این سوال‌ها جواب بدی 😊&rlm;</Typography>
+      
+      <Box sx={{ textAlign: 'center', marginTop: 2 }}>
+        <Button
+          variant="contained"
+          color="primary"
+          onClick={handleStartQuestionnaire}
+        >
+          شروع پرسش‌نامه
         </Button>
       </Box>
-      
-      <Modal
-        open={open}
-        onClose={handleClose}
-      >
-        <Box
-          sx={{
-            position: "absolute",
-            top: "50%",
-            left: "50%",
-            transform: "translate(-50%, -50%)",
-            width: "90vw",
-            bgcolor: "background.paper",
-            borderRadius: "8px",
-            overflowY: "auto",
-            scrollbarWidth: 'none',
-            msOverflowStyle: 'none',
-            '&::-webkit-scrollbar': { display: 'none' },
-            p: 3,
-            boxShadow: 24,
-            maxHeight: "80vh",
-          }}
-        >
-          {surveyComplete ? (
-            <Box sx={{ textAlign: 'center' }}>
-              <Typography variant="h6" sx={{ mb: 3 }}>
-                😃خیلی ممنون
-              </Typography>
-              <CircularProgress />
-            </Box>
-          ) : (
-            <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2, direction: 'rtl' }}>
-              <Typography variant="h6" sx={{direction:'rtl'}}>{currentQuestion.question}</Typography>
-
-              {currentQuestion.type === 'slider' && currentQuestion.sliders && (
-                <SliderQuestion
-                  sliders={currentQuestion.sliders}
-                  onChange={(labelId, value) => handleSliderChange(currentQuestion.id, labelId, value)}
+      {isLoggedIn ? (
+        <>
+          {questions?.map((question, index) => (
+            <Box key={question.questionId} sx={{ marginBottom: 2 }}>
+              {question.type === 'text-input' && (
+                <TextField
+                  label={question.questionText}
+                  fullWidth
+                  onChange={(e) => handleInputChange(e.target.value, question.questionId)}
                 />
               )}
 
-              {currentQuestion.type === 'text-input' && (
-                <TextInput
-                  fields={currentQuestion.inputFields}
-                  values={userInputs}
-                  onChange={handleInputChange}
-                />
-              )}
+              {question.type === 'slider' && question.sliders?.map((slider, idx) => (
+                <Box key={idx} sx={{ paddingBottom: 2 }}>
+                  <Typography>{slider.label}</Typography>
+                  <Slider
+                    min={slider.min}
+                    max={slider.max}
+                    step={slider.step}
+                    valueLabelDisplay="auto"
+                    onChange={(e, value) => handleInputChange(value, question.questionId)}
+                  />
+                </Box>
+              ))}
 
-              {currentQuestion.type === 'yes-no' && (
-                <Box sx={{ display: 'flex', justifyContent: 'center', gap: '10px', mt: 2 }}>
-                  <Button onClick={() => handleYesNo(currentQuestion.id, 'Yes')}>بلی</Button>
-                  <Button onClick={() => handleYesNo(currentQuestion.id, 'No')}>خیر</Button>
+              {question.type === 'choice' && (
+                <Box>
+                  <Button variant="outlined" onClick={() => handleChoice(true, question.questionId)}>
+                    بله
+                  </Button>
+                  <Button variant="outlined" onClick={() => handleChoice(false, question.questionId)}>
+                    خیر
+                  </Button>
                 </Box>
               )}
-
-              {currentQuestion.type !== 'yes-no' && (
-                <Button onClick={handleNext} sx={{ mt: 3, alignSelf: 'center' }}>
-                  {currentQuestionIndex < questions.length - 1 ? 'بعدی' : 'ثبت'}
-                </Button>
-              )}
             </Box>
-          )}
-        </Box>
-      </Modal>
-    </ThemeProvider>
+          ))}
+
+          <Button variant="contained" color="primary" onClick={handleNextQuestion}>
+            {currentQuestionIndex === questions.length - 1 ? 'ارسال' : 'بعدی'}
+          </Button>
+        </>
+      ) : (
+        <>
+          {/* Show Sign-Up Modal */}
+          <SignUpModal
+            open={showSignUpModal}
+            onClose={() => setShowSignUpModal(false)}
+            onSignUp={handleSignUp}
+            onShowLogin={() => setShowLoginModal(true)}
+          />
+
+          {/* Show Login Modal */}
+          <LoginModal
+            open={showLoginModal}
+            onClose={() => setShowLoginModal(false)}
+            onLogin={handleLogin}
+          />
+        </>
+      )}
+    </Box>
   );
 };
 
-export default Questionnaire;
+export default QuestionnairePage;

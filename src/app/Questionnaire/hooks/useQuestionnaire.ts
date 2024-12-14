@@ -1,89 +1,104 @@
-import { useState, useEffect } from 'react';
-import { questions as QuestionData } from '../data/questions';
-import handleSubmit from '../api/index'; // Import the submit function
+import { useState } from 'react';
+import { apiSignUp, apiLogin } from '../../utils/Users';
+import { apiSubmitAnswers } from '../../utils/preferences';
+import toast from 'react-hot-toast';
+import { QuestionsArray } from '@/app/types/Questions';
+import { useDispatch, useSelector } from 'react-redux';
+import { setUserId, setIsLoggedIn } from '../../store/authSlice'; // Import redux actions
 
-type Response = { [key: string]: string | number };
+// Custom hook for handling the questionnaire
+export const useQuestionnaire = (questions: QuestionsArray | null,restaurantId:string) => {
+  const dispatch = useDispatch();
+  const { userId } = useSelector((state: any) => state.auth); // Access global state from Redux
 
-export const useQuestionnaire = (questions = QuestionData) => {
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
+  const [answers, setAnswers] = useState<any[]>([]);
 
-  // Track responses by question ID
-  const [responses, setResponses] = useState<{ [id: number]: Response | null }>(
-    questions.reduce((acc, q) => {
-      acc[q.id] = q.type === 'slider' ? {} : null; // Initialize slider responses as empty object
-      return acc;
-    }, {} as { [id: number]: Response | null })
-  );
-
-  // Track user inputs (e.g., name, phone)
-  const [userInputs, setUserInputs] = useState<{ [key: string]: string }>({});
-  const [surveyComplete, setSurveyComplete] = useState(false);
-
-  useEffect(() => {
-    if (surveyComplete) {
-      const formattedResponses = Object.entries(responses).map(([id, response]) => ({
-        id: parseInt(id),
-        response,
-      }));
-
-      const payload = {
-        responses: formattedResponses,
-        userInputs,
-      };
-
-      // Post the data
-      handleSubmit(payload).then(() => {
-        // Redirect after submission
-        window.location.href = '/Menu';
-      });
-    }
-  }, [surveyComplete, responses, userInputs]);
-
-  const handleSliderChange = (id: number, labelId: number, value: number) => {
-    setResponses((prev) => ({
-      ...prev,
-      [id]: {
-        ...(prev[id] || {}),
-        [labelId]: value, // Use labelId (number) as key
-      },
-    }));
-  };
-
-  const handleYesNo = (id: number, response: string) => {
-    setResponses((prev) => ({
-      ...prev,
-      [id]: { answer: response },
-    }));
-    if (response === 'Yes') {
-      setCurrentQuestionIndex((prev) => prev + 1);
-    } else {
-      setSurveyComplete(true); // Trigger completion
-    }
-  };
-
-  const handleInputChange = (field: string, value: string) => {
-    setUserInputs((prev) => ({
-      ...prev,
-      [field]: value,
-    }));
-  };
-
-  const handleNext = () => {
+  const handleNextQuestion = () => {
     if (currentQuestionIndex < questions.length - 1) {
-      setCurrentQuestionIndex((prev) => prev + 1);
+      setCurrentQuestionIndex(prevIndex => prevIndex + 1);
     } else {
-      setSurveyComplete(true); // Mark survey as complete
+      submitAnswers();
+    }
+  };
+
+  const handleInputChange = (value: any, questionId: string) => {
+    setAnswers(prevAnswers => {
+      const updatedAnswers = [...prevAnswers];
+      const existingAnswerIndex = updatedAnswers.findIndex(answer => answer.questionId === questionId);
+      if (existingAnswerIndex > -1) {
+        updatedAnswers[existingAnswerIndex].value = value;
+      } else {
+        updatedAnswers.push({ questionId, value });
+      }
+      return updatedAnswers;
+    });
+  };
+
+  const handleChoice = (value: boolean, questionId: string) => {
+    setAnswers(prevAnswers => {
+      const updatedAnswers = [...prevAnswers];
+      const existingAnswerIndex = updatedAnswers.findIndex(answer => answer.questionId === questionId);
+      if (existingAnswerIndex > -1) {
+        updatedAnswers[existingAnswerIndex].value = value;
+      } else {
+        updatedAnswers.push({ questionId, value });
+      }
+      return updatedAnswers;
+    });
+
+    // Optionally move to the next question or submit based on the choice
+    if (value) {
+      setCurrentQuestionIndex(prevIndex => prevIndex + 1); // Yes
+    } else {
+      submitAnswers(); // No, submit answers immediately
+    }
+  };
+
+  const handleSignUp = async (username: string, mobile: string, password: string) => {
+    try {
+      const newUser = await apiSignUp(username, mobile, password);
+      dispatch(setUserId(newUser.id)); // Dispatch user ID to global state
+      dispatch(setIsLoggedIn(true)); // Set isLoggedIn to true
+      toast.success('Sign-up successful!');
+    } catch (error) {
+      toast.error(error.message);
+    }
+  };
+
+  const handleLogin = async (usernameOrPhone: string, password: string) => {
+    try {
+      // Calling apiLogin and extracting the loginUser object, which contains the 'id'
+      const loginUser = await apiLogin(usernameOrPhone, password);
+      dispatch(setUserId(loginUser.id)); // Dispatch user ID to global state
+      dispatch(setIsLoggedIn(true)); // Set isLoggedIn to true
+      toast.success('Login successful!');
+    } catch (error) {
+      toast.error(error.message);
+    }
+  };
+
+  const submitAnswers = () => {
+    if (!answers.length) return;
+
+    try {
+      if (userId) {
+        apiSubmitAnswers(restaurantId,userId, answers); // Use global userId
+        toast.success('Answers submitted!');
+      }
+    } catch (error) {
+      toast.error('Error submitting answers');
     }
   };
 
   return {
-    responses,
-    userInputs,
     currentQuestionIndex,
-    surveyComplete,
-    handleSliderChange,
-    handleYesNo,
+    answers,
+    handleNextQuestion,
     handleInputChange,
-    handleNext,
+    handleChoice, // Added handleChoice here
+    handleSignUp,
+    handleLogin,
+    submitAnswers,
   };
 };

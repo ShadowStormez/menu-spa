@@ -1,6 +1,6 @@
 'use client';
 import { menu } from "../components/menuData";
-import Image, { StaticImageData } from "next/image";
+import Image from "next/image";
 import { Badge, Button, ButtonGroup, IconButton, ThemeProvider } from "@mui/material";
 import { MenuItemIdStyle } from "./page.Style";
 import {  cartIcon, chilly, vegan, vegetarian } from "@/app/assets/icons";
@@ -15,36 +15,29 @@ import theme from "@/app/Theme/theme";
 import React, { useState } from "react";
 import CartModal from "../components/CartModal/CartModal";
 
+import useMenuItem from '@/app/utils/useMenuItem';
+
 export default function MenuItemPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = React.use(params); // Access params.id after unwrapping
-  const itemId = parseInt(id); // Convert id to a number
-  let menuItem = null;
-
+  const itemId = id; // Convert id to a number
+  let TheeItem = null;
+  const restaurantId = useSelector((state: RootState) => state.global.restaurantId);
+  const { menuItems } = useMenuItem(restaurantId || '');
   const [open, setOpen] = useState(false);
   const cartCount = useSelector((state: RootState) => state.cart.items.reduce((acc, item) => acc + item.quantity, 0));
 
-
-  // Find the menu item in the menu data
-  menu.forEach((category) => {
-    const foundItem = category.items.find((item) => item.id === itemId);
-    if (foundItem) menuItem = foundItem;
-  });
-
-  // If no item found, return a fallback
-  if (!menuItem) {
-    return <div>Item not found</div>;
+  menuItems?.forEach((menuItem) => {
+    const foundItem=menuItem.item.id === itemId
+    if (foundItem) TheeItem=foundItem
+})
+  
+  if(!TheeItem){
+    return(<div>محصولی یافت نشد</div>)
   }
 
-  const { name, description, price, category, imageUncropped } = menuItem;
 
-  // Map category to the appropriate icon
-  const categoryIcons: { [key: string]: StaticImageData } = {
-    vegetarian,
-    vegan,
-    chilly,
-  };
+  const { name, description, price, images } = TheeItem;
 
-  const icon = categoryIcons[category?.toLowerCase()] || chilly;
 
   const dispatch = useDispatch();
 
@@ -55,7 +48,7 @@ export default function MenuItemPage({ params }: { params: Promise<{ id: string 
 
   // Add to cart
   const handleAddToCart = () => {
-    dispatch(addItem({ id: itemId, name, price, imageUncropped })); // Add item to cart
+    dispatch(addItem({ id: itemId, name, price, images,quantity })); // Add item to cart
     toast.success(`${name} به سفارش های شما اضافه شد`);
   };
 
@@ -112,9 +105,6 @@ export default function MenuItemPage({ params }: { params: Promise<{ id: string 
               <h3>{name}</h3>
               <p className="description">{description}</p>
             </div>
-            <Badge className={`menu-item-category ${category.toLowerCase()}`}>
-              <Image src={icon} width={20} height={20} alt={`${category} Icon`} />
-            </Badge>
           </div>
             <div className="price-container">
               <span>تومان</span>

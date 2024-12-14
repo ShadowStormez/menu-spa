@@ -34,13 +34,13 @@ export const TablistStyle=styled.div`
     height:60px;
     border-radius: 30px;
     transition: all 0.3s ease;
-    background-color:#15803d;
+    background-color:var(--primary-color);
     border: none;
     cursor: pointer;
     padding:0 5px;
 
     &.active {
-    background-color:#22c55e;
+    background-color:var(--secondary-color);
       width:60px;
       height: 100px;
       border-radius: 50px;
@@ -51,17 +51,17 @@ export const TablistStyle=styled.div`
       .icon-container{
         width:50px;
         height:50px;
-        background-color:#15803d;
+        background-color:var(--primary-color);
       }
     }
     &:hover {
-      background-color:#22c55e;
+      background-color:var(--secondary-color);
     }
 
     .icon-container {
       width:50px;
       height:50px;
-      background-color:#22c55e;
+      background-color:var(--secondary-color);
       border-radius:50%;
       display: flex;
       justify-content: center;
