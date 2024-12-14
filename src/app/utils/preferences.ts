@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-export const apiSubmitAnswers = async (restaurantId:string,userId: string, answers: any[]) => {
+export const apiSubmitAnswers = async (restaurantId:string | null,userId: string, answers: any[]) => {
   try {
     const preferences = {
       id: {restaurantId}, // Replace with dynamic restaurant ID

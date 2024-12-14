@@ -7,7 +7,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { setUserId, setIsLoggedIn } from '../../store/authSlice'; // Import redux actions
 
 // Custom hook for handling the questionnaire
-export const useQuestionnaire = (questions: QuestionsArray | null,restaurantId:string) => {
+export const useQuestionnaire = (questions: QuestionsArray | null,restaurantId:string | null) => {
   const dispatch = useDispatch();
   const { userId } = useSelector((state: any) => state.auth); // Access global state from Redux
 
@@ -15,7 +15,7 @@ export const useQuestionnaire = (questions: QuestionsArray | null,restaurantId:s
   const [answers, setAnswers] = useState<any[]>([]);
 
   const handleNextQuestion = () => {
-    if (currentQuestionIndex < questions.length - 1) {
+    if (currentQuestionIndex < (questions?.length ?? 0) - 1) {
       setCurrentQuestionIndex(prevIndex => prevIndex + 1);
     } else {
       submitAnswers();
@@ -61,9 +61,11 @@ export const useQuestionnaire = (questions: QuestionsArray | null,restaurantId:s
       dispatch(setUserId(newUser.id)); // Dispatch user ID to global state
       dispatch(setIsLoggedIn(true)); // Set isLoggedIn to true
       toast.success('Sign-up successful!');
-    } catch (error) {
+    } catch (error: unknown) {
+      if (error instanceof Error) {
       toast.error(error.message);
     }
+  }
   };
 
   const handleLogin = async (usernameOrPhone: string, password: string) => {
@@ -73,9 +75,11 @@ export const useQuestionnaire = (questions: QuestionsArray | null,restaurantId:s
       dispatch(setUserId(loginUser.id)); // Dispatch user ID to global state
       dispatch(setIsLoggedIn(true)); // Set isLoggedIn to true
       toast.success('Login successful!');
-    } catch (error) {
+    } catch (error: unknown) {
+      if (error instanceof Error) {
       toast.error(error.message);
     }
+  }
   };
 
   const submitAnswers = () => {

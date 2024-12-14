@@ -1,3 +1,4 @@
+'use client'
 import React, { useState } from 'react';
 import { Box, Button, TextField, Slider, Typography, LinearProgress } from '@mui/material';
 import useAllQuestions from '../utils/getQuestions'; // Custom hook for fetching questions
@@ -86,7 +87,7 @@ const QuestionnairePage = () => {
           ))}
 
           <Button variant="contained" color="primary" onClick={handleNextQuestion}>
-            {currentQuestionIndex === questions.length - 1 ? 'ارسال' : 'بعدی'}
+            {currentQuestionIndex === (questions?.length ?? 0) - 1 ? 'ارسال' : 'بعدی'}
           </Button>
         </>
       ) : (

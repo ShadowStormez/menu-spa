@@ -26,6 +26,13 @@ export default function MenuItemPage({ params }: { params: Promise<{ id: string 
   const [open, setOpen] = useState(false);
   const cartCount = useSelector((state: RootState) => state.cart.items.reduce((acc, item) => acc + item.quantity, 0));
 
+  const dispatch = useDispatch();
+
+  // Get quantity from Redux state
+  const quantity = useSelector((state: RootState) =>
+    state.cart.items.find((item) => item.id === itemId)?.quantity || 0
+  );
+
   menuItems?.forEach((menuItem) => {
     const foundItem=menuItem.item.id === itemId
     if (foundItem) TheeItem=foundItem
@@ -37,14 +44,6 @@ export default function MenuItemPage({ params }: { params: Promise<{ id: string 
 
 
   const { name, description, price, images } = TheeItem;
-
-
-  const dispatch = useDispatch();
-
-  // Get quantity from Redux state
-  const quantity = useSelector((state: RootState) =>
-    state.cart.items.find((item) => item.id === itemId)?.quantity || 0
-  );
 
   // Add to cart
   const handleAddToCart = () => {
