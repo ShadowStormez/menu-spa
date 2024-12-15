@@ -28,7 +28,7 @@ function HomeSearch() {
     }
 
     if (tableId) {
-      dispatch(setTableId(tableId));
+      dispatch(setTableId(Number(tableId)));
     }
   }, [searchParams, dispatch]);
 
