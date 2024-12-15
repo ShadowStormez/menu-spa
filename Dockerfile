@@ -1,33 +1,31 @@
+# Base image with Node.js
 FROM node:18-alpine as base
-RUN apk add --no-cache g++ make py3-pip libc6-compat
+
+# Set working directory
 WORKDIR /app
+
+# Copy only package.json files first to leverage Docker caching
 COPY package*.json ./
-EXPOSE 3000
 
-FROM base as builder
-WORKDIR /app
+# Install dependencies in the container
+RUN npm ci --production
+
+# Copy the rest of the app
 COPY . .
-RUN npm install  # Change npm ci to npm install
 
-FROM base as production
+# Build the app
+RUN npm run build
+
+# Production image
+FROM node:18-alpine as production
 WORKDIR /app
-
 ENV NODE_ENV=production
-RUN npm ci
 
-RUN addgroup -g 1001 -S nodejs
-RUN adduser -S nextjs -u 1001
-USER nextjs
+# Copy over the production build
+COPY --from=base /app/.next /app/.next
+COPY --from=base /app/node_modules /app/node_modules
+COPY --from=base /app/package.json /app/package.json
+COPY --from=base /app/public /app/public
 
-COPY --from=builder --chown=nextjs:nodejs /app/.next ./.next
-COPY --from=builder /app/node_modules ./node_modules
-COPY --from=builder /app/package.json ./package.json
-COPY --from=builder /app/public ./public
-
-CMD npm start
-
-FROM base as dev
-ENV NODE_ENV=development
-RUN npm install
-COPY . .
-CMD npm run dev
+# Run the app in production mode
+CMD ["npm", "start"]
