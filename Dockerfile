@@ -1,35 +1,41 @@
-# Base image with Node.js
-FROM node:18-alpine as base
+FROM node:18-alpine AS base
 
-# Set working directory inside the container
+FROM base AS deps
+
+RUN apk add --no-cache libc6-compat
 WORKDIR /app
 
-# Copy package.json and package-lock.json to leverage Docker caching
-COPY package*.json ./
+COPY package.json ./
 
-# Install only production dependencies
-RUN npm ci --production
+RUN npm update && npm install
 
-# Copy the rest of the application files
+
+FROM base AS builder
+WORKDIR /app
+COPY --from=deps /app/node_modules ./node_modules
 COPY . .
 
-# Build the app
 RUN npm run build
 
-# Production image
-FROM node:18-alpine as production
-
-# Set working directory in the production container
+FROM base AS runner
 WORKDIR /app
 
-# Set the environment to production
-ENV NODE_ENV=production
+ENV NODE_ENV production
+RUN addgroup --system --gid 1001 nodejs
+RUN adduser --system --uid 1001 nextjs
 
-# Copy necessary files from the base image (production build)
-COPY --from=base /app/.next /app/.next
-COPY --from=base /app/node_modules /app/node_modules
-COPY --from=base /app/package.json /app/package.json
-COPY --from=base /app/public /app/public
+COPY --from=builder /app/public ./public
 
-# Run the app in production mode
-CMD ["npm", "start"]
+RUN mkdir .next
+RUN chown nextjs:nodejs .next
+
+COPY --from=builder --chown=nextjs:nodejs /app/.next/standalone ./
+COPY --from=builder --chown=nextjs:nodejs /app/.next/static ./.next/static
+
+USER nextjs
+
+EXPOSE 3000
+
+ENV PORT 3000
+
+CMD ["node", "server.js"]
