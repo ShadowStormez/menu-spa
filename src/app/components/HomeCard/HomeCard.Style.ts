@@ -31,6 +31,7 @@ export const HomeCardStyle=styled.div`
     background-color: #000;
   color: #fff;
   border-radius: 10px;
+  font-family:'VazirMatn' ;
   }
 }
 
