@@ -7,7 +7,7 @@ export const apiSubmitAnswers = async (restaurantId:string | null,userId: string
       user: { id: userId },
       preferences: answers,
     };
-    await axios.post(`/api/v1/restaurants/${userId}/user_preferences`, preferences);
+    await axios.post(`https://menyou.darkube.app/api/v1/restaurants/${userId}/user_preferences`, preferences);
     return preferences; // Optional: return the saved preferences
   } catch (error) {
     throw new Error('Failed to submit preferences');

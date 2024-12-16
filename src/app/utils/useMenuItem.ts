@@ -11,7 +11,7 @@ export default function useMenuItem(restaurantId: string) {
     const fetchMenuItems = async () => {
       try {
         // Directly request the backend API for restaurant profile
-        const response = await axios.get(`https://menyou-svc-gw.darkube.app/api/v1/restaurants/${restaurantId}/menu_item`);
+        const response = await axios.get(`https://menyou.darkube.app/api/v1/restaurants/${restaurantId}/menu_item`);
         setMenuItems(response.data); // Save data to state
       } catch (error) {
         console.error('Error fetching restaurant profile', error); // Handle error

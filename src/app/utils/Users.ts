@@ -18,7 +18,7 @@ const generateRandomUUID = (): string => {
 export const apiLogin = async (usernameOrPhone: string, password: string) => {
   try {
     const loginUser = { usernameOrPhone, password };
-    const loginUrl = 'menyou-svc-gw.darkube.app/api/v1/auth/login';
+    const loginUrl = 'https://menyou.darkube.app/api/v1/auth/login';
     const response = await axios.post(loginUrl, loginUser);
     
     // Extracting 'id' from the response

@@ -10,7 +10,7 @@ export default function useAllQuestions() {
   useEffect(() => {
     const fetchAllQuestions = async () => {
       try {
-        const response = await axios.get('https://menyou-svc-gw.darkube.app/api/v1/restaurants/question/all_questions');
+        const response = await axios.get('https://menyou.darkube.app/api/v1/restaurants/question/all_questions');
         setQuestions(response.data); // Assume the response.data is of type Question[]
       } catch (error) {
         console.error('Error fetching question data:', error);

@@ -28,7 +28,7 @@ export const HomeCardStyle=styled.div`
     gap: 10px;
   }
   .MuiButtonBase-root{
-    background-color: #000;
+  background-color: #000;
   color: #fff;
   border-radius: 10px;
   font-family:'VazirMatn' ;
