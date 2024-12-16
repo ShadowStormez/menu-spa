@@ -8,6 +8,9 @@ declare module '@mui/material/Button' {
 }
 
 const theme = createTheme({
+  typography: {
+    fontFamily: 'VazirMatn',
+  },
   components: {
     MuiDialogActions: {
       styleOverrides: {
