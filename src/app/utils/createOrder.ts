@@ -4,7 +4,7 @@ import  type {Order} from '../types/createOrder'
 export const createOrder = async (order: Order) => {
   try {
     const response = await axios.post(
-      'https://menyou.darkube.app/',
+      'https://menyou-svc-gw.darkube.app/',
       order,
       {
         headers: {
