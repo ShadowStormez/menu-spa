@@ -8,9 +8,6 @@ declare module '@mui/material/Button' {
 }
 
 const theme = createTheme({
-  typography: {
-    fontFamily: 'VazirMatn, Roboto, Arial, sans-serif', // Replace 'Vazir' with your desired RTL font
-  },
   components: {
     MuiDialogActions: {
       styleOverrides: {
