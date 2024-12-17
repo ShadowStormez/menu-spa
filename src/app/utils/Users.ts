@@ -3,7 +3,7 @@ import axios from 'axios';
 export const apiSignUp = async (username: string, mobile: string, password: string) => {
   try {
     const newUser = { id: generateRandomUUID(), username, mobile, password };
-    await axios.post('https://menyou-svc-gw.darkube.app/api/v1/users', newUser);
+    await axios.post('http://menyou-svc-gw.darkube.app/api/v1/users', newUser);
     return newUser;
   } catch (error) {
     throw new Error('Sign-up failed!');
@@ -18,7 +18,7 @@ const generateRandomUUID = (): string => {
 export const apiLogin = async (usernameOrPhone: string, password: string) => {
   try {
     const loginUser = { usernameOrPhone, password };
-    const loginUrl = 'https://menyou-svc-gw.darkube.app/api/v1/auth/login';
+    const loginUrl = 'http://menyou-svc-gw.darkube.app/api/v1/auth/login';
     const response = await axios.post(loginUrl, loginUser);
     
     // Extracting 'id' from the response
