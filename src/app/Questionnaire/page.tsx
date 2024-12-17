@@ -21,7 +21,7 @@ const QuestionnairePage = () => {
     answers,
     handleNextQuestion,
     handleInputChange,
-    handleChoice, // Added handleChoice here
+    handleChoice,
     handleSignUp,
     handleLogin,
     submitAnswers,
@@ -45,7 +45,7 @@ const QuestionnairePage = () => {
           color="primary"
           onClick={handleStartQuestionnaire}
         >
-          شروع پرسش‌نامه
+          برای شروع کلیک کن!
         </Button>
       </Box>
       {isLoggedIn ? (
@@ -87,7 +87,7 @@ const QuestionnairePage = () => {
           ))}
 
           <Button variant="contained" color="primary" onClick={handleNextQuestion}>
-            {currentQuestionIndex === (questions?.length ?? 0) - 1 ? 'ارسال' : 'بعدی'}
+            {currentQuestionIndex === (questions?.length ?? 0) - 1 ? '' : 'بعدی'}
           </Button>
         </>
       ) : (
@@ -97,7 +97,10 @@ const QuestionnairePage = () => {
             open={showSignUpModal}
             onClose={() => setShowSignUpModal(false)}
             onSignUp={handleSignUp}
-            onShowLogin={() => setShowLoginModal(true)}
+            onShowLogin={() =>{ 
+              setShowLoginModal(true)
+              setShowSignUpModal(false)
+            }}
           />
 
           {/* Show Login Modal */}

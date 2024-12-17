@@ -1,6 +1,6 @@
 // types/restaurant.d.ts
 export interface RestaurantProfile {
-    id: string;
+    _id: string;
     name: string;
     phone: string;
     fax: string;

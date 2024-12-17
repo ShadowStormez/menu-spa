@@ -3,7 +3,7 @@ import axios from 'axios';
 export const apiSignUp = async (username: string, mobile: string, password: string) => {
   try {
     const newUser = { id: generateRandomUUID(), username, mobile, password };
-    await axios.post('/api/v1/users', newUser);
+    await axios.post('https://menyou-svc-gw.darkube.app/api/v1/users', newUser);
     return newUser;
   } catch (error) {
     throw new Error('Sign-up failed!');

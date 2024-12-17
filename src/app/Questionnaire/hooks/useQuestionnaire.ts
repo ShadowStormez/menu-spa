@@ -60,7 +60,7 @@ export const useQuestionnaire = (questions: QuestionsArray | null,restaurantId:s
       const newUser = await apiSignUp(username, mobile, password);
       dispatch(setUserId(newUser.id)); // Dispatch user ID to global state
       dispatch(setIsLoggedIn(true)); // Set isLoggedIn to true
-      toast.success('Sign-up successful!');
+      toast.success('حساب کاربری شما با موفقیت ساخته شد!');
     } catch (error: unknown) {
       if (error instanceof Error) {
       toast.error(error.message);
@@ -74,7 +74,7 @@ export const useQuestionnaire = (questions: QuestionsArray | null,restaurantId:s
       const loginUser = await apiLogin(usernameOrPhone, password);
       dispatch(setUserId(loginUser.id)); // Dispatch user ID to global state
       dispatch(setIsLoggedIn(true)); // Set isLoggedIn to true
-      toast.success('Login successful!');
+      toast.success('وارد شدید!');
     } catch (error: unknown) {
       if (error instanceof Error) {
       toast.error(error.message);
@@ -100,7 +100,7 @@ export const useQuestionnaire = (questions: QuestionsArray | null,restaurantId:s
     answers,
     handleNextQuestion,
     handleInputChange,
-    handleChoice, // Added handleChoice here
+    handleChoice, 
     handleSignUp,
     handleLogin,
     submitAnswers,

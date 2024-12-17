@@ -3,7 +3,7 @@ import { ReactTyped } from "react-typed";
 import { HeroStyle } from "./Hero.Style";
 
 interface HeroProps {
-  restaurantName?: string | undefined;
+  restaurantName?: string;
 }
 const Hero= ({ restaurantName }: HeroProps)=> {
     return (
