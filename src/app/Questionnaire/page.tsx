@@ -1,3 +1,4 @@
+'use client'
 import React, { useState } from 'react';
 import { Box, Button, TextField, Slider, Typography, LinearProgress, CircularProgress, ThemeProvider } from '@mui/material';
 import useAllQuestions from '../utils/getQuestions'; // Custom hook for fetching questions
