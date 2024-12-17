@@ -152,6 +152,10 @@ const QuestionnairePage = () => {
               open={showLoginModal}
               onClose={() => setShowLoginModal(false)}
               onLogin={handleLogin}
+              onShowSignUp={() => {
+                setShowLoginModal(false)
+                setShowSignUpModal(true)
+              }}
             />
           </>
         )}

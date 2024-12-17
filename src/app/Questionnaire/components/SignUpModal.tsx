@@ -10,6 +10,12 @@ const SignUpModal = ({ open, onClose, onSignUp, onShowLogin }: { open: boolean, 
     <Modal open={open} onClose={onClose}>
       <Box 
       sx={{
+            display: "flex",
+            flexDirection: 'column',
+            justifyContent: "center",
+            alignItems: "center",
+            gap:"30px",
+            direction:"rtl",
             position: "absolute",
             top: "50%",
             left: "50%",
@@ -31,11 +37,13 @@ const SignUpModal = ({ open, onClose, onSignUp, onShowLogin }: { open: boolean, 
         <TextField label="رمز عبور" value={password} onChange={(e) => setPassword(e.target.value)} type="password" fullWidth />
         <Button variant="contained" color="primary" onClick={() => onSignUp(username, mobile, password)}>ثبت نام</Button>
         
-        {/* Link to switch to login */}
+        <Box sx={{display:"flex",flexDirection:"row",alignItems:"center",gap:"10px"}}>
         <Typography variant="body2" align="center" sx={{ marginTop: 2 }}>
-          Already have an account?{' '}
+          حساب کاربری دارید؟{' '}
           <Button variant="text" onClick={onShowLogin}>وارد شوید</Button>
         </Typography>
+        </Box>
+
       </Box>
     </Modal>
   );
