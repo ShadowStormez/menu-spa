@@ -1,12 +1,13 @@
 'use client'
 import React, { useState } from 'react';
-import { Box, Button, TextField, Slider, Typography, LinearProgress } from '@mui/material';
+import { Box, Button, TextField, Slider, Typography, LinearProgress,ThemeProvider } from '@mui/material';
 import useAllQuestions from '../utils/getQuestions'; // Custom hook for fetching questions
 import SignUpModal from './components/SignUpModal'; // Sign-up modal component
 import LoginModal from './components/loginModal'; // Login modal component
 import { useQuestionnaire } from './hooks/useQuestionnaire'; // Custom hook for questionnaire logic
 import { useSelector } from 'react-redux';
 import { RootState } from '../store'; 
+import theme from '../Theme/theme';
 
 const QuestionnairePage = () => {
   const { questions, loading, error } = useAllQuestions(); // Fetch all questions
@@ -36,6 +37,7 @@ const QuestionnairePage = () => {
   };
 
   return (
+    <ThemeProvider theme={theme}>
     <Box sx={{ padding: 3 }}>
       <Typography variant="h4" align="center">سلام! ممنون می‌شیم چند دقیقه وقت با ارزش‌تو بزاری و به این سوال‌ها جواب بدی 😊&rlm;</Typography>
       
@@ -112,6 +114,7 @@ const QuestionnairePage = () => {
         </>
       )}
     </Box>
+    </ThemeProvider>
   );
 };
 
