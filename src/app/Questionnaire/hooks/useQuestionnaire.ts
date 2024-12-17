@@ -13,6 +13,7 @@ export const useQuestionnaire = (questions: QuestionsArray | null,restaurantId:s
 
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [answers, setAnswers] = useState<any[]>([]);
+  const [surveyComplete,setSurveyComplete] = useState<Boolean>(false);
 
   const handleNextQuestion = () => {
     if (currentQuestionIndex < (questions?.length ?? 0) - 1) {
@@ -87,11 +88,11 @@ export const useQuestionnaire = (questions: QuestionsArray | null,restaurantId:s
 
     try {
       if (userId) {
+        setSurveyComplete(true);
         apiSubmitAnswers(restaurantId,userId, answers); // Use global userId
-        toast.success('Answers submitted!');
       }
     } catch (error) {
-      toast.error('Error submitting answers');
+     console.log(error);
     }
   };
 
@@ -104,5 +105,6 @@ export const useQuestionnaire = (questions: QuestionsArray | null,restaurantId:s
     handleSignUp,
     handleLogin,
     submitAnswers,
+    surveyComplete
   };
 };

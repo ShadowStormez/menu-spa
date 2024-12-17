@@ -7,7 +7,22 @@ const LoginModal = ({ open, onClose, onLogin }: { open: boolean, onClose: () => 
 
   return (
     <Modal open={open} onClose={onClose}>
-      <Box sx={{ display: 'flex', flexDirection: 'column', padding: 2, width: 300, margin: 'auto', marginTop: 5 }}>
+      <Box sx={{
+            position: "absolute",
+            top: "50%",
+            left: "50%",
+            transform: "translate(-50%, -50%)",
+            width: "90vw",
+            bgcolor: "background.paper",
+            borderRadius: "8px",
+            overflowY: "auto",
+            scrollbarWidth: 'none',
+            msOverflowStyle: 'none',
+            '&::-webkit-scrollbar': { display: 'none' },
+            p: 3,
+            boxShadow: 24,
+            maxHeight: "80vh",
+          }}>
         <Typography variant="h6">ورود به حساب کاربری</Typography>
         <TextField label="نام کاربری یا شماره همراه" value={usernameOrPhone} onChange={(e) => setUsernameOrPhone(e.target.value)} fullWidth />
         <TextField label="رمز عبور" value={password} onChange={(e) => setPassword(e.target.value)} type="password" fullWidth />
