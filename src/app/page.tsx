@@ -44,7 +44,7 @@ export default function Home() {
     <Suspense fallback={<div>Loading...</div>}> {/* Fallback loading UI */}
       <HomeSearch />
       <HomePageStyle>
-        <Hero restaurantName={restaurantData?.name} />
+        <Hero restaurantName={restaurantData?.data.name} />
         <div className="HomeCards-Container">
           <HomeCard
             title=""

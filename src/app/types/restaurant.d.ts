@@ -1,14 +1,14 @@
 // types/restaurant.d.ts
 export interface RestaurantProfile {
+  status: boolean;
+  data: {
     _id: string;
     name: string;
-    phone: string;
-    fax: string;
     address: string;
     logoIds: string[];
-    province: string;
-    city: string;
-    postalCode: string;
-    __meta: object;
+    createdAt: string;
+    updatedAt: string;
+    __v: number;
+  };
   }
   

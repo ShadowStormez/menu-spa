@@ -5,7 +5,7 @@ import { useDispatch } from 'react-redux';
 import { setRestaurantDetails } from '../store/globalSlice'; // Import the action
 
 export default function useRestaurantProfile() {
-  const [restaurantData, setRestaurantData] = useState<RestaurantProfile | null>(null);
+  const [restaurantData, setRestaurantData] = useState<RestaurantProfile>();
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -18,8 +18,8 @@ export default function useRestaurantProfile() {
         setRestaurantData(response.data);
 
         dispatch(setRestaurantDetails({
-          name: response.data.name,
-          address: response.data.address,
+          name: restaurantData?.data.name,
+          address:restaurantData?.data.address,
         }));
       } catch (error) {
         console.error('Error fetching restaurant profile', error); // Handle error
@@ -27,7 +27,7 @@ export default function useRestaurantProfile() {
     };
 
     fetchRestaurantProfile();
-  }, [ dispatch]); // Trigger when restaurantId changes
+  }, [dispatch, restaurantData?.data.address, restaurantData?.data.name]);
 
   return { restaurantData }; // Return restaurant data
 }
