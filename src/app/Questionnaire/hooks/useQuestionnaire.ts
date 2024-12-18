@@ -13,7 +13,8 @@ export const useQuestionnaire = (questions: QuestionsArray | null,restaurantId:s
 
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [answers, setAnswers] = useState<any[]>([]);
-  const [surveyComplete,setSurveyComplete] = useState<Boolean>(false);
+  const [surveyComplete,setSurveyComplete] = useState(false);
+  const [openQuestionnaire,setOpenQuestionnaire]=useState(false);
 
   const handleNextQuestion = () => {
     if (currentQuestionIndex < (questions?.data?.length ?? 0) - 1) {
@@ -62,6 +63,7 @@ export const useQuestionnaire = (questions: QuestionsArray | null,restaurantId:s
       dispatch(setUserId(newUser.id)); // Dispatch user ID to global state
       dispatch(setIsLoggedIn(true)); // Set isLoggedIn to true
       toast.success('حساب کاربری شما با موفقیت ساخته شد!');
+      setOpenQuestionnaire(true);
     } catch (error: unknown) {
       if (error instanceof Error) {
       toast.error(error.message);
@@ -76,6 +78,7 @@ export const useQuestionnaire = (questions: QuestionsArray | null,restaurantId:s
       dispatch(setUserId(loginUser.id)); // Dispatch user ID to global state
       dispatch(setIsLoggedIn(true)); // Set isLoggedIn to true
       toast.success('وارد شدید!');
+      setOpenQuestionnaire(true);
     } catch (error: unknown) {
       if (error instanceof Error) {
       toast.error(error.message);
@@ -89,7 +92,7 @@ export const useQuestionnaire = (questions: QuestionsArray | null,restaurantId:s
     try {
       if (userId) {
         setSurveyComplete(true);
-        apiSubmitAnswers(restaurantId,userId, answers); // Use global userId
+        apiSubmitAnswers(restaurantId,userId, answers);
       }
     } catch (error) {
      console.log(error);
@@ -105,6 +108,8 @@ export const useQuestionnaire = (questions: QuestionsArray | null,restaurantId:s
     handleSignUp,
     handleLogin,
     submitAnswers,
-    surveyComplete
+    surveyComplete,
+    setOpenQuestionnaire,
+    openQuestionnaire
   };
 };

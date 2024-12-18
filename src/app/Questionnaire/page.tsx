@@ -1,6 +1,6 @@
 'use client'
 import React, { useState } from 'react';
-import { Box, Button, TextField, Slider, Typography, LinearProgress, CircularProgress, ThemeProvider } from '@mui/material';
+import { Box, Button, TextField, Slider, Typography, LinearProgress, CircularProgress, ThemeProvider,Modal } from '@mui/material';
 import useAllQuestions from '../utils/getQuestions'; // Custom hook for fetching questions
 import SignUpModal from './components/SignUpModal'; // Sign-up modal component
 import LoginModal from './components/loginModal'; // Login modal component
@@ -26,15 +26,16 @@ const QuestionnairePage = () => {
     handleSignUp,
     handleLogin,
     submitAnswers,
-    surveyComplete
+    surveyComplete,
+    setOpenQuestionnaire,
+    openQuestionnaire,
   } = useQuestionnaire(questions, restaurantId);
 
-  // Conditional rendering based on loading or error states
   if (loading) return <LinearProgress />;
   if (error) return <Typography color="error">{error}</Typography>;
 
   const handleStartQuestionnaire = () => {
-    setShowSignUpModal(true); // Trigger sign-up modal
+    setShowSignUpModal(true); 
   };
 
   return (
@@ -57,11 +58,15 @@ const QuestionnairePage = () => {
             variant="contained"
             onClick={handleStartQuestionnaire}
           >
-            برای شروع کلیک کن!
+            برای شروع کلیک کن
           </Button>
         </Box>
 
         {isLoggedIn ? (
+            <Modal
+            open={openQuestionnaire}
+            onClose={() => setOpenQuestionnaire(false)}
+            >
           <Box sx={{
             position: "absolute",
             top: "50%",
@@ -136,6 +141,7 @@ const QuestionnairePage = () => {
               </>
             )}
           </Box>
+          </Modal>
         ) : (
           <>
             <SignUpModal
