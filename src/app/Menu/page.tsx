@@ -21,7 +21,7 @@ import useMenuItem from '@/app/utils/useMenuItem';
 export default function Menu() {
   const restaurantId = useSelector((state: RootState) => state.global.restaurantId);
   const tableId = useSelector((state: RootState) => state.global.tableId);
-  const { restaurantData } = useRestaurantProfile(restaurantId || ''); 
+  const { restaurantData } = useRestaurantProfile(); 
   const { menuData } = useAllMenus(restaurantId || '');
   const { menuItems } = useMenuItem(restaurantId || '');
 
