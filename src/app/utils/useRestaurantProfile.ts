@@ -22,12 +22,12 @@ export default function useRestaurantProfile() {
           address:restaurantData?.data.address,
         }));
       } catch (error) {
-        console.error('Error fetching restaurant profile', error); // Handle error
+        console.error('Error fetching restaurant profile', error); 
       }
     };
 
     fetchRestaurantProfile();
   }, [dispatch, restaurantData?.data.address, restaurantData?.data.name]);
 
-  return { restaurantData }; // Return restaurant data
+  return { restaurantData };
 }
