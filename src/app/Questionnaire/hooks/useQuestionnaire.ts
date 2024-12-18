@@ -16,7 +16,7 @@ export const useQuestionnaire = (questions: QuestionsArray | null,restaurantId:s
   const [surveyComplete,setSurveyComplete] = useState<Boolean>(false);
 
   const handleNextQuestion = () => {
-    if (currentQuestionIndex < (questions?.length ?? 0) - 1) {
+    if (currentQuestionIndex < (questions?.data?.length ?? 0) - 1) {
       setCurrentQuestionIndex(prevIndex => prevIndex + 1);
     } else {
       submitAnswers();

@@ -87,15 +87,15 @@ const QuestionnairePage = () => {
               </Box>
             ) : (
               <>
-                {questions?.map((question, index) => (
-                  <Box key={question.questionId}
+                {questions?.data?.map((question, index) => (
+                  <Box key={question._id}
                     sx={{ display: 'flex', flexDirection: 'column', gap: 2, direction: 'rtl' }}>
                     <Typography variant="h6" sx={{ direction: 'rtl' }}>{question.questionText}</Typography>
                     {question.type === 'text-input' && (
                       <TextField
                         label={question.questionText}
                         fullWidth
-                        onChange={(e) => handleInputChange(e.target.value, question.questionId)}
+                        onChange={(e) => handleInputChange(e.target.value, question._id)}
                         variant="outlined"
                         sx={{ mb: 2 }}
                       />
@@ -113,17 +113,17 @@ const QuestionnairePage = () => {
                             { value: slider.max, label: slider.max.toString() },
                           ]}
                           valueLabelDisplay="auto"
-                          onChange={(e, value) => handleInputChange(value, question.questionId)}
+                          onChange={(e, value) => handleInputChange(value, question._id)}
                         />
                       </Box>
                     ))}
 
                     {question.type === 'choice' && (
                       <Box sx={{ display: 'flex', justifyContent: 'center', gap: '10px', mt: 2 }}>
-                        <Button variant="outlined" onClick={() => handleChoice(true, question.questionId)}>
+                        <Button variant="outlined" onClick={() => handleChoice(true, question._id)}>
                           بله
                         </Button>
-                        <Button variant="outlined" onClick={() => handleChoice(false, question.questionId)}>
+                        <Button variant="outlined" onClick={() => handleChoice(false, question._id)}>
                           خیر
                         </Button>
                       </Box>
@@ -131,7 +131,7 @@ const QuestionnairePage = () => {
                   </Box>
                 ))}
                 <Button sx={{ mt: 3, alignSelf: 'center' }} onClick={handleNextQuestion}>
-                  {currentQuestionIndex === (questions?.length ?? 0) - 1 ? 'ثبت' : 'بعدی'}
+                  {currentQuestionIndex === (questions?.data?.length ?? 0) - 1 ? 'ثبت' : 'بعدی'}
                 </Button>
               </>
             )}
