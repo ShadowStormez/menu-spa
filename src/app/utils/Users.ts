@@ -15,16 +15,20 @@ const generateRandomUUID = (): string => {
   return crypto.randomUUID();  // Assuming this API is available in your environment
 };
 
-export const apiLogin = async (usernameOrPhone: string, password: string) => {
+export const apiLogin = async (usernameOrMobile:string, password:string) => {
   try {
-    const loginUser = { usernameOrPhone, password };
+    const loginUser = { usernameOrMobile, password };
+    
     const loginUrl = 'http://menyou-svc-gw.darkube.app/api/v1/auth/login';
     const response = await axios.post(loginUrl, loginUser);
     
-    // Extracting 'id' from the response
-    const { id } = response.data;  // Assuming the response has an 'id' field
-    return { id };  // Returning the id from the response
+    const { id } = response.data.user;
+    console.log(response.data)
+    return { id };
   } catch (error) {
-    throw new Error('Login failed!');
+    // console.log(Object.keys(error));
+    // console.log(error.response);
+    
+    throw new Error
   }
-};
+}
