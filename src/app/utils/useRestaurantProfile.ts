@@ -9,17 +9,14 @@ export default function useRestaurantProfile(restaurantId: string) {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    if (!restaurantId) return; // If no restaurantId, skip the request
+    if (!restaurantId) return; 
 
     const fetchRestaurantProfile = async () => {
       try {
-        // Directly request the backend API for restaurant profile
-        const response = await axios.get(`http://menyou-svc-gw.darkube.app/api/v1/restaurants/${restaurantId}/profile`);
+        const response = await axios.get(`http://menyou-svc-gw.darkube.app/api/v1/restaurants/43f89267-c674-4d70-8ead-60aabe2c7884/profile`);
         
-        // Save data to state
         setRestaurantData(response.data);
 
-        // Dispatch the restaurant name and address to the global store
         dispatch(setRestaurantDetails({
           name: response.data.name,
           address: response.data.address,
