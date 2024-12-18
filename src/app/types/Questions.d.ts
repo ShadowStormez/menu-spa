@@ -9,13 +9,13 @@ interface Slider {
   interface Question {
     questionId: string;
     questionText: string;
-    type: 'slider' | 'text-input'| 'choice'; // Add other types as needed
+    type: 'slider' | 'text-input'| 'choice'; 
     placeholder: string;
-    options: string[]; // This can be used for other types like radio or select
-    sliders?: Slider[]; // Sliders are optional, as they are only used when the type is 'slider'
+    options: string[];
+    sliders?: Slider[];
     isRequired: boolean;
     __meta: object;
   }
   
-  export type QuestionsArray = Question[]; // This is the array type that will hold the question objects
+  export type QuestionsArray = Question[]; 
   

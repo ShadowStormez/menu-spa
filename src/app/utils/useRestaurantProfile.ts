@@ -4,12 +4,12 @@ import { RestaurantProfile } from '../types/restaurant'; // Global type for rest
 import { useDispatch } from 'react-redux';
 import { setRestaurantDetails } from '../store/globalSlice'; // Import the action
 
-export default function useRestaurantProfile(restaurantId: string) {
+export default function useRestaurantProfile() {
   const [restaurantData, setRestaurantData] = useState<RestaurantProfile | null>(null);
   const dispatch = useDispatch();
 
   useEffect(() => {
-    if (!restaurantId) return; 
+    // if (!restaurantId) return; 
 
     const fetchRestaurantProfile = async () => {
       try {
@@ -27,7 +27,7 @@ export default function useRestaurantProfile(restaurantId: string) {
     };
 
     fetchRestaurantProfile();
-  }, [restaurantId, dispatch]); // Trigger when restaurantId changes
+  }, [ dispatch]); // Trigger when restaurantId changes
 
   return { restaurantData }; // Return restaurant data
 }
