@@ -10,7 +10,7 @@ interface Slider {
 interface Question {
   _id: string
   questionText: string;
-  type: 'slider' | 'text'| 'choice'; 
+  type: 'slider' | 'text'|'text-input'| 'choice'; 
   placeholder: string | null;
   options: string[] | null;
   sliders: Slider[] | null; 

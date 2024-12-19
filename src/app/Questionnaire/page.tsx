@@ -105,17 +105,18 @@ const QuestionnairePage = () => {
       {questions.data[currentQuestionIndex].questionText}
     </Typography>
     
-    {questions.data[currentQuestionIndex].type === 'text' && (
-      <TextField
-        label={questions.data[currentQuestionIndex].questionText}
-        fullWidth
-        onChange={(e) =>
-          handleInputChange(e.target.value, questions.data[currentQuestionIndex]._id)
-        }
-        variant="outlined"
-        sx={{ mb: 2 }}
-      />
-    )}
+    {(questions.data[currentQuestionIndex].type === 'text' || questions.data[currentQuestionIndex].type === 'text-input') && (
+  <TextField
+    label={questions.data[currentQuestionIndex].questionText}
+    fullWidth
+    onChange={(e) =>
+      handleInputChange(e.target.value, questions.data[currentQuestionIndex]._id)
+    }
+    variant="outlined"
+    sx={{ mb: 2 }}
+  />
+)}
+
     
     {questions.data[currentQuestionIndex].type === 'slider' &&
       questions.data[currentQuestionIndex].sliders?.map((slider, idx) => (
