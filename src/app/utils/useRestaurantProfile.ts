@@ -12,27 +12,27 @@ export default function useRestaurantProfile(restaurantId:string | null ) {
 
   useEffect(() => {
     if (!restaurantId) return; 
-
+  
     const fetchRestaurantProfile = async () => {
       try {
         const response = await axios.get(`http://menyou-svc-gw.darkube.app/api/v1/restaurants/${restaurantId}/profile`);
-        
         setRestaurantData(response.data);
-
+  
         dispatch(setRestaurantDetails({
-          name: restaurantData?.data.name,
-          address:restaurantData?.data.address,
+          name: response.data?.data.name,
+          address: response.data?.data.address,
         }));
       } catch (error) {
         console.error('Error fetching restaurant profile', error);
         setError('Failed to fetch restaurant profile'); 
-      }finally{
+      } finally {
         setLoading(false);
       }
     };
-
+  
     fetchRestaurantProfile();
-  }, [dispatch, restaurantData?.data.address, restaurantData?.data.name, restaurantId]);
+  }, [dispatch, restaurantId]);
+  
 
   return { restaurantData, error, loading };
 }
