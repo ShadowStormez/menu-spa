@@ -5,7 +5,6 @@ import toast from 'react-hot-toast';
 import { QuestionsArray } from '@/app/types/Questions';
 import { useDispatch, useSelector } from 'react-redux';
 import { setUserId, setIsLoggedIn } from '../../store/authSlice'; // Import redux actions
-
 import { Preference, Preferences } from '../../types/user-preferences';
 
 // Custom hook for handling the questionnaire
@@ -49,7 +48,7 @@ export const useQuestionnaire = (questions: QuestionsArray | null) => {
     setAnswers((prevAnswers) => {
       const updatedAnswers = [...prevAnswers];
       const existingAnswerIndex = updatedAnswers.findIndex((answer) => answer.question.id === questionId);
-
+  
       if (existingAnswerIndex > -1) {
         updatedAnswers[existingAnswerIndex].answerText = value;
         updatedAnswers[existingAnswerIndex].answerValues = null;
@@ -60,9 +59,15 @@ export const useQuestionnaire = (questions: QuestionsArray | null) => {
           answerValues: null,
         });
       }
+  
+      if (value.toLowerCase() === "no") {
+        submitAnswers();
+      }
+  
       return updatedAnswers;
     });
   };
+  
 
   const handleSliderChange = (sliderId: string, value: number, questionId: string) => {
     setAnswers((prevAnswers) => {
@@ -120,16 +125,17 @@ export const useQuestionnaire = (questions: QuestionsArray | null) => {
   }
   };
 
-  const submitAnswers = () => {
+  const submitAnswers = async () => {
     if (!answers.length) return;
-
+  
     try {
       if (userId) {
         setSurveyComplete(true);
-        apiSubmitAnswers(userId, { preferences: answers });
+        await apiSubmitAnswers(userId, { preferences: answers });
+        window.location.href = '/Menu';
       }
     } catch (error) {
-     console.log(error);
+      console.log(error);
     }
   };
 
