@@ -1,10 +1,12 @@
-export interface UserPreferences {
+export interface Preference {
+  question: {
     id: string;
-    user: {
-      id: string;
-      username: string;
-      mobile: string;
-      password: string;
-    };
-    preferences: string[];
-  }
+  };
+  answerValues: { id: string; answerValue: number; }[] | null; // Allow null
+  answerText: string | null; // Allow null for consistency
+}
+
+
+export interface Preferences {
+  preferences: Preference[];
+}

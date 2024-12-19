@@ -23,13 +23,14 @@ const QuestionnairePage = () => {
     handleNextQuestion,
     handleInputChange,
     handleChoice,
+    handleSliderChange,
     handleSignUp,
     handleLogin,
     submitAnswers,
     surveyComplete,
     setOpenQuestionnaire,
     openQuestionnaire,
-  } = useQuestionnaire(questions, restaurantId);
+  } = useQuestionnaire(questions);
 
   if (loading) return <LinearProgress />;
   if (error) return <Typography color="error">{error}</Typography>;
@@ -129,9 +130,13 @@ const QuestionnairePage = () => {
               { value: slider.max, label: slider.max.toString() },
             ]}
             valueLabelDisplay="auto"
-            onChange={(e, value) =>
-              handleInputChange(value, questions.data[currentQuestionIndex]._id)
-            }
+            onChange={(e, value) => {
+              if (typeof value === 'number') {
+                handleSliderChange(slider.id, value, questions.data[currentQuestionIndex]._id);
+              } else {
+                console.error('Expected value to be a number, but received an array:', value);
+              }
+            }}
           />
         </Box>
       ))}
@@ -140,13 +145,13 @@ const QuestionnairePage = () => {
       <Box sx={{ display: 'flex', justifyContent: 'center', gap: '10px', mt: 2 }}>
         <Button
           variant="outlined"
-          onClick={() => handleChoice(true, questions.data[currentQuestionIndex]._id)}
+          onClick={() => handleChoice('yes', questions.data[currentQuestionIndex]._id)}
         >
           بله
         </Button>
         <Button
           variant="outlined"
-          onClick={() => handleChoice(false, questions.data[currentQuestionIndex]._id)}
+          onClick={() => handleChoice('no', questions.data[currentQuestionIndex]._id)}
         >
           خیر
         </Button>

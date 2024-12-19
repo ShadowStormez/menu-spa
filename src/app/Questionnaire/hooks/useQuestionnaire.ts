@@ -6,13 +6,15 @@ import { QuestionsArray } from '@/app/types/Questions';
 import { useDispatch, useSelector } from 'react-redux';
 import { setUserId, setIsLoggedIn } from '../../store/authSlice'; // Import redux actions
 
+import { Preference, Preferences } from '../../types/user-preferences';
+
 // Custom hook for handling the questionnaire
-export const useQuestionnaire = (questions: QuestionsArray | null,restaurantId:string | null) => {
+export const useQuestionnaire = (questions: QuestionsArray | null) => {
   const dispatch = useDispatch();
   const { userId } = useSelector((state: any) => state.auth); // Access global state from Redux
 
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
-  const [answers, setAnswers] = useState<any[]>([]);
+  const [answers, setAnswers] = useState<Preference[]>([]);
   const [surveyComplete,setSurveyComplete] = useState(false);
   const [openQuestionnaire,setOpenQuestionnaire]=useState(false);
 
@@ -24,39 +26,71 @@ export const useQuestionnaire = (questions: QuestionsArray | null,restaurantId:s
     }
   };
 
-  const handleInputChange = (value: any, questionId: string) => {
-    setAnswers(prevAnswers => {
+  const handleInputChange = (value: string, questionId: string) => {
+    setAnswers((prevAnswers) => {
       const updatedAnswers = [...prevAnswers];
-      const existingAnswerIndex = updatedAnswers.findIndex(answer => answer.questionId === questionId);
+      const existingAnswerIndex = updatedAnswers.findIndex((answer) => answer.question.id === questionId);
+
       if (existingAnswerIndex > -1) {
-        updatedAnswers[existingAnswerIndex].value = value;
+        updatedAnswers[existingAnswerIndex].answerText = value;
+        updatedAnswers[existingAnswerIndex].answerValues = null;
       } else {
-        updatedAnswers.push({ questionId, value });
+        updatedAnswers.push({
+          question: { id: questionId },
+          answerText: value,
+          answerValues: null,
+        });
       }
       return updatedAnswers;
     });
   };
 
-  const handleChoice = (value: boolean, questionId: string) => {
-    setAnswers(prevAnswers => {
+  const handleChoice = (value: string, questionId: string) => {
+    setAnswers((prevAnswers) => {
       const updatedAnswers = [...prevAnswers];
-      const existingAnswerIndex = updatedAnswers.findIndex(answer => answer.questionId === questionId);
+      const existingAnswerIndex = updatedAnswers.findIndex((answer) => answer.question.id === questionId);
+
       if (existingAnswerIndex > -1) {
-        updatedAnswers[existingAnswerIndex].value = value;
+        updatedAnswers[existingAnswerIndex].answerText = value;
+        updatedAnswers[existingAnswerIndex].answerValues = null;
       } else {
-        updatedAnswers.push({ questionId, value });
+        updatedAnswers.push({
+          question: { id: questionId },
+          answerText: value,
+          answerValues: null,
+        });
       }
       return updatedAnswers;
     });
-
-    // Optionally move to the next question or submit based on the choice
-    if (value) {
-      setCurrentQuestionIndex(prevIndex => prevIndex + 1); // Yes
-    } else {
-      submitAnswers(); // No, submit answers immediately
-    }
   };
 
+  const handleSliderChange = (sliderId: string, value: number, questionId: string) => {
+    setAnswers((prevAnswers) => {
+      const updatedAnswers = [...prevAnswers];
+      const existingAnswerIndex = updatedAnswers.findIndex((answer) => answer.question.id === questionId);
+
+      if (existingAnswerIndex > -1) {
+        const existingValues = updatedAnswers[existingAnswerIndex].answerValues || [];
+        const sliderIndex = existingValues.findIndex((val: { id: string; answerValue: number }) => val.id === sliderId);
+
+        if (sliderIndex > -1) {
+          existingValues[sliderIndex].answerValue = value;
+        } else {
+          existingValues.push({ id: sliderId, answerValue: value });
+        }
+
+        updatedAnswers[existingAnswerIndex].answerValues = existingValues;
+        updatedAnswers[existingAnswerIndex].answerText = null;
+      } else {
+        updatedAnswers.push({
+          question: { id: questionId },
+          answerValues: [{ id: sliderId, answerValue: value }],
+          answerText: null,
+        });
+      }
+      return updatedAnswers;
+    });
+  };
   const handleSignUp = async (username: string, mobile: string, password: string) => {
     try {
       const newUser = await apiSignUp(username, mobile, password);
@@ -92,7 +126,7 @@ export const useQuestionnaire = (questions: QuestionsArray | null,restaurantId:s
     try {
       if (userId) {
         setSurveyComplete(true);
-        apiSubmitAnswers(restaurantId,userId, answers);
+        apiSubmitAnswers(userId, { preferences: answers });
       }
     } catch (error) {
      console.log(error);
@@ -104,7 +138,8 @@ export const useQuestionnaire = (questions: QuestionsArray | null,restaurantId:s
     answers,
     handleNextQuestion,
     handleInputChange,
-    handleChoice, 
+    handleChoice,
+    handleSliderChange, 
     handleSignUp,
     handleLogin,
     submitAnswers,
