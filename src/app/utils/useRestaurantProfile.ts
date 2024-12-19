@@ -6,8 +6,10 @@ import { setRestaurantDetails } from '../store/globalSlice'; // Import the actio
 
 export default function useRestaurantProfile(restaurantId: string | null) {
   const [restaurantData, setRestaurantData] = useState<RestaurantProfile>();
-  const [loading, setLoading] = useState(true);
   const dispatch = useDispatch();
+
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     if (!restaurantId) {
@@ -18,15 +20,14 @@ export default function useRestaurantProfile(restaurantId: string | null) {
     const fetchRestaurantProfile = async () => {
       try {
         const response = await axios.get(`http://menyou-svc-gw.darkube.app/api/v1/restaurants/${restaurantId}/profile`);
-        console.log("API Response:", response.data);
         setRestaurantData(response.data);
-
+        setError(null);
         dispatch(setRestaurantDetails({
           name: response.data?.data.name,
           address: response.data?.data.address,
         }));
-      } catch (error) {
-        console.error('Error fetching restaurant profile', error);
+      } catch (err) {
+        setError("Failed to load restaurant data");
       } finally {
         setLoading(false);
       }
@@ -35,6 +36,6 @@ export default function useRestaurantProfile(restaurantId: string | null) {
     fetchRestaurantProfile();
   }, [dispatch, restaurantId]);
 
-  return { restaurantData, loading };
+  return { restaurantData, loading, error };
 }
 

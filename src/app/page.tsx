@@ -41,18 +41,22 @@ function HomeSearch() {
 export default function Home() {
   
   const restaurantId = useSelector((state: RootState) => state.global.restaurantId);
-  const { restaurantData } = useRestaurantProfile(restaurantId);
+  const { restaurantData,loading,error } = useRestaurantProfile(restaurantId);
 
-  // if (loading) {
-  //   return <LinearProgress />;
-  // }
-
-  // if (!restaurantData) {
-  //   return <Typography color="error">Failed to load restaurant data</Typography>;
-  // }
+  if (loading) {
+    return <LinearProgress />;
+  }
+  
+  if (error) {
+    return <Typography color="error">{error}</Typography>;
+  }
+  
+  if (!restaurantData) {
+    return <Typography>No restaurant data available.</Typography>;
+  }
 
   return (
-    <Suspense fallback={<div>Loading...</div>}>
+      <>
       <HomeSearch />
       <HomePageStyle>
         <Hero restaurantName={restaurantData?.data.name} />
@@ -71,6 +75,6 @@ export default function Home() {
           />
         </div>
       </HomePageStyle>
-    </Suspense>
+      </>
   );
 }
