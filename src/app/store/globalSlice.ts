@@ -19,7 +19,7 @@ const globalSlice = createSlice({
   name: 'global',
   initialState,
   reducers: {
-    setRestaurantId: (state, action: PayloadAction<string >) => {
+    setRestaurantId: (state, action: PayloadAction<string>) => {
       state.restaurantId = action.payload;
     },
     setRestaurantName: (state, action: PayloadAction<string | undefined>) => {

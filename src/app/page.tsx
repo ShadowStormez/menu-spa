@@ -38,7 +38,7 @@ function HomeSearch() {
 export default function Home() {
   
   const restaurantId = useSelector((state: RootState) => state.global.restaurantId);
-  const { restaurantData } = useRestaurantProfile(); 
+  const { restaurantData } = useRestaurantProfile(restaurantId); 
 
   return (
     <Suspense fallback={<div>Loading...</div>}> {/* Fallback loading UI */}

@@ -4,16 +4,16 @@ import { RestaurantProfile } from '../types/restaurant'; // Global type for rest
 import { useDispatch } from 'react-redux';
 import { setRestaurantDetails } from '../store/globalSlice'; // Import the action
 
-export default function useRestaurantProfile() {
+export default function useRestaurantProfile(restaurantId:string | null ) {
   const [restaurantData, setRestaurantData] = useState<RestaurantProfile>();
   const dispatch = useDispatch();
 
   useEffect(() => {
-    // if (!restaurantId) return; 
+    if (!restaurantId) return; 
 
     const fetchRestaurantProfile = async () => {
       try {
-        const response = await axios.get(`http://menyou-svc-gw.darkube.app/api/v1/restaurants/43f89267-c674-4d70-8ead-60aabe2c7884/profile`);
+        const response = await axios.get(`http://menyou-svc-gw.darkube.app/api/v1/restaurants/${restaurantId}/profile`);
         
         setRestaurantData(response.data);
 
@@ -27,7 +27,7 @@ export default function useRestaurantProfile() {
     };
 
     fetchRestaurantProfile();
-  }, [dispatch, restaurantData?.data.address, restaurantData?.data.name]);
+  }, [dispatch, restaurantData?.data.address, restaurantData?.data.name, restaurantId]);
 
   return { restaurantData };
 }
