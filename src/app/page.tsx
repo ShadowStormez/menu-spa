@@ -43,9 +43,9 @@ export default function Home() {
   const restaurantId = useSelector((state: RootState) => state.global.restaurantId);
   const { restaurantData } = useRestaurantProfile(restaurantId); 
 
-  if (!restaurantData) {
-    return <LinearProgress/>;
-  }
+  // if (!restaurantData) {
+  //   return <LinearProgress/>;
+  // }
 
   return (
     <Suspense fallback={<div>Loading...</div>}>
