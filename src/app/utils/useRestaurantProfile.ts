@@ -18,7 +18,7 @@ export default function useRestaurantProfile(restaurantId: string | null) {
     const fetchRestaurantProfile = async () => {
       try {
         const response = await axios.get(`http://menyou-svc-gw.darkube.app/api/v1/restaurants/${restaurantId}/profile`);
-
+        console.log("API Response:", response.data);
         setRestaurantData(response.data);
 
         dispatch(setRestaurantDetails({
