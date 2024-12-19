@@ -95,52 +95,72 @@ const QuestionnairePage = () => {
               </Box>
             ) : (
               <>
-                {questions?.data?.map((question, index) => (
-                  <Box key={question._id}
-                    sx={{ display: 'flex', flexDirection: 'column', gap: 2, direction: 'rtl' }}>
-                    <Typography variant="h6" sx={{ direction: 'rtl' }}>{question.questionText}</Typography>
-                    {question.type === 'text-input' && (
-                      <TextField
-                        label={question.questionText}
-                        fullWidth
-                        onChange={(e) => handleInputChange(e.target.value, question._id)}
-                        variant="outlined"
-                        sx={{ mb: 2 }}
-                      />
-                    )}
+{questions?.data && questions?.data[currentQuestionIndex] && (
+  <Box
+    key={questions.data[currentQuestionIndex]._id}
+    sx={{ display: 'flex', flexDirection: 'column', gap: 2, direction: 'rtl' }}
+  >
+    <Typography variant="h6" sx={{ direction: 'rtl' }}>
+      {questions.data[currentQuestionIndex].questionText}
+    </Typography>
+    
+    {questions.data[currentQuestionIndex].type === 'text-input' && (
+      <TextField
+        label={questions.data[currentQuestionIndex].questionText}
+        fullWidth
+        onChange={(e) =>
+          handleInputChange(e.target.value, questions.data[currentQuestionIndex]._id)
+        }
+        variant="outlined"
+        sx={{ mb: 2 }}
+      />
+    )}
+    
+    {questions.data[currentQuestionIndex].type === 'slider' &&
+      questions.data[currentQuestionIndex].sliders?.map((slider, idx) => (
+        <Box key={idx} sx={{ mb: 3, direction: 'rtl' }}>
+          <Typography>{slider.label}</Typography>
+          <Slider
+            min={slider.min}
+            max={slider.max}
+            step={slider.step}
+            marks={[
+              { value: slider.min, label: slider.min.toString() },
+              { value: slider.max, label: slider.max.toString() },
+            ]}
+            valueLabelDisplay="auto"
+            onChange={(e, value) =>
+              handleInputChange(value, questions.data[currentQuestionIndex]._id)
+            }
+          />
+        </Box>
+      ))}
 
-                    {question.type === 'slider' && question.sliders?.map((slider, idx) => (
-                      <Box key={idx} sx={{ mb: 3, direction: 'rtl' }}>
-                        <Typography>{slider.label}</Typography>
-                        <Slider
-                          min={slider.min}
-                          max={slider.max}
-                          step={slider.step}
-                          marks={[
-                            { value: slider.min, label: slider.min.toString() },
-                            { value: slider.max, label: slider.max.toString() },
-                          ]}
-                          valueLabelDisplay="auto"
-                          onChange={(e, value) => handleInputChange(value, question._id)}
-                        />
-                      </Box>
-                    ))}
+    {questions.data[currentQuestionIndex].type === 'choice' && (
+      <Box sx={{ display: 'flex', justifyContent: 'center', gap: '10px', mt: 2 }}>
+        <Button
+          variant="outlined"
+          onClick={() => handleChoice(true, questions.data[currentQuestionIndex]._id)}
+        >
+          بله
+        </Button>
+        <Button
+          variant="outlined"
+          onClick={() => handleChoice(false, questions.data[currentQuestionIndex]._id)}
+        >
+          خیر
+        </Button>
+      </Box>
+    )}
+  </Box>
+)}
+<Button
+  sx={{ mt: 3, alignSelf: 'center' }}
+  onClick={handleNextQuestion}
+>
+  {currentQuestionIndex === (questions?.data?.length ?? 0) - 1 ? 'ثبت' : 'بعدی'}
+</Button>
 
-                    {question.type === 'choice' && (
-                      <Box sx={{ display: 'flex', justifyContent: 'center', gap: '10px', mt: 2 }}>
-                        <Button variant="outlined" onClick={() => handleChoice(true, question._id)}>
-                          بله
-                        </Button>
-                        <Button variant="outlined" onClick={() => handleChoice(false, question._id)}>
-                          خیر
-                        </Button>
-                      </Box>
-                    )}
-                  </Box>
-                ))}
-                <Button sx={{ mt: 3, alignSelf: 'center' }} onClick={handleNextQuestion}>
-                  {currentQuestionIndex === (questions?.data?.length ?? 0) - 1 ? 'ثبت' : 'بعدی'}
-                </Button>
               </>
             )}
           </Box>

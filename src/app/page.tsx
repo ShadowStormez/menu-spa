@@ -11,6 +11,8 @@ import { useDispatch } from 'react-redux';
 import { setRestaurantId, setTableId } from './store/globalSlice';
 import { useSelector } from 'react-redux';
 import { RootState } from '../app/store'; 
+import { LinearProgress } from '@mui/material';
+
 
 // utils
 import useRestaurantProfile from '@/app/utils/useRestaurantProfile';
@@ -41,7 +43,7 @@ export default function Home() {
   const { restaurantData } = useRestaurantProfile(restaurantId); 
 
   return (
-    <Suspense fallback={<div>Loading...</div>}>
+    <Suspense fallback={<LinearProgress/>}>
       <HomeSearch />
       <HomePageStyle>
         <Hero restaurantName={restaurantData?.data.name} />
