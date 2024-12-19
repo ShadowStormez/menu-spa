@@ -47,7 +47,7 @@ export default function Home() {
   if (error) return <Typography color="error">{error}</Typography>;
 
   return (
-    <>
+    <Suspense fallback={<div>Loading...</div>}>
       <HomeSearch />
       <HomePageStyle>
         <Hero restaurantName={restaurantData?.data.name} />
@@ -66,6 +66,6 @@ export default function Home() {
           />
         </div>
       </HomePageStyle>
-      </>
+    </Suspense>
   );
 }
