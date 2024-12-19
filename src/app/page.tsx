@@ -1,38 +1,48 @@
 'use client';
 
-import React from 'react';
+import { useSearchParams } from 'next/navigation';
+import { Suspense } from 'react'; // Import Suspense
+import React, { useEffect } from 'react';
 import Hero from "./components/Hero/Hero";
 import HomeCard from "./components/HomeCard/HomeCard";
 import { HomePageStyle } from "./page.Style";
 import { menu, AI } from "@/app/assets/icons";
-
-//mui
-import { Typography, LinearProgress } from '@mui/material';
+import { useDispatch } from 'react-redux';
+import { setRestaurantId, setTableId } from './store/globalSlice';
+import { useSelector } from 'react-redux';
+import { RootState } from '../app/store'; 
 
 // utils
 import useRestaurantProfile from '@/app/utils/useRestaurantProfile';
-import useInitializeParams from '@/app/utils/useInitializeParams';
 
+function HomeSearch() {
+  const searchParams = useSearchParams();
+  const dispatch=useDispatch()
+  
+  useEffect(() => {
+    const restaurantId = searchParams.get('restaurantId');
+    const tableId = searchParams.get('tableId');
 
+    if (restaurantId) {
+      dispatch(setRestaurantId(restaurantId));
+    }
+
+    if (tableId) {
+      dispatch(setTableId(Number(tableId)));
+    }
+  }, [searchParams, dispatch]);
+
+  return null;
+}
 
 export default function Home() {
-  useInitializeParams();
-  const { restaurantData,loading,error } = useRestaurantProfile();
-
-  if (loading) {
-    return <LinearProgress />;
-  }
   
-  if (error) {
-    return <Typography color="error">{error}</Typography>;
-  }
-  
-  if (!restaurantData) {
-    return <Typography>No restaurant data available.</Typography>;
-  }
+  const restaurantId = useSelector((state: RootState) => state.global.restaurantId);
+  const { restaurantData } = useRestaurantProfile(restaurantId); 
 
   return (
-      <>
+    <Suspense fallback={<div>Loading...</div>}>
+      <HomeSearch />
       <HomePageStyle>
         <Hero restaurantName={restaurantData?.data.name} />
         <div className="HomeCards-Container">
@@ -50,6 +60,6 @@ export default function Home() {
           />
         </div>
       </HomePageStyle>
-      </>
+    </Suspense>
   );
 }

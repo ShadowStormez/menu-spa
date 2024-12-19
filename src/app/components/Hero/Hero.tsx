@@ -1,14 +1,20 @@
-'use client'
+'use client';
 import { ReactTyped } from "react-typed";
 import { HeroStyle } from "./Hero.Style";
 
 interface HeroProps {
   restaurantName?: string;
 }
-const Hero= ({ restaurantName }: HeroProps)=> {
-    return (
-        <HeroStyle>  
-            <div className="Hero-Container">
+
+const Hero = ({ restaurantName }: HeroProps) => {
+  // Render nothing if restaurantName is undefined
+  if (!restaurantName) {
+    return null;
+  }
+
+  return (
+    <HeroStyle>  
+      <div className="Hero-Container">
         <ReactTyped
           strings={[`👋به ${restaurantName} خوش آمدید`]}
           typeSpeed={40}
@@ -17,8 +23,8 @@ const Hero= ({ restaurantName }: HeroProps)=> {
           className="text-2xl mt-7"
         />
       </div>
-      </HeroStyle>
-    
-    );
-  }
-  export default Hero
+    </HeroStyle>
+  );
+};
+
+export default Hero;

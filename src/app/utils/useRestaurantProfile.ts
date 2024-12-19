@@ -1,44 +1,33 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
-import { RestaurantProfile } from '../types/restaurant';
-import { useDispatch, useSelector } from 'react-redux';
-import { setRestaurantDetails } from '../store/globalSlice';
-import { RootState } from '../store';
+import { RestaurantProfile } from '../types/restaurant'; // Global type for restaurant
+import { useDispatch } from 'react-redux';
+import { setRestaurantDetails } from '../store/globalSlice'; // Import the action
 
-export default function useRestaurantProfile() {
-  const [restaurantData, setRestaurantData] = useState<RestaurantProfile | null>(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
-
-  const restaurantId = useSelector((state: RootState) => state.global.restaurantId);
+export default function useRestaurantProfile(restaurantId:string | null) {
+  const [restaurantData, setRestaurantData] = useState<RestaurantProfile>();
   const dispatch = useDispatch();
 
   useEffect(() => {
-    if (!restaurantId) {
-      setError('Restaurant ID is missing');
-      setLoading(false);
-      return;
-    }
+    if (!restaurantId) return;
 
     const fetchRestaurantProfile = async () => {
       try {
-        setLoading(true);
-        const response = await axios.get(`http://menyou-svc-gw.darkube.app/api/v1/restaurants/${restaurantId}/profile`);
+        const response = await axios.get(`http://menyou-svc-gw.darkube.app/api/v1/restaurants/43f89267-c674-4d70-8ead-60aabe2c7884/profile`);
+        
         setRestaurantData(response.data);
+
         dispatch(setRestaurantDetails({
-          name: response.data?.data.name,
-          address: response.data?.data.address,
+          name: response.data.data.name,
+          address:response.data.data.address,
         }));
-        setError(null);
-      } catch (err) {
-        setError('Failed to load restaurant data');
-      } finally {
-        setLoading(false);
+      } catch (error) {
+        console.error('Error fetching restaurant profile', error); 
       }
     };
 
     fetchRestaurantProfile();
   }, [dispatch, restaurantId]);
 
-  return { restaurantData, loading, error };
+  return { restaurantData };
 }
