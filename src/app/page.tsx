@@ -41,11 +41,15 @@ function HomeSearch() {
 export default function Home() {
   
   const restaurantId = useSelector((state: RootState) => state.global.restaurantId);
-  const { restaurantData } = useRestaurantProfile(restaurantId); 
+  const { restaurantData, loading } = useRestaurantProfile(restaurantId);
 
-  // if (!restaurantData) {
-  //   return <LinearProgress/>;
-  // }
+  if (loading) {
+    return <LinearProgress />;
+  }
+
+  if (!restaurantData) {
+    return <Typography color="error">Failed to load restaurant data</Typography>;
+  }
 
   return (
     <Suspense fallback={<div>Loading...</div>}>
