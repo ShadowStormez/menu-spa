@@ -105,7 +105,7 @@ const QuestionnairePage = () => {
       {questions.data[currentQuestionIndex].questionText}
     </Typography>
     
-    {questions.data[currentQuestionIndex].type === 'text-input' && (
+    {questions.data[currentQuestionIndex].type === 'text' && (
       <TextField
         label={questions.data[currentQuestionIndex].questionText}
         fullWidth
