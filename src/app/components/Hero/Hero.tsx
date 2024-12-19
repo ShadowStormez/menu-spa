@@ -7,21 +7,20 @@ interface HeroProps {
 }
 
 const Hero = ({ restaurantName }: HeroProps) => {
-  // Render nothing if restaurantName is undefined
-  if (!restaurantName) {
-    return null;
-  }
-
   return (
-    <HeroStyle>  
+    <HeroStyle>
       <div className="Hero-Container">
-        <ReactTyped
-          strings={[`👋به ${restaurantName} خوش آمدید`]}
-          typeSpeed={40}
-          backSpeed={50}
-          loop={false}
-          className="text-2xl mt-7"
-        />
+        {restaurantName ? (
+          <ReactTyped
+            strings={[`👋به ${restaurantName} خوش آمدید`]}
+            typeSpeed={40}
+            backSpeed={50}
+            loop={false}
+            className="text-2xl mt-7"
+          />
+        ) : (
+          null
+        )}
       </div>
     </HeroStyle>
   );
