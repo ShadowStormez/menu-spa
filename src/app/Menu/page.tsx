@@ -3,11 +3,9 @@
 import { useScrollManager } from './hooks/useScrollManager';
 import { MenuPageStyle } from './page.Style';
 import MenuHero from './components/MenuHero/MenuHero';
-import { MenuHeroBG } from '../assets/images';
 import TabList from './components/Tablist/Tablist';
-import { ThemeProvider } from '@mui/material';
+import { ThemeProvider,LinearProgress } from '@mui/material';
 import theme from '../Theme/theme';
-import { menu } from './components/menuData';
 import MenuItem from './components/MenuItem/MenuItem';
 
 import { useSelector } from 'react-redux';
@@ -18,19 +16,19 @@ import useRestaurantProfile from '@/app/utils/useRestaurantProfile';
 import useAllMenus from '@/app/utils/useAllMenus';
 import useMenuItem from '@/app/utils/useMenuItem';
 
+
 export default function Menu() {
   const restaurantId = useSelector((state: RootState) => state.global.restaurantId);
   const tableId = useSelector((state: RootState) => state.global.tableId);
   const { restaurantData } = useRestaurantProfile(restaurantId); 
-  const { menuData } = useAllMenus(restaurantId || '');
-  const { menuItems } = useMenuItem(restaurantId || '');
+  const { menuData } = useAllMenus(restaurantId);
+  const { menuItems } = useMenuItem(restaurantId);
 
   const { categoryRefs, tabListRef, activeCategory, isTabListFixed, handleTabClick } = useScrollManager(menuData ?? []);
 
 
-  // Check if the data is available
   if (!menuData || !menuItems || !restaurantData) {
-    return <div>Loading...</div>; // Return loading state if data is not available
+    return <LinearProgress/>;
   }
 
   const categories = menuData?.map((menu) => menu?.category || 'default-category');

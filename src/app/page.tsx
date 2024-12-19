@@ -12,6 +12,9 @@ import { setRestaurantId, setTableId } from './store/globalSlice';
 import { useSelector } from 'react-redux';
 import { RootState } from '../app/store'; 
 
+//mui
+import { Typography, LinearProgress } from '@mui/material';
+
 // utils
 import useRestaurantProfile from '@/app/utils/useRestaurantProfile';
 
@@ -38,10 +41,13 @@ function HomeSearch() {
 export default function Home() {
   
   const restaurantId = useSelector((state: RootState) => state.global.restaurantId);
-  const { restaurantData } = useRestaurantProfile(restaurantId); 
+  const { restaurantData,error,loading } = useRestaurantProfile(restaurantId); 
+
+  if (loading) return <LinearProgress />;
+  if (error) return <Typography color="error">{error}</Typography>;
 
   return (
-    <Suspense fallback={<div>Loading...</div>}> {/* Fallback loading UI */}
+    <>
       <HomeSearch />
       <HomePageStyle>
         <Hero restaurantName={restaurantData?.data.name} />
@@ -60,6 +66,6 @@ export default function Home() {
           />
         </div>
       </HomePageStyle>
-    </Suspense>
+      </>
   );
 }

@@ -62,7 +62,7 @@ export const useQuestionnaire = (questions: QuestionsArray | null,restaurantId:s
       const newUser = await apiSignUp(username, mobile, password);
       dispatch(setUserId(newUser.id)); // Dispatch user ID to global state
       dispatch(setIsLoggedIn(true)); // Set isLoggedIn to true
-      toast.success('حساب کاربری شما با موفقیت ساخته شد!');
+      toast.success('حساب کاربری شما با موفقیت ساخته شد');
       setOpenQuestionnaire(true);
     } catch (error: unknown) {
       if (error instanceof Error) {
@@ -77,7 +77,7 @@ export const useQuestionnaire = (questions: QuestionsArray | null,restaurantId:s
       const loginUser = await apiLogin(usernameOrPhone, password);
       dispatch(setUserId(loginUser.id)); // Dispatch user ID to global state
       dispatch(setIsLoggedIn(true)); // Set isLoggedIn to true
-      toast.success('وارد شدید!');
+      toast.success('وارد شدید');
       setOpenQuestionnaire(true);
     } catch (error: unknown) {
       if (error instanceof Error) {

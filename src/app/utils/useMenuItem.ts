@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import axios from 'axios';
 import { MenuItem } from '../types/menu-item'; // Global type for restaurant profile
 
-export default function useMenuItem(restaurantId: string) {
+export default function useMenuItem(restaurantId: string | null ) {
   const [menuItems, setMenuItems] = useState<MenuItem[] | null>(null);
 
   useEffect(() => {

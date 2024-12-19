@@ -6,6 +6,8 @@ import { setRestaurantDetails } from '../store/globalSlice'; // Import the actio
 
 export default function useRestaurantProfile(restaurantId:string | null ) {
   const [restaurantData, setRestaurantData] = useState<RestaurantProfile>();
+  const [loading, setLoading] = useState<boolean>(true);
+  const [error, setError] = useState<string | null>(null);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -22,12 +24,15 @@ export default function useRestaurantProfile(restaurantId:string | null ) {
           address:restaurantData?.data.address,
         }));
       } catch (error) {
-        console.error('Error fetching restaurant profile', error); 
+        console.error('Error fetching restaurant profile', error);
+        setError('Failed to fetch restaurant profile'); 
+      }finally{
+        setLoading(false);
       }
     };
 
     fetchRestaurantProfile();
   }, [dispatch, restaurantData?.data.address, restaurantData?.data.name, restaurantId]);
 
-  return { restaurantData };
+  return { restaurantData, error, loading };
 }
