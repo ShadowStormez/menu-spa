@@ -6,33 +6,28 @@ import { setRestaurantDetails } from '../store/globalSlice'; // Import the actio
 
 export default function useRestaurantProfile(restaurantId:string | null ) {
   const [restaurantData, setRestaurantData] = useState<RestaurantProfile>();
-  const [loading, setLoading] = useState<boolean>(true);
-  const [error, setError] = useState<string | null>(null);
   const dispatch = useDispatch();
 
   useEffect(() => {
     if (!restaurantId) return; 
-  
+
     const fetchRestaurantProfile = async () => {
       try {
         const response = await axios.get(`http://menyou-svc-gw.darkube.app/api/v1/restaurants/${restaurantId}/profile`);
+        
         setRestaurantData(response.data);
-  
+
         dispatch(setRestaurantDetails({
-          name: response.data?.data.name,
-          address: response.data?.data.address,
+          name: restaurantData?.data.name,
+          address:restaurantData?.data.address,
         }));
       } catch (error) {
-        console.error('Error fetching restaurant profile', error);
-        setError('Failed to fetch restaurant profile'); 
-      } finally {
-        setLoading(false);
+        console.error('Error fetching restaurant profile', error); 
       }
     };
-  
-    fetchRestaurantProfile();
-  }, [dispatch, restaurantId]);
-  
 
-  return { restaurantData, error, loading };
+    fetchRestaurantProfile();
+  }, [dispatch, restaurantData?.data.address, restaurantData?.data.name, restaurantId]);
+
+  return { restaurantData };
 }
