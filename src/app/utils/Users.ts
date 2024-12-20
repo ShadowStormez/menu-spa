@@ -1,4 +1,5 @@
 import axios from 'axios';
+import {generateRandomUUID} from './UuidCreator'
 
 export const apiSignUp = async (username: string, mobile: string, password: string) => {
   try {
@@ -8,11 +9,6 @@ export const apiSignUp = async (username: string, mobile: string, password: stri
   } catch (error) {
     throw new Error('Sign-up failed!');
   }
-};
-
-// Helper function to generate a random UUID
-const generateRandomUUID = (): string => {
-  return crypto.randomUUID();  // Assuming this API is available in your environment
 };
 
 export const apiLogin = async (usernameOrMobile:string, password:string) => {
@@ -25,10 +21,7 @@ export const apiLogin = async (usernameOrMobile:string, password:string) => {
     const { id } = response.data.user;
     console.log(response.data)
     return { id };
-  } catch (error) {
-    // console.log(Object.keys(error));
-    // console.log(error.response);
-    
+  } catch (error) {    
     throw new Error
   }
 }

@@ -6,6 +6,7 @@ import { QuestionsArray } from '@/app/types/Questions';
 import { useDispatch, useSelector } from 'react-redux';
 import { setUserId, setIsLoggedIn } from '../../store/authSlice'; // Import redux actions
 import { Preference, Preferences } from '../../types/user-preferences';
+import { generateRandomUUID } from '@/app/utils/UuidCreator';
 
 // Custom hook for handling the questionnaire
 export const useQuestionnaire = (questions: QuestionsArray | null) => {
@@ -38,6 +39,7 @@ export const useQuestionnaire = (questions: QuestionsArray | null) => {
           question: { id: questionId },
           answerText: value,
           answerValues: null,
+          _id:generateRandomUUID()
         });
       }
       return updatedAnswers;
@@ -57,6 +59,7 @@ export const useQuestionnaire = (questions: QuestionsArray | null) => {
           question: { id: questionId },
           answerText: value,
           answerValues: null,
+          _id:generateRandomUUID()
         });
       }
   
@@ -91,6 +94,7 @@ export const useQuestionnaire = (questions: QuestionsArray | null) => {
           question: { id: questionId },
           answerValues: [{ id: sliderId, answerValue: value }],
           answerText: null,
+          _id:generateRandomUUID()
         });
       }
       return updatedAnswers;

@@ -7,7 +7,7 @@ import { useMediaQuery } from '@mui/material';
 import { CartModalStyle } from './CartModal.Style';
 import Image from 'next/image';
 import { foodDefaultBG } from '@/app/assets/images';
-
+import {generateRandomUUID} from '../../../utils/UuidCreator'
 import { createOrder } from '../../../utils/createOrder'
 
 const CartModal: React.FC<{ open: boolean; onClose: () => void }> = ({ open, onClose }) => {
@@ -19,10 +19,6 @@ const CartModal: React.FC<{ open: boolean; onClose: () => void }> = ({ open, onC
   const restaurantAddress = useSelector((state: RootState) => state.global.restaurantAddress) ?? '';
   
   const cart = useSelector((state: RootState) => state.cart.items);
-
-  const generateRandomUUID = (): string => {
-    return crypto.randomUUID();
-  };
   
   const dispatch = useDispatch();
 

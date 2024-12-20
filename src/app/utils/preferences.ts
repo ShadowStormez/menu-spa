@@ -1,11 +1,8 @@
 import axios from 'axios';
-
+import {generateRandomUUID} from './UuidCreator'
 import { Preferences } from '../types/user-preferences';
 
 export const apiSubmitAnswers = async (userId: string, answers: Preferences) => {
-  const generateRandomUUID = (): string => {
-    return crypto.randomUUID();
-  };
 
   try {
     const preferences = {
