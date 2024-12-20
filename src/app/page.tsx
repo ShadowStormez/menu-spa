@@ -51,7 +51,7 @@ export default function Home() {
           <HomeCard
             title=""
             link="/Questionnaire"
-            whereTo="مشاهده منو"
+            whereTo="😂مشاهده منو"
             imageSrc={menu}
           />
           <HomeCard
