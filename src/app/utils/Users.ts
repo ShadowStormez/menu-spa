@@ -14,20 +14,22 @@ export const apiSignUp = async (username: string, mobile: string, password: stri
 export const apiLogin = async (usernameOrMobile: string, password: string) => {
   try {
     const loginUser = { usernameOrMobile, password };
+
     const loginUrl = 'http://menyou-svc-gw.darkube.app/api/v1/auth/login';
+    const response = await axios.post(loginUrl, loginUser, {
+      withCredentials: true, // Ensures cookies are sent and received
+    });
 
-    const response = await axios.post(loginUrl, loginUser, { withCredentials: true });
-
-    // Extract user ID and token
     const { id } = response.data.user;
-    const { access_token } = response.data;
-    localStorage.setItem('access_token', access_token);
 
-    // Return both id and token
-    return { id, access_token };
+    console.log('Login successful:', response.data);
+
+    // Return only the user ID as the token is handled via cookies
+    return { id };
   } catch (error) {
     const err = error as Error;
     throw new Error('Login failed: ' + err.message);
   }
 };
+
 

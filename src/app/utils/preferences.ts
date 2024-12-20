@@ -1,12 +1,8 @@
 import axios from 'axios';
-import { generateRandomUUID } from './UuidCreator';
+import {generateRandomUUID} from './UuidCreator'
 import { Preferences } from '../types/user-preferences';
 
-export const apiSubmitAnswers = async (
-  userId: string,
-  answers: Preferences,
-  token: string | null 
-) => {
+export const apiSubmitAnswers = async (userId: string, answers: Preferences) => {
   try {
     const preferences = {
       id: generateRandomUUID(),
@@ -18,12 +14,11 @@ export const apiSubmitAnswers = async (
       `http://menyou-svc-gw.darkube.app/api/v1/restaurants/${userId}/user_preferences`,
       preferences,
       {
-        headers: {
-          Authorization: `Bearer ${token}`, // Add token in the Authorization header
-        },
-        withCredentials: true,
+        withCredentials: true, // Ensures cookies are sent with the request
       }
     );
+
+    console.log('Preferences submitted successfully:', response.data);
 
     return response.data;
   } catch (error) {
@@ -31,3 +26,6 @@ export const apiSubmitAnswers = async (
     throw new Error('Failed to submit preferences: ' + err.message);
   }
 };
+
+
+

@@ -135,8 +135,7 @@ export const useQuestionnaire = (questions: QuestionsArray | null) => {
     try {
       if (userId) {
         setSurveyComplete(true);
-        const token = localStorage.getItem('access_token');
-        await apiSubmitAnswers(userId, { preferences: answers },token);
+        await apiSubmitAnswers(userId, { preferences: answers });
         window.location.href = '/Menu';
       }
     } catch (error) {
