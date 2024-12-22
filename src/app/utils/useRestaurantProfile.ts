@@ -13,7 +13,7 @@ export default function useRestaurantProfile(restaurantId:string | null) {
 
     const fetchRestaurantProfile = async () => {
       try {
-        const response = await axios.get(`http://menyou-svc-gw.darkube.app/api/v1/restaurants/43f89267-c674-4d70-8ead-60aabe2c7884/profile`);
+        const response = await axios.get(`http://menyou-svc-gw.darkube.app/api/v1/restaurants/${restaurantId}/profile`);
         
         setRestaurantData(response.data);
 
