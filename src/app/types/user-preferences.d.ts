@@ -2,8 +2,8 @@ export interface Preference {
   question: {
     id: string;
   };
-  answerValues: { id: string; answerValue: number; }[] | null; // Allow null
-  answerText: string | null; // Allow null for consistency
+  answerValues: { id: string; answerValue: number; }[] | null;
+  answerText: string | null;
   _id:string;
 }
 

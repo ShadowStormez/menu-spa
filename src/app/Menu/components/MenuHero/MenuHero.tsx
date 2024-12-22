@@ -9,16 +9,16 @@ import { RootState } from '@/app/store';
 import { getImageUrl } from '@/app/utils/getImageUrl';
 
 interface HeroProps {
-  backgroundImageUUID: string ;
-  logoUUID:string;
-  name:string;
+  backgroundImageUUID: string | undefined ;
+  logoUUID:string | undefined;
+  name:string | undefined;
 }
 
 const MenuHero: React.FC<HeroProps> = ({ backgroundImageUUID,logoUUID,name }) => {
 
   const backgroundImageUrl = getImageUrl(backgroundImageUUID);
   const logoUrl = getImageUrl(logoUUID);
-  const [firstWord, ...restWords] = name.split(' ');
+  const [firstWord, ...restWords] = name?.split(' ') || [];
 
       const [open, setOpen] = useState(false);
       const cartCount = useSelector((state: RootState) => state.cart.items.reduce((acc, item) => acc + item.number, 0));

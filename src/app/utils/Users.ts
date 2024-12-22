@@ -17,14 +17,13 @@ export const apiLogin = async (usernameOrMobile: string, password: string) => {
 
     const loginUrl = 'http://menyou-svc-gw.darkube.app/api/v1/auth/login';
     const response = await axios.post(loginUrl, loginUser, {
-      withCredentials: true, // Ensures cookies are sent and received
+      withCredentials: true,
     });
 
     const { id } = response.data.user;
 
     console.log('Login successful:', response.data);
-
-    // Return only the user ID as the token is handled via cookies
+    
     return { id };
   } catch (error) {
     const err = error as Error;

@@ -27,9 +27,9 @@ export default function Menu() {
   const { categoryRefs, tabListRef, activeCategory, isTabListFixed, handleTabClick } = useScrollManager(menuData ?? []);
 
 
-  if (!menuData || !menuItems || !restaurantData) {
-    return <LinearProgress/>;
-  }
+  // if (!menuData || !menuItems || !restaurantData) {
+  //   return <LinearProgress/>;
+  // }
 
   const categories = menuData?.map((menu) => menu?.category || 'default-category');
 

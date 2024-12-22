@@ -1,7 +1,6 @@
 'use client'
 import React, { useState,useRef,useEffect } from 'react';
 import { Box, Button, TextField, Slider, Typography, LinearProgress, CircularProgress, ThemeProvider,Modal } from '@mui/material';
-import twemoji from 'twemoji';
 import useAllQuestions from '../utils/getQuestions'; // Custom hook for fetching questions
 import SignUpModal from './components/SignUpModal'; // Sign-up modal component
 import LoginModal from './components/loginModal'; // Login modal component
@@ -16,24 +15,6 @@ const QuestionnairePage = () => {
   const [showLoginModal, setShowLoginModal] = useState(false);
   const { isLoggedIn } = useSelector((state: any) => state.auth);
   // const restaurantId = useSelector((state: RootState) => state.global.restaurantId);
-
-  const smileyRef = useRef(null);
-  const superSmileyRef = useRef(null);
-
-  useEffect(() => {
-    if (smileyRef.current) {
-      twemoji.parse(smileyRef.current, {
-        folder: 'svg',
-        ext: '.svg',
-      });
-    }
-    if (superSmileyRef.current) {
-      twemoji.parse(superSmileyRef.current, {
-        folder: 'svg',
-        ext: '.svg',
-      });
-    }
-  }, []);
 
   // Using the custom hook
   const {
@@ -76,7 +57,7 @@ const QuestionnairePage = () => {
           textAlign: 'center',
           background: '#fff'
         }}>
-          <Typography ref={smileyRef} variant="h6" align="center" sx={{ mb: 3 }}>سلام! ممنون می‌شیم چند دقیقه وقت با ارزش‌تو بزاری و به این سوال‌ها جواب بدی 😊&rlm;</Typography>
+          <Typography variant="h6" align="center" sx={{ mb: 3 }}>سلام! ممنون می‌شیم چند دقیقه وقت با ارزش‌تو بزاری و به این سوال‌ها جواب بدی 😊&rlm;</Typography>
           <Button
             variant="contained"
             onClick={handleStartQuestionnaire}
@@ -108,7 +89,7 @@ const QuestionnairePage = () => {
           }}>
             {surveyComplete ? (
               <Box sx={{ textAlign: 'center' }}>
-                <Typography  ref={superSmileyRef}  variant="h6" sx={{ mb: 3 }}>
+                <Typography variant="h6" sx={{ mb: 3 }}>
                   😃خیلی ممنون
                 </Typography>
                 <CircularProgress />

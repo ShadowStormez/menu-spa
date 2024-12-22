@@ -14,7 +14,7 @@ export const apiSubmitAnswers = async (userId: string, answers: Preferences) => 
       `http://menyou-svc-gw.darkube.app/api/v1/restaurants/${userId}/user_preferences`,
       preferences,
       {
-        withCredentials: true, // Ensures cookies are sent with the request
+        withCredentials: true,
       }
     );
 
