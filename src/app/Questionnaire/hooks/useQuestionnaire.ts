@@ -130,7 +130,6 @@ export const useQuestionnaire = (questions: QuestionsArray | null) => {
   };
 
   const submitAnswers = async () => {
-    window.location.href = '/Menu';
     if (!answers.length) return;
   
     try {
