@@ -36,6 +36,11 @@ export default function Menu() {
   return (
     <ThemeProvider theme={theme}>
       <MenuPageStyle>
+      {restaurantId ? (
+  <p>Debug: Restaurant ID - {restaurantId}</p>
+) : (
+  <p>Debug: Restaurant ID not found</p>
+)}
         <MenuHero logoUUID={restaurantData?.data.logoIds[1]} backgroundImageUUID={restaurantData?.data.logoIds[0]} name={restaurantData?.data.name} />
         <div ref={tabListRef}>
           <TabList
