@@ -18,28 +18,25 @@ import { LinearProgress } from '@mui/material';
 import useRestaurantProfile from '@/app/utils/useRestaurantProfile';
 
 function HomeSearch() {
-  const searchParams = useSearchParams();
-  const dispatch=useDispatch()
-  
   useEffect(() => {
-    const restaurantId = searchParams.get('restaurantId');
-    const tableId = searchParams.get('tableId');
-
+    const params = new URLSearchParams(window.location.search);
+    const restaurantId = params.get('restaurantId');
+    const tableId = params.get('tableId');
+  
     if (restaurantId) {
-      dispatch(setRestaurantId(restaurantId));
+      localStorage.setItem('restaurantId', restaurantId);
     }
-
     if (tableId) {
-      dispatch(setTableId(Number(tableId)));
+      localStorage.setItem('tableId', tableId);
     }
-  }, [searchParams, dispatch]);
+  }, []);
 
   return null;
 }
 
 export default function Home() {
   
-  const restaurantId = useSelector((state: RootState) => state.global.restaurantId);
+  const restaurantId = localStorage.getItem('restaurantId');
   const { restaurantData } = useRestaurantProfile(restaurantId); 
 
   return (

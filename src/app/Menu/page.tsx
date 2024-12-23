@@ -18,8 +18,8 @@ import useMenuItem from '@/app/utils/useMenuItem';
 
 
 export default function Menu() {
-  const restaurantId = useSelector((state: RootState) => state.global.restaurantId);
-  const tableId = useSelector((state: RootState) => state.global.tableId);
+  const restaurantId = localStorage.getItem('restaurantId');
+  const tableId = localStorage.getItem('tableId');
   const { restaurantData } = useRestaurantProfile(restaurantId); 
   const { menuData } = useAllMenus(restaurantId);
   const { menuItems } = useMenuItem(restaurantId);
@@ -36,11 +36,6 @@ export default function Menu() {
   return (
     <ThemeProvider theme={theme}>
       <MenuPageStyle>
-      {restaurantId ? (
-  <p>Debug: Restaurant ID - {restaurantId}</p>
-) : (
-  <p>Debug: Restaurant ID not found</p>
-)}
         <MenuHero logoUUID={restaurantData?.data.logoIds[1]} backgroundImageUUID={restaurantData?.data.logoIds[0]} name={restaurantData?.data.name} />
         <div ref={tabListRef}>
           <TabList

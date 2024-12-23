@@ -21,7 +21,7 @@ export default function MenuItemPage({ params }: { params: Promise<{ id: string 
   const { id } = React.use(params); // Access params.id after unwrapping
   const itemId = id; // Convert id to a number
   let TheeItem = null;
-  const restaurantId = useSelector((state: RootState) => state.global.restaurantId);
+  const restaurantId = localStorage.getItem('restaurantId');
   const { menuItems } = useMenuItem(restaurantId || '');
   const [open, setOpen] = useState(false);
   const cartCount = useSelector((state: RootState) => state.cart.items.reduce((acc, item) => acc + item.number, 0));
