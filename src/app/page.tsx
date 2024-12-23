@@ -17,7 +17,7 @@ import { LinearProgress } from '@mui/material';
 // utils
 import useRestaurantProfile from '@/app/utils/useRestaurantProfile';
 
-export function HomeSearch() {
+function HomeSearch() {
   const searchParams = useSearchParams();
   const dispatch=useDispatch()
   

@@ -16,11 +16,8 @@ import useRestaurantProfile from '@/app/utils/useRestaurantProfile';
 import useAllMenus from '@/app/utils/useAllMenus';
 import useMenuItem from '@/app/utils/useMenuItem';
 
-import HomeSearch from '../page'
-
 
 export default function Menu() {
-  HomeSearch();
   const restaurantId = useSelector((state: RootState) => state.global.restaurantId);
   const tableId = useSelector((state: RootState) => state.global.tableId);
   const { restaurantData } = useRestaurantProfile(restaurantId); 
@@ -30,9 +27,9 @@ export default function Menu() {
   const { categoryRefs, tabListRef, activeCategory, isTabListFixed, handleTabClick } = useScrollManager(menuData ?? []);
 
 
-  // if (!menuData || !menuItems || !restaurantData) {
-  //   return <LinearProgress/>;
-  // }
+  if (!menuData || !menuItems || !restaurantData) {
+    return <LinearProgress/>;
+  }
 
   const categories = menuData?.map((menu) => menu?.category || 'default-category');
 
