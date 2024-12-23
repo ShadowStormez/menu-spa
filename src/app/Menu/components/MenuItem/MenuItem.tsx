@@ -17,10 +17,10 @@ interface MenuItemProps {
   description: string;
   price: number;
   // category: string;
-  images:string[]
+  logoIds:string[]
 }
 
-const MenuItem: React.FC<MenuItemProps> = ({ name, description, price,id,images}) => {
+const MenuItem: React.FC<MenuItemProps> = ({ name, description, price,id,logoIds}) => {
   const dispatch = useDispatch();
   // Get number from Redux state
   const number = useSelector((state: RootState) =>
@@ -28,7 +28,7 @@ const MenuItem: React.FC<MenuItemProps> = ({ name, description, price,id,images}
   );
 
   const handleAddToCart = () => {
-    dispatch(addItem({ id, name, price,number,images })); // Add item to cart
+    dispatch(addItem({ id, name, price,number,logoIds })); // Add item to cart
     toast.success(`${name} به سفارش های شما اضافه شد`);
   };
 
