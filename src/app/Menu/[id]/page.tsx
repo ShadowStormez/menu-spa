@@ -15,14 +15,21 @@ import theme from "@/app/Theme/theme";
 import React, { useState } from "react";
 import CartModal from "../components/CartModal/CartModal";
 
-import useMenuItem from '@/app/utils/useMenuItem';
+//utils 
+import useAllmenus from '../../utils/useAllMenus'
+
+
 
 export default function MenuItemPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = React.use(params); // Access params.id after unwrapping
   const itemId = id; // Convert id to a number
   let TheeItem = null;
   const restaurantId = localStorage.getItem('restaurantId');
-  const { menuItems } = useMenuItem(restaurantId || '');
+  
+  //menu items extraction
+  const { menuData } = useAllmenus(restaurantId);
+  const allItems = menuData?.data.flatMap((menu) => menu.items);
+
   const [open, setOpen] = useState(false);
   const cartCount = useSelector((state: RootState) => state.cart.items.reduce((acc, item) => acc + item.number, 0));
 
@@ -33,8 +40,8 @@ export default function MenuItemPage({ params }: { params: Promise<{ id: string 
     state.cart.items.find((item) => item.id === itemId)?.number || 0
   );
 
-  menuItems?.forEach((menuItem) => {
-    const foundItem=menuItem.item.id === itemId
+  allItems?.forEach((Item) => {
+    const foundItem=Item._id === itemId
     if (foundItem) TheeItem=foundItem
 })
   

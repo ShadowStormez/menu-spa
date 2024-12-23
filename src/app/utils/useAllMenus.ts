@@ -3,7 +3,7 @@ import axios from 'axios';
 import { AllMenus } from '../types/all-menus'; // Global type for restaurant profile
 
 export default function useAllMenus(restaurantId: string | null ) {
-  const [menuData, setMenuData] = useState< AllMenus[] | null>(null);
+  const [menuData, setMenuData] = useState< AllMenus | null>(null);
 
   useEffect(() => {
     if (!restaurantId) return; // If no restaurantId, skip the request

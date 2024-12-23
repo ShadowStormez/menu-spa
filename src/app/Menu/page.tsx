@@ -8,13 +8,10 @@ import { ThemeProvider,LinearProgress } from '@mui/material';
 import theme from '../Theme/theme';
 import MenuItem from './components/MenuItem/MenuItem';
 
-import { useSelector } from 'react-redux';
-import { RootState } from '../store'; 
 
 // utils
 import useRestaurantProfile from '@/app/utils/useRestaurantProfile';
 import useAllMenus from '@/app/utils/useAllMenus';
-import useMenuItem from '@/app/utils/useMenuItem';
 
 
 export default function Menu() {
@@ -22,16 +19,16 @@ export default function Menu() {
   const tableId = localStorage.getItem('tableId');
   const { restaurantData } = useRestaurantProfile(restaurantId); 
   const { menuData } = useAllMenus(restaurantId);
-  const { menuItems } = useMenuItem(restaurantId);
+  
 
-  const { categoryRefs, tabListRef, activeCategory, isTabListFixed, handleTabClick } = useScrollManager(menuData ?? []);
+  const { categoryRefs, tabListRef, activeCategory, isTabListFixed, handleTabClick } = useScrollManager(menuData?.data ?? []);
 
 
-  // if (!menuData || !menuItems || !restaurantData) {
-  //   return <LinearProgress/>;
-  // }
+  if (!menuData  || !restaurantData) {
+    return <LinearProgress/>;
+  }
 
-  const categories = menuData?.map((menu) => menu?.category || 'default-category');
+  const categories = menuData?.data.map((menu) => menu?.category || 'default-category');
 
   return (
     <ThemeProvider theme={theme}>
@@ -48,9 +45,9 @@ export default function Menu() {
 
         {/* Menu Items */}
         <div className="menu-container">
-          {menuData?.map((menuData) => (
+          {menuData?.data.map((menuData) => (
             <div
-              key={menuData.id}
+              key={menuData._id}
               className="menu-category"
               ref={(el) => {
                 categoryRefs.current[menuData.category] = el;
@@ -58,14 +55,14 @@ export default function Menu() {
             >
               <h2>{menuData.category}</h2>
               <div className="menu-items">
-                {menuItems?.map((menuItem) => (
+                {menuData.items.map((menuItem) => (
                   <MenuItem
-                    key={menuItem.id}
-                    name={menuItem.item.name}
-                    description={menuItem.item.description}
-                    price={menuItem.item.price}
-                    id={menuItem.id}
-                    images={menuItem.item.logoIds}
+                    key={menuItem._id}
+                    name={menuItem.name}
+                    description={menuItem.description}
+                    price={menuItem.price}
+                    id={menuItem._id}
+                    images={menuItem.logoIds}
                   />
                 ))}
               </div>

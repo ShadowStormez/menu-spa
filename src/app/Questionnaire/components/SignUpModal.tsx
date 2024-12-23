@@ -29,7 +29,7 @@ const SignUpModal = ({
     if (!mobile.trim()) {
       newErrors.mobile = 'شماره همراه الزامی است';
     } else if (!/^09\d{9}$/.test(mobile)) {
-      newErrors.mobile = '';
+      newErrors.mobile = 'شماره همراه باید با ۰۹ شروع شود و ۱۱ رقم باشد';
     }
 
     if (!password.trim()) {
@@ -84,6 +84,14 @@ const SignUpModal = ({
           fullWidth
           error={!!errors.username}
           helperText={errors.username}
+          slotProps={{
+            formHelperText: {
+              sx: {
+                textAlign: 'right',
+                direction: 'rtl',
+              },
+            },
+          }}
         />
         <TextField
           label="شماره همراه"
@@ -92,6 +100,14 @@ const SignUpModal = ({
           fullWidth
           error={!!errors.mobile}
           helperText={errors.mobile}
+          slotProps={{
+            formHelperText: {
+              sx: {
+                textAlign: 'right',
+                direction: 'rtl',
+              },
+            },
+          }}
         />
         <TextField
           label="رمز عبور"
@@ -101,6 +117,14 @@ const SignUpModal = ({
           fullWidth
           error={!!errors.password}
           helperText={errors.password}
+          slotProps={{
+            formHelperText: {
+              sx: {
+                textAlign: 'right',
+                direction: 'rtl',
+              },
+            },
+          }}
         />
 
         <Button variant="contained" color="primary" onClick={handleSignUp}>

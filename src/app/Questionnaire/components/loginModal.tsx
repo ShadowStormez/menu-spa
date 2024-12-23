@@ -87,6 +87,14 @@ const LoginModal = ({
           fullWidth
           error={!!errors.usernameOrPhone}
           helperText={errors.usernameOrPhone}
+          slotProps={{
+            formHelperText: {
+              sx: {
+                textAlign: 'right',
+                direction: 'rtl',
+              },
+            },
+          }}
         />
 
         <TextField
@@ -97,6 +105,14 @@ const LoginModal = ({
           fullWidth
           error={!!errors.password}
           helperText={errors.password}
+          slotProps={{
+            formHelperText: {
+              sx: {
+                textAlign: 'right',
+                direction: 'rtl',
+              },
+            },
+          }}
         />
 
         <Button variant="contained" color="primary" onClick={handleLogin}>
