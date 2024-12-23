@@ -16,8 +16,11 @@ import useRestaurantProfile from '@/app/utils/useRestaurantProfile';
 import useAllMenus from '@/app/utils/useAllMenus';
 import useMenuItem from '@/app/utils/useMenuItem';
 
+import HomeSearch from '../page'
+
 
 export default function Menu() {
+  HomeSearch();
   const restaurantId = useSelector((state: RootState) => state.global.restaurantId);
   const tableId = useSelector((state: RootState) => state.global.tableId);
   const { restaurantData } = useRestaurantProfile(restaurantId); 
