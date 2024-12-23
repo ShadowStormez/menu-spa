@@ -1,7 +1,6 @@
 'use client';
-import { menu } from "../components/menuData";
 import Image from "next/image";
-import { Badge, Button, ButtonGroup, IconButton, ThemeProvider } from "@mui/material";
+import { Badge, Button, ButtonGroup, IconButton, ThemeProvider,LinearProgress } from "@mui/material";
 import { MenuItemIdStyle } from "./page.Style";
 import {  cartIcon, chilly, vegan, vegetarian } from "@/app/assets/icons";
 import { foodDefaultBG } from "@/app/assets/images";
@@ -23,12 +22,12 @@ import useAllmenus from '../../utils/useAllMenus'
 export default function MenuItemPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = React.use(params); // Access params.id after unwrapping
   const itemId = id; // Convert id to a number
-  let TheeItem = null;
   const restaurantId = localStorage.getItem('restaurantId');
   
   //menu items extraction
   const { menuData } = useAllmenus(restaurantId);
   const allItems = menuData?.data.flatMap((menu) => menu.items);
+  const TheeItem = allItems?.find((Item) => Item._id === itemId);
 
   const [open, setOpen] = useState(false);
   const cartCount = useSelector((state: RootState) => state.cart.items.reduce((acc, item) => acc + item.number, 0));
@@ -40,21 +39,17 @@ export default function MenuItemPage({ params }: { params: Promise<{ id: string 
     state.cart.items.find((item) => item.id === itemId)?.number || 0
   );
 
-  allItems?.forEach((Item) => {
-    const foundItem=Item._id === itemId
-    if (foundItem) TheeItem=foundItem
-})
   
   if(!TheeItem){
-    return(<div>محصولی یافت نشد</div>)
+    return(<LinearProgress/>)
   }
 
 
-  const { name, description, price, images } = TheeItem;
+  const { name, description, price, logoIds } = TheeItem;
 
   // Add to cart
   const handleAddToCart = () => {
-    dispatch(addItem({ id: itemId, name, price, images,number })); // Add item to cart
+    dispatch(addItem({ id: itemId, name, price, logoIds,number })); // Add item to cart
     toast.success(`${name} به سفارش های شما اضافه شد`);
   };
 

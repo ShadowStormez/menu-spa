@@ -53,7 +53,7 @@ export const MenuHeroStyle=styled.div`
   margin: 0;
 
   span{
-    color:green
+    color:var(--primary-color);
   }
 }
 
@@ -67,7 +67,7 @@ export const MenuHeroStyle=styled.div`
   animation: fadeIn 3s forwards;
 
   span{
-    color:green;
+    color:var(--secondary-color);
   }
 }
 

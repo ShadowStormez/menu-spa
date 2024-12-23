@@ -101,7 +101,7 @@ box-shadow: 9px 9px 25px -3px rgba(0,0,0,0.75);
     height: 50px;
 
     .number-container{
-    background-color:green;
+    background-color:var(--primary-color);
     border-radius:50%;
     width: 40px;
     height: 40px;

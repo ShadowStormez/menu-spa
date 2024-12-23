@@ -5,7 +5,7 @@ top:0;
 z-index:1000;
 width:100%;
 height:3rem;
-background: radial-gradient(circle at -1% 57.5%, rgb(19, 170, 82) 0%, rgb(0, 102, 43) 90%); 
+background: radial-gradient(circle at -1% 57.5%, #001A6E 0%, #074799 90%) no-repeat center center fixed;
 
 .header{
     width:100%;
