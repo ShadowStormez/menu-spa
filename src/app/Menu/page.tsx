@@ -62,7 +62,7 @@ export default function Menu() {
                     description={menuItem.description}
                     price={menuItem.price}
                     id={menuItem._id}
-                    images={menuItem.logoIds}
+                    logoIds={menuItem.logoIds}
                   />
                 ))}
               </div>
