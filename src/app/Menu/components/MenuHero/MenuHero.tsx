@@ -1,3 +1,4 @@
+'use client'
 import React, { useState } from 'react';
 import { MenuHeroStyle } from './MenuHero.Style';
 import Image from 'next/image';
@@ -23,8 +24,8 @@ const MenuHero: React.FC<HeroProps> = ({ backgroundImageUUID,logoUUID,name }) =>
       const [open, setOpen] = useState(false);
       const cartCount = useSelector((state: RootState) => state.cart.items.reduce((acc, item) => acc + item.number, 0));
       const { isLoggedIn } = useSelector((state: any) => state.auth);
-      // const { userName } = useSelector((state: any) => state.auth); // Access global state from Redux
-      const userName = localStorage.getItem('userName');
+      const { userName } = useSelector((state: any) => state.auth); // Access global state from Redux
+      // const userName = localStorage.getItem('userName');
 
   return (
     <MenuHeroStyle>

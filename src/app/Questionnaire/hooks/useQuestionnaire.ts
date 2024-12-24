@@ -110,8 +110,8 @@ export const useQuestionnaire = (questions: QuestionsArray | null) => {
       const newUser = await apiSignUp(username, mobile, password);
       const loginUser = await apiLogin(mobile, password);
       dispatch(setUserId(newUser.id)); // Dispatch user ID to global state
-      // dispatch(setUserName(newUser.username));
-      localStorage.setItem('userName',newUser.username);
+      dispatch(setUserName(newUser.username));
+      // localStorage.setItem('userName',newUser.username);
       dispatch(setIsLoggedIn(true)); // Set isLoggedIn to true
       toast.success('حساب کاربری شما با موفقیت ساخته شد');
       setOpenQuestionnaire(true);
@@ -127,8 +127,8 @@ export const useQuestionnaire = (questions: QuestionsArray | null) => {
       // Calling apiLogin and extracting the loginUser object, which contains the 'id'
       const loginUser = await apiLogin(usernameOrPhone, password);
       dispatch(setUserId(loginUser.id)); // Dispatch user ID to global state
-      // dispatch(setUserName(loginUser.loginUser.usernameOrMobile));
-      localStorage.setItem('userName',loginUser.loginUser.usernameOrMobile);
+      dispatch(setUserName(loginUser.loginUser.usernameOrMobile));
+      // localStorage.setItem('userName',loginUser.loginUser.usernameOrMobile);
       dispatch(setIsLoggedIn(true)); // Set isLoggedIn to true
       toast.success('وارد شدید');
       setOpenQuestionnaire(true);
