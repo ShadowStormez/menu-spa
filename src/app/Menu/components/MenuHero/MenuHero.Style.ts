@@ -1,7 +1,7 @@
 import styled from "@emotion/styled"
 export const MenuHeroStyle=styled.div`
 .header{
-  direction: rtl;
+  direction: ltr;
   position: absolute;
     top: 0;
     left: 0;
@@ -24,6 +24,8 @@ export const MenuHeroStyle=styled.div`
       direction:rtl;
       background-color:var(--primary-color);
       border-radius:50px;
+      color:white;
+      padding:10px;
     }
 }
 .hero-container {
