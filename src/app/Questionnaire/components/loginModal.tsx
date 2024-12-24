@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
-import { Modal, Box, TextField, Button, Typography } from '@mui/material';
+import { Modal, Box, TextField, Button, Typography,InputAdornment,IconButton } from '@mui/material';
+import { Visibility, VisibilityOff } from '@mui/icons-material';
+
 
 const LoginModal = ({
   open,
@@ -14,7 +16,12 @@ const LoginModal = ({
 }) => {
   const [usernameOrPhone, setUsernameOrPhone] = useState('');
   const [password, setPassword] = useState('');
+  const [showPassword, setShowPassword] = useState(false);
   const [errors, setErrors] = useState<{ usernameOrPhone?: string; password?: string }>({});
+
+  const handleTogglePasswordVisibility = () => {
+    setShowPassword(!showPassword);
+  };
 
   const validate = () => {
     const newErrors: { usernameOrPhone?: string; password?: string } = {};
@@ -106,7 +113,18 @@ const LoginModal = ({
           error={!!errors.password}
           helperText={errors.password}
           slotProps={{
-            formHelperText: {
+            input: {
+              endAdornment: (
+                <InputAdornment position="end">
+                  <IconButton
+                    aria-label="toggle password visibility"
+                    onClick={handleTogglePasswordVisibility}
+                    edge="end"
+                  >
+                    {showPassword ? <VisibilityOff /> : <Visibility />}
+                  </IconButton>
+                </InputAdornment>
+              ),
               sx: {
                 textAlign: 'right',
                 direction: 'rtl',

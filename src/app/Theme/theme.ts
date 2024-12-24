@@ -3,7 +3,8 @@ import { createTheme } from '@mui/material/styles';
 declare module '@mui/material/Button' {
   interface ButtonPropsVariantOverrides {
     incrementDecrement: true;
-    cart:true; // Add your custom variant
+    cart:true;
+    skip:true;
   }
 }
 
@@ -138,6 +139,14 @@ const theme = createTheme({
         }
       },
       variants: [
+        {
+          props: { variant: 'skip' }, 
+          style: {
+            backgroundColor: "transparent",
+            color:"var(--primary-color)",
+            border:"2px solid var(--primary-color)"
+          },
+        },
         {
           props: { variant: 'incrementDecrement' }, 
           style: {

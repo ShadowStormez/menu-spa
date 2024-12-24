@@ -21,6 +21,7 @@ const QuestionnairePage = () => {
     currentQuestionIndex,
     answers,
     handleNextQuestion,
+    handlePrevQuestion,
     handleInputChange,
     handleChoice,
     handleSliderChange,
@@ -42,6 +43,10 @@ const QuestionnairePage = () => {
     } 
   };
 
+  const handleNoQuestionnaire=() => {
+    window.location.href = '/Menu';
+  }
+
   return (
     <ThemeProvider theme={theme}>
       <Box sx={{ padding: 3 }}>
@@ -57,12 +62,18 @@ const QuestionnairePage = () => {
           textAlign: 'center',
           background: '#fff'
         }}>
-          <Typography variant="h6" align="center" sx={{ mb: 3 }}>سلام! ممنون می‌شیم چند دقیقه وقت با ارزش‌تو بزاری و به این سوال‌ها جواب بدی 😊&rlm;</Typography>
+          <Typography variant="h6" align="center" sx={{ mb: 3 }}>سلام! ممنون می‌شیم چند دقیقه وقت باارزشتو بزاری و به این سوال‌ها جواب بدی 😊&rlm;</Typography>
           <Button
             variant="contained"
             onClick={handleStartQuestionnaire}
           >
             برای شروع کلیک کن
+          </Button>
+          <Button
+            variant="skip"
+            onClick={handleNoQuestionnaire}
+          >
+            نه ممنون
           </Button>
         </Box>
 
@@ -90,7 +101,7 @@ const QuestionnairePage = () => {
             {surveyComplete ? (
               <Box sx={{ textAlign: 'center' }}>
                 <Typography variant="h6" sx={{ mb: 3 }}>
-                  😃خیلی ممنون
+                  😃بسی متشکریم
                 </Typography>
                 <CircularProgress />
               </Box>
@@ -160,12 +171,22 @@ const QuestionnairePage = () => {
     )}
   </Box>
 )}
-<Button
+<Box sx={{display:'flex',flexDirection:'row',alignItems:'center',justifyContent:'center',gap:'10px'}}>
+{currentQuestionIndex > 0 && (
+  <Button
+    sx={{ mt: 3, alignSelf: 'center' }}
+    onClick={handlePrevQuestion}
+  >
+    قبلی
+  </Button>
+)}
+  <Button
   sx={{ mt: 3, alignSelf: 'center' }}
   onClick={handleNextQuestion}
->
+  >
   {currentQuestionIndex === (questions?.data?.length ?? 0) - 1 ? 'ثبت' : 'بعدی'}
-</Button>
+  </Button>
+</Box>
 
               </>
             )}

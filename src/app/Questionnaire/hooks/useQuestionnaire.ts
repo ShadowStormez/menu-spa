@@ -25,6 +25,11 @@ export const useQuestionnaire = (questions: QuestionsArray | null) => {
       submitAnswers();
     }
   };
+  const handlePrevQuestion = () => {
+    if (currentQuestionIndex > 0) {
+      setCurrentQuestionIndex(prevIndex => prevIndex - 1);
+    }
+  };
 
   const handleInputChange = (value: string, questionId: string) => {
     setAnswers((prevAnswers) => {
@@ -147,6 +152,7 @@ export const useQuestionnaire = (questions: QuestionsArray | null) => {
     currentQuestionIndex,
     answers,
     handleNextQuestion,
+    handlePrevQuestion,
     handleInputChange,
     handleChoice,
     handleSliderChange, 

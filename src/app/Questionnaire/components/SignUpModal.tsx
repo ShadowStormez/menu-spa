@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { Modal, Box, TextField, Button, Typography, Alert } from '@mui/material';
+import { Modal, Box, TextField, Button, Typography,InputAdornment,IconButton } from '@mui/material';
+import { Visibility, VisibilityOff } from '@mui/icons-material';
 
 const SignUpModal = ({
   open,
@@ -15,7 +16,12 @@ const SignUpModal = ({
   const [username, setUsername] = useState('');
   const [mobile, setMobile] = useState('');
   const [password, setPassword] = useState('');
+  const [showPassword, setShowPassword] = useState(false);
   const [errors, setErrors] = useState<{ username?: string; mobile?: string; password?: string }>({});
+
+  const handleTogglePasswordVisibility = () => {
+    setShowPassword(!showPassword);
+  };
 
   const validate = () => {
     const newErrors: { username?: string; mobile?: string; password?: string } = {};
@@ -84,6 +90,7 @@ const SignUpModal = ({
           fullWidth
           error={!!errors.username}
           helperText={errors.username}
+          placeholder="مثال: Ahoora"
           slotProps={{
             formHelperText: {
               sx: {
@@ -100,6 +107,7 @@ const SignUpModal = ({
           fullWidth
           error={!!errors.mobile}
           helperText={errors.mobile}
+          placeholder="مثال : 09121234567"
           slotProps={{
             formHelperText: {
               sx: {
@@ -109,16 +117,28 @@ const SignUpModal = ({
             },
           }}
         />
-        <TextField
+          <TextField
           label="رمز عبور"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
-          type="password"
+          type={showPassword ? 'text' : 'password'}
           fullWidth
           error={!!errors.password}
           helperText={errors.password}
+          placeholder="مثال : Ahoora1382"
           slotProps={{
-            formHelperText: {
+            input: {
+              endAdornment: (
+                <InputAdornment position="end">
+                  <IconButton
+                    aria-label="toggle password visibility"
+                    onClick={handleTogglePasswordVisibility}
+                    edge="end"
+                  >
+                    {showPassword ? <VisibilityOff /> : <Visibility />}
+                  </IconButton>
+                </InputAdornment>
+              ),
               sx: {
                 textAlign: 'right',
                 direction: 'rtl',
