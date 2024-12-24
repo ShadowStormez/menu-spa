@@ -1,24 +1,24 @@
-'use client'
-import './globals.css'; // Import global CSS (assuming you have your fonts defined here)
+'use client';
+import './globals.css'; // Import global CSS
 import { Provider } from 'react-redux';
-import { PersistGate } from 'redux-persist/integration/react';
-import store, { persistor } from './store';
+import store from './store';
 import { Toaster } from 'react-hot-toast';
 
- const Layout = ({ children }: { children: React.ReactNode }) => {
+const Layout = ({ children }: { children: React.ReactNode }) => {
   return (
-    <Provider store={store}>
-      <PersistGate loading={null} persistor={persistor}>
-      <html lang="fa">
-        <body>
-          <main>
+    <html lang="fa">
+      <head>
+        <title>menyou-spa</title> {/* Add a title for better SEO */}
+        {/* You can add more meta tags here */}
+      </head>
+      <body>
+        <Provider store={store}>
           <Toaster position="top-center" />
-          {children} 
-          </main>
-        </body>
-      </html>
-      </PersistGate>
-    </Provider>
+          <main>{children}</main> {/* Wrap children in main for semantic HTML */}
+        </Provider>
+      </body>
+    </html>
   );
 }
+
 export default Layout;

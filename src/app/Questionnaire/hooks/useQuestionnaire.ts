@@ -1,3 +1,4 @@
+'use client';
 import { useState } from 'react';
 import { apiSignUp, apiLogin } from '../../utils/Users';
 import { apiSubmitAnswers } from '../../utils/preferences';
