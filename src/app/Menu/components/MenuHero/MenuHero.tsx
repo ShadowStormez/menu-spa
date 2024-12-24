@@ -35,15 +35,15 @@ const MenuHero: React.FC<HeroProps> = ({ backgroundImageUUID,logoUUID,name }) =>
           <Image src={cartIcon} alt='cart-icon' width={20} height={20}/>
         </Badge>
       </IconButton>
+      <CartModal open={open} onClose={() => setOpen(false)} />
       {isLoggedIn ? (
           <div className='user'>
             <Image src={userIcon} alt='user-icon' width={20} height={20}/>
             <span>{userName}</span>
           </div>
       ) : (
-        <p>daste khar</p>
+        null
       )}
-      <CartModal open={open} onClose={() => setOpen(false)} />
     </div>
     <div
         className="background-layer"
