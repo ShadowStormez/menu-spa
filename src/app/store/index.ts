@@ -3,12 +3,21 @@ import categoryReducer from './categorySlice';
 import cartReducer from './cartSlice';
 import globalReducer from './globalSlice';
 import authReducer from './authSlice';
+import { persistStore, persistReducer } from 'redux-persist';
+import storage from 'redux-persist/lib/storage'; // defaults to localStorage
 
-// Create a root reducer without persist configuration
+const persistConfig = {
+    key: 'root',
+    storage,
+    whitelist: ['global'],
+  };
+
+  const persistedReducer = persistReducer(persistConfig, globalReducer);
+
 const rootReducer = {
     category: categoryReducer,
     cart: cartReducer,
-    global: globalReducer,
+    global: persistedReducer,
     auth: authReducer,
 };
 
@@ -18,7 +27,7 @@ const store = configureStore({
     devTools: process.env.NODE_ENV !== 'production', // Enable Redux DevTools in development mode
 });
 
-// Export the store
+export const persistor = persistStore(store);
 export default store;
 export type RootState = ReturnType<typeof store.getState>;
 export type AppDispatch = typeof store.dispatch;
