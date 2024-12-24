@@ -3,12 +3,14 @@ import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from '@/app/store/index';
 import { incrementNumber, decrementNumber, clearCart } from '@/app/store/cartSlice';
 import { Button, Dialog, DialogTitle, DialogContent, DialogActions, List, ListItem, ListItemText, TextField} from '@mui/material';
-import { useMediaQuery } from '@mui/material';
+import { useMediaQuery,Box } from '@mui/material';
 import { CartModalStyle } from './CartModal.Style';
 import Image from 'next/image';
 import { foodDefaultBG } from '@/app/assets/images';
 import {generateRandomUUID} from '../../../utils/UuidCreator'
 import { createOrder } from '../../../utils/createOrder'
+import { EmptyCart } from '@/app/assets/icons';
+import toast from 'react-hot-toast';
 
 const CartModal: React.FC<{ open: boolean; onClose: () => void }> = ({ open, onClose }) => {
 
@@ -47,6 +49,7 @@ const CartModal: React.FC<{ open: boolean; onClose: () => void }> = ({ open, onC
       await createOrder(order);
       dispatch(clearCart());
       onClose();
+      toast.success('سفارش شما ثبت شد')
     } catch (error) {
       console.error('Error during checkout:', error);
     }
@@ -66,43 +69,50 @@ const CartModal: React.FC<{ open: boolean; onClose: () => void }> = ({ open, onC
          '&::-webkit-scrollbar': {
            display: 'none', // Hides scrollbar in WebKit browsers (Chrome/Safari)
          },}}>
-          <List sx={{display: 'flex',flexDirection:'column',gap:'10px'}}>
-            {cart.map(item => (
-              <ListItem key={item.id} style={{ display: 'flex', alignItems: 'center', boxShadow: '0px 4px 8px rgba(0, 0, 0, 0.1)',borderRadius:'8px',background:'#fff' }}>
-                {/* Display item image */}
-                <div style={{
-                display: 'flex',
-                alignItems: isSmallScreen ? 'flex-start' : 'center',
-                flexDirection: isSmallScreen ? 'column' : 'row',
-                gap: '10px',
-                justifyContent: 'flex-start',
-              }}>
-                <Image  
-                  src={foodDefaultBG} 
-                  alt={item.name}
-                  width={100}
-                  height={100}
-                  objectFit="cover"
-                  style={{ borderRadius: '8px' }}
-                />
-                <ListItemText
-                style={{textAlign:'right'}}
-                  primary={item.name}
-                  secondary={`تعداد: ${item.number} | قیمت: ${item.price * item.number} تومان`}
-                />
-                </div>
-                <div style={{display:'flex',
-                    flexDirection: 'row',
-                    justifyContent:'space-between',
-                    alignItems: 'center',
-                    gap:'10px'}}>
-                <Button variant='cart' onClick={() => dispatch(incrementNumber(item.id))}>+</Button>
-                <Button variant='cart' onClick={() => dispatch(decrementNumber(item.id))}>-</Button>
-                </div>
-        
-              </ListItem>
-            ))}
-          </List>
+          {cart.length > 0 ? (
+                      <List sx={{display: 'flex',flexDirection:'column',gap:'10px'}}>
+                      {cart.map(item => (
+                        <ListItem key={item.id} style={{ display: 'flex', alignItems: 'center', boxShadow: '0px 4px 8px rgba(0, 0, 0, 0.1)',borderRadius:'8px',background:'#fff' }}>
+                          {/* Display item image */}
+                          <div style={{
+                          display: 'flex',
+                          alignItems: isSmallScreen ? 'flex-start' : 'center',
+                          flexDirection: isSmallScreen ? 'column' : 'row',
+                          gap: '10px',
+                          justifyContent: 'flex-start',
+                        }}>
+                          <Image  
+                            src={foodDefaultBG} 
+                            alt={item.name}
+                            width={100}
+                            height={100}
+                            objectFit="cover"
+                            style={{ borderRadius: '8px' }}
+                          />
+                          <ListItemText
+                          style={{textAlign:'right'}}
+                            primary={item.name}
+                            secondary={`تعداد: ${item.number} | قیمت: ${item.price * item.number} تومان`}
+                          />
+                          </div>
+                          <div style={{display:'flex',
+                              flexDirection: 'row',
+                              justifyContent:'space-between',
+                              alignItems: 'center',
+                              gap:'10px'}}>
+                          <Button variant='cart' onClick={() => dispatch(incrementNumber(item.id))}>+</Button>
+                          <Button variant='cart' onClick={() => dispatch(decrementNumber(item.id))}>-</Button>
+                          </div>
+                  
+                        </ListItem>
+                      ))}
+                    </List>
+          ) : (
+            <Box sx={{display:'flex',flexDirection:'column',justifyContent:'center',alignItems:'center',gap:'5px'}}>
+              <Image src={EmptyCart} width={150} height={150} alt='empty-cart-icon'/>
+              <h2>سفارشی ندارید</h2>
+            </Box>
+          )}
 
           {/* Conditionally render the description input only if cart is not empty */}
           {cart.length > 0 && (

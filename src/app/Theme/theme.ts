@@ -1,3 +1,4 @@
+import { BorderColor } from '@mui/icons-material';
 import { createTheme } from '@mui/material/styles';
 
 declare module '@mui/material/Button' {
@@ -133,6 +134,7 @@ const theme = createTheme({
           borderRadius: "8px",
           padding: "10px 20px",
           transition: "all 0.3s ease",
+          border:"2px solid transparent",
           "&:hover": {
             backgroundColor: "var(--secondary-color)"
           }
@@ -144,7 +146,11 @@ const theme = createTheme({
           style: {
             backgroundColor: "transparent",
             color:"var(--primary-color)",
-            border:"2px solid var(--primary-color)"
+            border:"2px solid var(--primary-color)",
+            "&:hover": {
+              color: "white",
+              BorderColor:"white"
+            }
           },
         },
         {

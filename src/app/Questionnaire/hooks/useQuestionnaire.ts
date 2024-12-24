@@ -108,6 +108,7 @@ export const useQuestionnaire = (questions: QuestionsArray | null) => {
   const handleSignUp = async (username: string, mobile: string, password: string) => {
     try {
       const newUser = await apiSignUp(username, mobile, password);
+      const loginUser = await apiLogin(mobile, password);
       dispatch(setUserId(newUser.id)); // Dispatch user ID to global state
       dispatch(setIsLoggedIn(true)); // Set isLoggedIn to true
       toast.success('حساب کاربری شما با موفقیت ساخته شد');
