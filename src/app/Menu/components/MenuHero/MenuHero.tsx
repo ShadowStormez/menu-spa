@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { MenuHeroStyle } from './MenuHero.Style';
 import Image from 'next/image';
 import { Badge, IconButton } from '@mui/material';
-import { cartIcon } from '@/app/assets/icons';
+import { cartIcon, userIcon } from '@/app/assets/icons';
 import CartModal from '../CartModal/CartModal';
 import { useSelector } from 'react-redux';
 import { RootState } from '@/app/store';
@@ -22,7 +22,8 @@ const MenuHero: React.FC<HeroProps> = ({ backgroundImageUUID,logoUUID,name }) =>
 
       const [open, setOpen] = useState(false);
       const cartCount = useSelector((state: RootState) => state.cart.items.reduce((acc, item) => acc + item.number, 0));
-    
+      const { isLoggedIn } = useSelector((state: any) => state.auth);
+      const { userName } = useSelector((state: any) => state.auth); // Access global state from Redux
 
   return (
     <MenuHeroStyle>
@@ -33,6 +34,14 @@ const MenuHero: React.FC<HeroProps> = ({ backgroundImageUUID,logoUUID,name }) =>
           <Image src={cartIcon} alt='cart-icon' width={20} height={20}/>
         </Badge>
       </IconButton>
+      {isLoggedIn ? (
+          <div className='user'>
+            <Image src={userIcon} alt='user-icon' width={20} height={20}/>
+            <span>{userName}</span>
+          </div>
+      ) : (
+        null
+      )}
       <CartModal open={open} onClose={() => setOpen(false)} />
     </div>
     <div

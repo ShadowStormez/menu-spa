@@ -8,12 +8,22 @@ export const MenuHeroStyle=styled.div`
     width: 100%;
     z-index: 1000;
     display: flex;
-    justify-content: flex-end;
+    justify-content: space-between;
     padding: 10px;
     background:transparent;
     
     .MuiBadge-badge{
       background-color:var(--secondary-color);
+    }
+    .user{
+      display:flex;
+      flex-direction:row;
+      justify-content:center;
+      align-items:center;
+      gap:5px;
+      direction:rtl;
+      background-color:var(--primary-color);
+      border-radius:50px;
     }
 }
 .hero-container {

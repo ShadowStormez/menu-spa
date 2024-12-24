@@ -10,6 +10,8 @@ export {default as appetizer} from './grissini.png'
 export {default as dessert} from './panna-cotta.png'
 export {default as beverages} from './soda.png'
 export {default as EmptyCart} from './empty-cart.png'
+export {default as userIcon} from './user.png'
+
 
 
 

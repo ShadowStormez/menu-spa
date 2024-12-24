@@ -24,7 +24,7 @@ export const apiLogin = async (usernameOrMobile: string, password: string) => {
 
     console.log('Login successful:', response.data);
     
-    return { id };
+    return { id,loginUser };
   } catch (error) {
     const err = error as Error;
     throw new Error('Login failed: ' + err.message);

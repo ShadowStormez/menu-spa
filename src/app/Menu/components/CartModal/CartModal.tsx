@@ -110,7 +110,7 @@ const CartModal: React.FC<{ open: boolean; onClose: () => void }> = ({ open, onC
           ) : (
             <Box sx={{display:'flex',flexDirection:'column',justifyContent:'center',alignItems:'center',gap:'5px'}}>
               <Image src={EmptyCart} width={150} height={150} alt='empty-cart-icon'/>
-              <h2>سفارشی ندارید</h2>
+              <h2 style={{fontSize:'20px'}}>سفارشی ندارید😔</h2>
             </Box>
           )}
 

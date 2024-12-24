@@ -4,7 +4,7 @@ import { apiSubmitAnswers } from '../../utils/preferences';
 import toast from 'react-hot-toast';
 import { QuestionsArray } from '@/app/types/Questions';
 import { useDispatch, useSelector } from 'react-redux';
-import { setUserId, setIsLoggedIn } from '../../store/authSlice'; // Import redux actions
+import { setUserId, setIsLoggedIn, setUserName } from '../../store/authSlice'; // Import redux actions
 import { Preference, Preferences } from '../../types/user-preferences';
 import { generateRandomUUID } from '@/app/utils/UuidCreator';
 
@@ -110,6 +110,7 @@ export const useQuestionnaire = (questions: QuestionsArray | null) => {
       const newUser = await apiSignUp(username, mobile, password);
       const loginUser = await apiLogin(mobile, password);
       dispatch(setUserId(newUser.id)); // Dispatch user ID to global state
+      dispatch(setUserName(newUser.username));
       dispatch(setIsLoggedIn(true)); // Set isLoggedIn to true
       toast.success('حساب کاربری شما با موفقیت ساخته شد');
       setOpenQuestionnaire(true);
@@ -125,6 +126,7 @@ export const useQuestionnaire = (questions: QuestionsArray | null) => {
       // Calling apiLogin and extracting the loginUser object, which contains the 'id'
       const loginUser = await apiLogin(usernameOrPhone, password);
       dispatch(setUserId(loginUser.id)); // Dispatch user ID to global state
+      dispatch(setUserName(loginUser.loginUser.usernameOrMobile));
       dispatch(setIsLoggedIn(true)); // Set isLoggedIn to true
       toast.success('وارد شدید');
       setOpenQuestionnaire(true);
