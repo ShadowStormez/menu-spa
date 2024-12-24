@@ -9,11 +9,14 @@ import { useSelector } from 'react-redux';
 import { RootState } from '../store'; 
 import theme from '../Theme/theme';
 
+import { useRouter } from 'next/router';
+
 const QuestionnairePage = () => {
   const { questions, loading, error } = useAllQuestions(); // Fetch all questions
   const [showSignUpModal, setShowSignUpModal] = useState(false);
   const [showLoginModal, setShowLoginModal] = useState(false);
   const { isLoggedIn } = useSelector((state: any) => state.auth);
+  const router = useRouter();
   // const restaurantId = useSelector((state: RootState) => state.global.restaurantId);
 
   // Using the custom hook
@@ -44,7 +47,7 @@ const QuestionnairePage = () => {
   };
 
   const handleNoQuestionnaire=() => {
-    window.location.href = '/Menu';
+    router.push('/Menu');
   }
 
   return (

@@ -1,6 +1,6 @@
 'use client';
 
-import { useSearchParams } from 'next/navigation';
+// import { useSearchParams } from 'next/navigation';
 import { Suspense } from 'react'; // Import Suspense
 import React, { useEffect } from 'react';
 import Hero from "./components/Hero/Hero";
@@ -18,25 +18,25 @@ import { LinearProgress } from '@mui/material';
 import useRestaurantProfile from '@/app/utils/useRestaurantProfile';
 
 function HomeSearch() {
+  const dispatch = useDispatch();
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
     const restaurantId = params.get('restaurantId');
     const tableId = params.get('tableId');
   
     if (restaurantId) {
-      localStorage.setItem('restaurantId', restaurantId);
+      dispatch(setRestaurantId(restaurantId));
     }
     if (tableId) {
-      localStorage.setItem('tableId', tableId);
+      dispatch(setTableId(Number(tableId)));
     }
-  }, []);
+  }, [dispatch]);
 
   return null;
 }
 
 export default function Home() {
-  
-  const restaurantId = localStorage.getItem('restaurantId');
+  const restaurantId = useSelector((state: RootState) => state.global.restaurantId);
   const { restaurantData } = useRestaurantProfile(restaurantId); 
 
   return (

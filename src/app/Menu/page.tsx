@@ -12,11 +12,13 @@ import MenuItem from './components/MenuItem/MenuItem';
 // utils
 import useRestaurantProfile from '@/app/utils/useRestaurantProfile';
 import useAllMenus from '@/app/utils/useAllMenus';
+import { useSelector } from 'react-redux';
+import { RootState } from '../store';
 
 
 export default function Menu() {
-  const restaurantId = localStorage.getItem('restaurantId');
-  const tableId = localStorage.getItem('tableId');
+  const restaurantId = useSelector((state: RootState) => state.global.restaurantId);
+  const tableId = useSelector((state: RootState) => state.global.tableId);
   const { restaurantData } = useRestaurantProfile(restaurantId); 
   const { menuData } = useAllMenus(restaurantId);
   

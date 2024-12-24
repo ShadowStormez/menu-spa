@@ -22,7 +22,7 @@ import useAllmenus from '../../utils/useAllMenus'
 export default function MenuItemPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = React.use(params); // Access params.id after unwrapping
   const itemId = id; // Convert id to a number
-  const restaurantId = localStorage.getItem('restaurantId');
+  const restaurantId = useSelector((state: RootState) => state.global.restaurantId);
   
   //menu items extraction
   const { menuData } = useAllmenus(restaurantId);

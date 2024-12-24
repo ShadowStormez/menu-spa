@@ -7,6 +7,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { setUserId, setIsLoggedIn, setUserName } from '../../store/authSlice'; // Import redux actions
 import { Preference, Preferences } from '../../types/user-preferences';
 import { generateRandomUUID } from '@/app/utils/UuidCreator';
+import { useRouter } from 'next/router';
+
 
 // Custom hook for handling the questionnaire
 export const useQuestionnaire = (questions: QuestionsArray | null) => {
@@ -17,7 +19,7 @@ export const useQuestionnaire = (questions: QuestionsArray | null) => {
   const [answers, setAnswers] = useState<Preference[]>([]);
   const [surveyComplete,setSurveyComplete] = useState(false);
   const [openQuestionnaire,setOpenQuestionnaire]=useState(false);
-
+  const router = useRouter();
   const handleNextQuestion = () => {
     if (currentQuestionIndex < (questions?.data?.length ?? 0) - 1) {
       setCurrentQuestionIndex(prevIndex => prevIndex + 1);
@@ -111,7 +113,6 @@ export const useQuestionnaire = (questions: QuestionsArray | null) => {
       const loginUser = await apiLogin(mobile, password);
       dispatch(setUserId(newUser.id)); // Dispatch user ID to global state
       dispatch(setUserName(newUser.username));
-      // localStorage.setItem('userName',newUser.username);
       dispatch(setIsLoggedIn(true)); // Set isLoggedIn to true
       toast.success('حساب کاربری شما با موفقیت ساخته شد');
       setOpenQuestionnaire(true);
@@ -128,7 +129,6 @@ export const useQuestionnaire = (questions: QuestionsArray | null) => {
       const loginUser = await apiLogin(usernameOrPhone, password);
       dispatch(setUserId(loginUser.id)); // Dispatch user ID to global state
       dispatch(setUserName(loginUser.loginUser.usernameOrMobile));
-      // localStorage.setItem('userName',loginUser.loginUser.usernameOrMobile);
       dispatch(setIsLoggedIn(true)); // Set isLoggedIn to true
       toast.success('وارد شدید');
       setOpenQuestionnaire(true);
@@ -146,7 +146,7 @@ export const useQuestionnaire = (questions: QuestionsArray | null) => {
       if (userId) {
         setSurveyComplete(true);
         await apiSubmitAnswers(userId, { preferences: answers });
-        window.location.href = '/Menu';
+         router.push('/Menu');
       }
     } catch (error) {
       console.log(error);
