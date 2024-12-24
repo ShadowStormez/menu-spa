@@ -9,7 +9,7 @@ import { useSelector } from 'react-redux';
 import { RootState } from '../store'; 
 import theme from '../Theme/theme';
 
-import { useRouter } from 'next/router';
+import { useRouter } from 'next/navigation';
 
 const QuestionnairePage = () => {
   const { questions, loading, error } = useAllQuestions(); // Fetch all questions
@@ -17,7 +17,7 @@ const QuestionnairePage = () => {
   const [showLoginModal, setShowLoginModal] = useState(false);
   const { isLoggedIn } = useSelector((state: any) => state.auth);
   const router = useRouter();
-  // const restaurantId = useSelector((state: RootState) => state.global.restaurantId);
+  const restaurantId = useSelector((state: RootState) => state.global.restaurantId);
 
   // Using the custom hook
   const {

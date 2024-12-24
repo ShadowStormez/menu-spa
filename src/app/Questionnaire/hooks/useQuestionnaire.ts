@@ -7,7 +7,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { setUserId, setIsLoggedIn, setUserName } from '../../store/authSlice'; // Import redux actions
 import { Preference, Preferences } from '../../types/user-preferences';
 import { generateRandomUUID } from '@/app/utils/UuidCreator';
-import { useRouter } from 'next/router';
+import { useRouter } from 'next/navigation';
 
 
 // Custom hook for handling the questionnaire
