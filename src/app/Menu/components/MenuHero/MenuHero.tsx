@@ -23,7 +23,8 @@ const MenuHero: React.FC<HeroProps> = ({ backgroundImageUUID,logoUUID,name }) =>
       const [open, setOpen] = useState(false);
       const cartCount = useSelector((state: RootState) => state.cart.items.reduce((acc, item) => acc + item.number, 0));
       const { isLoggedIn } = useSelector((state: any) => state.auth);
-      const { userName } = useSelector((state: any) => state.auth); // Access global state from Redux
+      // const { userName } = useSelector((state: any) => state.auth); // Access global state from Redux
+      const userName = localStorage.getItem('userName');
 
   return (
     <MenuHeroStyle>
@@ -40,7 +41,7 @@ const MenuHero: React.FC<HeroProps> = ({ backgroundImageUUID,logoUUID,name }) =>
             <span>{userName}</span>
           </div>
       ) : (
-        null
+        <p>daste khar</p>
       )}
       <CartModal open={open} onClose={() => setOpen(false)} />
     </div>
