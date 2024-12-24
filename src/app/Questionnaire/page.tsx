@@ -63,6 +63,7 @@ const QuestionnairePage = () => {
           background: '#fff'
         }}>
           <Typography variant="h6" align="center" sx={{ mb: 3 }}>سلام! ممنون می‌شیم چند دقیقه وقت باارزشتو بزاری و به این سوال‌ها جواب بدی 😊&rlm;</Typography>
+          <Box sx={{display:'flex',flexDirection:'row',alignItems:'center',justifyContent:'center',gap:'10px'}}>
           <Button
             variant="contained"
             onClick={handleStartQuestionnaire}
@@ -75,6 +76,7 @@ const QuestionnairePage = () => {
           >
             نه ممنون
           </Button>
+          </Box>
         </Box>
 
         {isLoggedIn ? (
