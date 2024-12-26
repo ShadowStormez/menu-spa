@@ -34,7 +34,7 @@ const ScrollToTopButton = () => {
             className={`scroll-to-top-button ${isVisible ? 'visible' : ''}`}
             style={{ display: isVisible ? 'block' : 'none' }}
         >
-            <ArrowTop width={25} height={25} fill=" var(--secondary-color)"/>
+            <ArrowTop width={25} height={25} stroke=" var(--secondary-color)"/>
         </button>
         </ScrollToTopButtonStyle>
     );

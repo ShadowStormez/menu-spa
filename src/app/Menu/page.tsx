@@ -1,5 +1,5 @@
 'use client'
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useScrollManager } from './hooks/useScrollManager';
 import { MenuPageStyle } from './page.Style';
 import MenuHero from './components/MenuHero/MenuHero';
@@ -23,6 +23,17 @@ export default function Menu() {
   
   const [isSidebarOpen, setIsSidebarOpen] = useState(false); // State for sidebar visibility
 
+  useEffect(() => {
+    if (isSidebarOpen) {
+      document.body.classList.add('sidebar-open');
+    } else {
+      document.body.classList.remove('sidebar-open');
+    }
+
+    // Cleanup function to remove class when component unmounts
+    return () => document.body.classList.remove('sidebar-open');
+  }, [isSidebarOpen]);
+
   const { categoryRefs, tabListRef, activeCategory, isTabListFixed, handleTabClick } = useScrollManager(menuData?.data ?? []);
 
   if (!menuData || !restaurantData) {
@@ -30,6 +41,8 @@ export default function Menu() {
   }
 
   const categories = menuData?.data.map((menu) => menu?.category || 'default-category');
+
+
 
   return (
     <ThemeProvider theme={theme}>
