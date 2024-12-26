@@ -13,6 +13,8 @@ export {default as beverages} from './soda.png'
 export {default as EmptyCart} from './empty-cart.png'
 export {default as userIcon} from './user.png'
 export {default as CloseIcon} from './close-svgrepo-com.svg'
+export {default as LogOutIcon} from './logout-bracket-svgrepo-com.svg'
+
 
 
 

@@ -1,4 +1,4 @@
-'use client'
+// MenuHero.tsx
 import React, { useState } from 'react';
 import { MenuHeroStyle } from './MenuHero.Style';
 import Image from 'next/image';
@@ -34,7 +34,7 @@ const MenuHero: React.FC<HeroProps> = ({ backgroundImageUUID, logoUUID, name, on
             </Badge>
           </IconButton>
           <CartModal open={open} onClose={() => setOpen(false)} />
-          <div className='user' onClick={onUserIconClick}>
+          <div className='user' onClick={onUserIconClick}> {/* Add click handler */}
             <Image src={userIcon} alt='user-icon' width={20} height={20}/>
           </div>
         </div>
