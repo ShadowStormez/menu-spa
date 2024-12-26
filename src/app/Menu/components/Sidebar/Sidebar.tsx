@@ -36,9 +36,11 @@ const Sidebar = ({ isOpen, onClose } : SideBarProps) => {
     return (
         <SideBarStyle>
         <div className={`sidebar ${isOpen ? 'open' : ''}`}>
+            <div className="close-button-container">
             <button className="close-btn" onClick={onClose}>
                 <CloseIcon width={20} height={20} fill="var(--secondary-color)" />
             </button>
+            </div>
             <div className="user">
                 {isLoggedIn && userName ? (
                     <span>{userName}</span>
@@ -56,8 +58,8 @@ const Sidebar = ({ isOpen, onClose } : SideBarProps) => {
                         </div>
                     ) : (
                         <IconButton onClick={handleLogout} disabled={loading}>
-                        <span>خروج</span>
-                        <LogOutIcon width={15} height={15} fill="var(--lightblue-color)" />
+                        <span style={{fontSize:'20px'}}>خروج</span>
+                        <LogOutIcon width={20} height={20} fill="var(--lightblue-color)" />
                     </IconButton>
                     )
                     }

@@ -5,9 +5,10 @@ export const SideBarStyle=styled.div`
     flex-direction:column;
     justify-content:flex-start;
     align-items:flex-start;
+    direction: rtl;
     gap:15px;
     position: fixed;
-    padding:15px;
+    padding:10px 0;
     top: 0;
     right: -300px; /* Hide off-screen */
     width: 300px;
@@ -17,13 +18,24 @@ export const SideBarStyle=styled.div`
     transition: right 0.3s ease; /* Smooth transition */
     z-index: 1001; /* Ensure it's above other content */
 
+    .close-button-container{
+        display:flex;
+        flex-direction:row;
+        align-items:center;
+        justify-content:flex-start;
+        direction:ltr;
+    }
     .user{
         display:flex;
         flex-direction:row;
         align-items:center;
         justify-content:flex-start;
         direction:rtl;
-        background-color:var(--primary-color);
+        background-color: radial-gradient(circle at -1% 57.5%, #001A6E 0%, #074799 90%) no-repeat center center fixed; 
+        width: 90%;
+        padding: 20px;
+        color: white;
+        border-radius: 20px 0 0 20px;
     }
     .logout{
         display:flex;
@@ -31,8 +43,8 @@ export const SideBarStyle=styled.div`
         align-items:center;
         justify-content:flex-start;
         direction:rtl;
+        gap:10px;
 
-        /* HTML: <div class="loader"></div> */
 .loader {
   width: 60px;
   aspect-ratio: 2;
@@ -55,11 +67,5 @@ export const SideBarStyle=styled.div`
 
 .sidebar.open {
     right: 0; /* Show sidebar */
-}
-
-.close-btn {
-    position: absolute;
-    top: 20px;
-    left: 20px;
 }
 `
