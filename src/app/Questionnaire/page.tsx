@@ -19,8 +19,6 @@ const QuestionnairePage = () => {
   const router = useRouter();
   // const restaurantId = useSelector((state: RootState) => state.global.restaurantId);
 
-  
-
   // Using the custom hook
   const {
     currentQuestionIndex,
@@ -37,9 +35,6 @@ const QuestionnairePage = () => {
     setOpenQuestionnaire,
     openQuestionnaire,
   } = useQuestionnaire(questions);
-
-  const initialSliderValues = questions?.data[currentQuestionIndex]?.sliders?.map(slider => (slider.min + slider.max) / 2) || [];
-  const [sliderValues, setSliderValues] = useState(initialSliderValues);
 
   if (loading) return <LinearProgress />;
   if (error) return <Typography color="error">{error}</Typography>;
@@ -144,25 +139,21 @@ const QuestionnairePage = () => {
         <Box key={idx} sx={{ mb: 3, direction: 'rtl' }}>
           <Typography>{slider.label}</Typography>
           <Slider
-           min={slider.min}
-           max={slider.max}
-           step={slider.step}
-           marks={[
-            { value: slider.min, label: slider.min.toString() },
-            { value: slider.max, label: slider.max.toString() },
-          ]} 
-          value={sliderValues[idx]} // Use state for current value
-          valueLabelDisplay="auto"
-          onChange={(e, value) => {
-            if (typeof value === 'number') {
-              const newSliderValues = [...sliderValues];
-              newSliderValues[idx] = value; // Update specific slider's value
-              setSliderValues(newSliderValues); // Update state
-              handleSliderChange(slider.id, value, questions.data[currentQuestionIndex]._id);
-            } else {
-              console.error('Expected value to be a number, but received an array:', value);
-            }
-          }}
+            min={slider.min}
+            max={slider.max}
+            step={slider.step}
+            marks={[
+              { value: slider.min, label: slider.min.toString() },
+              { value: slider.max, label: slider.max.toString() },
+            ]}
+            valueLabelDisplay="auto"
+            onChange={(e, value) => {
+              if (typeof value === 'number') {
+                handleSliderChange(slider.id, value, questions.data[currentQuestionIndex]._id);
+              } else {
+                console.error('Expected value to be a number, but received an array:', value);
+              }
+            }}
           />
         </Box>
       ))}
