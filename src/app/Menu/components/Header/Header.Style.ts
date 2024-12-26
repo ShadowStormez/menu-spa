@@ -1,6 +1,7 @@
 import styled from "@emotion/styled"
 export const HeaderStyle=styled.div`
 position:absolute;
+display:flex;
 top:0;
 z-index:1000;
 width:100%;

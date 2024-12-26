@@ -17,7 +17,7 @@ const QuestionnairePage = () => {
   const [showLoginModal, setShowLoginModal] = useState(false);
   const { isLoggedIn } = useSelector((state: any) => state.auth);
   const router = useRouter();
-  const restaurantId = useSelector((state: RootState) => state.global.restaurantId);
+  // const restaurantId = useSelector((state: RootState) => state.global.restaurantId);
 
   // Using the custom hook
   const {
@@ -146,6 +146,7 @@ const QuestionnairePage = () => {
               { value: slider.min, label: slider.min.toString() },
               { value: slider.max, label: slider.max.toString() },
             ]}
+            value={(slider.min + slider.max) / 2}
             valueLabelDisplay="auto"
             onChange={(e, value) => {
               if (typeof value === 'number') {

@@ -40,10 +40,7 @@ box-shadow: 9px 9px 25px -3px rgba(0,0,0,0.75);
       display:flex;
       align-items:center;
       font-size:12px;
-      color:var(--primary-color);
-      .arrow-icon{
-    filter: invert(31%) sepia(99%) saturate(474%) hue-rotate(105deg) brightness(92%) contrast(86%);
-  }
+      color:var(--lightblue-color);
     }
     }
 

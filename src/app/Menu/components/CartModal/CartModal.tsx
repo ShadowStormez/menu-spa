@@ -17,7 +17,7 @@ const CartModal: React.FC<{ open: boolean; onClose: () => void }> = ({ open, onC
   const isSmallScreen = useMediaQuery('(max-width:550px)');
   const { userId } = useSelector((state: any) => state.auth);
   const tableId = useSelector((state: RootState) => state.global.tableId) ?? 0;
-  const restaurantName = useSelector((state: RootState) => state.global.restaurantName) ?? '';
+  const restaurantId = useSelector((state: RootState) => state.global.restaurantId) ?? '';
   const restaurantAddress = useSelector((state: RootState) => state.global.restaurantAddress) ?? '';
   
   const cart = useSelector((state: RootState) => state.cart.items);
@@ -37,7 +37,7 @@ const CartModal: React.FC<{ open: boolean; onClose: () => void }> = ({ open, onC
 
       const order = {
         id: generateRandomUUID(),
-        restaurant: restaurantName,
+        restaurant: { id: restaurantId },
         user: { id: userId },
         tableNumber: tableId,
         address: restaurantAddress,
@@ -45,11 +45,15 @@ const CartModal: React.FC<{ open: boolean; onClose: () => void }> = ({ open, onC
         specialRequests: orderDescription,
         __meta: {},
       };
+      if(userId){
+        await createOrder(order);
+        dispatch(clearCart());
+        onClose();
+        toast.success('سفارش شما ثبت شد')
+      }else{
+        toast.error('برای ثبت سفارش ابتدا وارد حساب کاربری خود شوید')
+      }
 
-      await createOrder(order);
-      dispatch(clearCart());
-      onClose();
-      toast.success('سفارش شما ثبت شد')
     } catch (error) {
       console.error('Error during checkout:', error);
     }

@@ -1,6 +1,9 @@
 interface User {
     id: string;
   }
+  interface Restaurant {
+    id: string;
+  }
   
   interface Item {
     id: string;
@@ -10,7 +13,7 @@ interface User {
   
   export interface Order {
     id: string; //order id
-    restaurant: string;
+    restaurant: Restaurant;
     user: User;
     tableNumber: number;
     address: string; //restaurant address

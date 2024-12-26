@@ -76,7 +76,7 @@ const MenuItem: React.FC<MenuItemProps> = ({ name, description, price,id,logoIds
           </div>
         <Link href={`/Menu/${id}`}>
             <span>جزییات </span>
-            <ArrowLeft width={15} height={15} fill="var(--lightblue-color)"/>
+            <ArrowLeft width={15} height={15} fill="var(--primary-color)"/>
         </Link>
         </div>
         </div>

@@ -156,7 +156,8 @@ const theme = createTheme({
         {
           props: { variant: 'incrementDecrement' }, 
           style: {
-            fontSize:'20px'
+            fontSize:'20px',
+            border:'none'
           },
         },
         {
