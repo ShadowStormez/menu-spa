@@ -92,7 +92,7 @@ const MenuItem: React.FC<MenuItemProps> = ({ name, description, price,id,logoIds
             افزودن
           </Button>
         ) : (
-          <ButtonGroup fullWidth sx={{justifyContent:}}>
+          <ButtonGroup fullWidth>
             <Button variant="MenuItemIncrementDecrement" onClick={handleIncrement}>+</Button>
             <div className="white-space">
             <div className="number-container">
