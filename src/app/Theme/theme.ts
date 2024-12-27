@@ -5,6 +5,7 @@ declare module '@mui/material/Button' {
   interface ButtonPropsVariantOverrides {
     incrementDecrement: true;
     cart:true;
+    itemDetails:true;
     skip:true;
   }
 }
@@ -161,6 +162,18 @@ const theme = createTheme({
           },
         },
         {
+          props: { variant: 'itemDetails' }, 
+          style: {
+            fontSize:'20px',
+            width: '50px',
+            height: '50px',
+            minWidth: '50px',
+            borderRadius: '50%',
+            backgroundColor:'var(--primary-color)',
+            color:'#fff'
+          },
+        },
+        {
           props: { variant: 'cart' }, 
           style: {
             fontSize:'20px',
@@ -169,7 +182,11 @@ const theme = createTheme({
             minWidth: '50px',
             borderRadius: '50%',
             backgroundColor:'#fff',
-            color:'var(--secondary-color)'
+            color:'var(--secondary-color)',
+            "&:hover": {
+              color: "var(--secondary-color)",
+              backgroundColor:'#fff',
+            }
           },
         },
       ],

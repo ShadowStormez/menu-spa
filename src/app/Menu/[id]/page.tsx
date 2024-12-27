@@ -129,7 +129,7 @@ export default function MenuItemPage({ params }: { params: Promise<{ id: string 
           ) : (
             <ButtonGroup fullWidth>
               <Button
-                variant="cart"
+                variant="itemDetails"
                 style={{borderRadius:'50%'}}
                 onClick={handleIncrement}
               >
@@ -139,7 +139,7 @@ export default function MenuItemPage({ params }: { params: Promise<{ id: string 
                   <span>{number}</span>
                 </div>
               <Button
-                variant="cart"
+                variant="itemDetails"
                 style={{borderRadius:'50%'}}
                 onClick={handleDecrement}
               >

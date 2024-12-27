@@ -100,6 +100,8 @@ const CartModal: React.FC<{ open: boolean; onClose: () => void }> = ({ open, onC
                           style={{textAlign:'right',color:'#fff'}}
                             primary={item.name}
                             secondary={`تعداد: ${item.number} | قیمت: ${item.price * item.number} تومان`}
+                            primaryTypographyProps={{ style: { color: '#fff' } }}
+                            secondaryTypographyProps={{ style: { color: '#fff' } }}
                           />
                           </div>
                           <div style={{display:'flex',
@@ -120,15 +122,13 @@ const CartModal: React.FC<{ open: boolean; onClose: () => void }> = ({ open, onC
                             alignItems: 'center',
                             boxShadow: '0px 4px 8px rgba(0, 0, 0, 0.1)',
                             borderRadius: '8px',
-                            background: '#074799',
-                            color: '#fff',
                             padding: '10px',
                           }}
                         >
                           <ListItemText
-                            style={{ textAlign: 'right', color: '#fff' }}
-                            primary="جمع کل"
-                            secondary={`قیمت کل: ${totalAmount} تومان`}
+                            style={{ textAlign: 'right' }}
+                            primary={`جمع کل: ${totalAmount} تومان`}
+                            primaryTypographyProps={{ style: { color: '#000' } }}
                           />
                         </ListItem>
                     </List>

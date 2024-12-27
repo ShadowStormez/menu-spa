@@ -20,7 +20,6 @@ export const useAuth = () => {
       dispatch(setIsLoggedIn(true)); // Set isLoggedIn to true
       toast.success('حساب کاربری شما با موفقیت ساخته شد');
       dispatch(setShowSignUpModal(false));
-      dispatch(setShowLoginModal(false));
       setOpenQuestionnaire(true);
     } catch (error) {
       if (error instanceof Error) {
@@ -37,7 +36,6 @@ export const useAuth = () => {
       dispatch(setIsLoggedIn(true)); // Set isLoggedIn to true
       toast.success('وارد شدید');
       dispatch(setShowLoginModal(false));
-      dispatch(setShowSignUpModal(false));
       setOpenQuestionnaire(true);
     } catch (error) {
       if (error instanceof Error) {

@@ -6,6 +6,7 @@ import { CloseIcon, LogOutIcon } from '@/app/assets/icons';
 import { useDispatch, useSelector } from 'react-redux';
 import { IconButton } from '@mui/material';
 import { setIsLoggedIn, setUserId, setUserName } from '@/app/store/authSlice';
+import toast from 'react-hot-toast';
 
 interface SideBarProps {
     isOpen: boolean;
@@ -24,11 +25,12 @@ const Sidebar = ({ isOpen, onClose,onLoginClick }: SideBarProps) => {
             dispatch(setIsLoggedIn(false));
             dispatch(setUserName(null));
             dispatch(setUserId(null));
+            toast.success('از حساب کاربری خارج شدید')
         } catch (error) {
             console.error('Logout failed:', error);
         } finally {
             setLoading(false);
-            onClose(); // Close the sidebar after logout
+            onClose();
         }
     };
     const handleLoginClick = () => {
@@ -51,7 +53,7 @@ const Sidebar = ({ isOpen, onClose,onLoginClick }: SideBarProps) => {
                         <span>{userName}</span>
                     ) : (
                         <IconButton onClick={handleLoginClick}>
-                        <span style={{ fontSize: '20px' }}>ورود</span>
+                        <span style={{ fontSize: '20px',color:'#fff' }}>ورود</span>
                       </IconButton>
                     )}
                 </div>

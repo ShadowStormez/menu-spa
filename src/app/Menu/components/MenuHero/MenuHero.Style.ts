@@ -22,7 +22,6 @@ export const MenuHeroStyle=styled.div`
       align-items:center;
       gap:5px;
       direction:rtl;
-      background-color:var(--primary-color);
       border-radius:50px;
       color:white;
       padding:10px;
