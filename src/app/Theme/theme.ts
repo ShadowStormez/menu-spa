@@ -168,6 +168,8 @@ const theme = createTheme({
             height: '50px',
             minWidth: '50px',
             borderRadius: '50%',
+            backgroundColor:'#fff',
+            color:'var(--secondary-color)'
           },
         },
       ],

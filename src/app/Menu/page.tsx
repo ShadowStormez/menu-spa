@@ -23,17 +23,6 @@ export default function Menu() {
   
   const [isSidebarOpen, setIsSidebarOpen] = useState(false); // State for sidebar visibility
 
-  useEffect(() => {
-    if (isSidebarOpen) {
-      document.body.classList.add('sidebar-open');
-    } else {
-      document.body.classList.remove('sidebar-open');
-    }
-
-    // Cleanup function to remove class when component unmounts
-    return () => document.body.classList.remove('sidebar-open');
-  }, [isSidebarOpen]);
-
   const { categoryRefs, tabListRef, activeCategory, isTabListFixed, handleTabClick } = useScrollManager(menuData?.data ?? []);
 
   if (!menuData || !restaurantData) {

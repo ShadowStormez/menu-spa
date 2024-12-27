@@ -19,6 +19,7 @@ interface User {
     address: string; //restaurant address
     items: Item[];
     specialRequests: string;
+    totalAmount: number;
     __meta: object;
   }
   

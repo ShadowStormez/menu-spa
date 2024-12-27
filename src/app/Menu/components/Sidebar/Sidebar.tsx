@@ -30,6 +30,7 @@ const Sidebar = ({ isOpen, onClose }: SideBarProps) => {
             onClose(); // Close the sidebar after logout
         }
     };
+    
 
     return (
         <SideBarStyle>

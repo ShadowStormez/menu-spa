@@ -21,6 +21,8 @@ const CartModal: React.FC<{ open: boolean; onClose: () => void }> = ({ open, onC
   const restaurantAddress = useSelector((state: RootState) => state.global.restaurantAddress) ?? '';
   
   const cart = useSelector((state: RootState) => state.cart.items);
+
+  const totalAmount=cart.reduce((total, item) => total + item.price * item.number, 0);
   
   const dispatch = useDispatch();
 
@@ -43,6 +45,7 @@ const CartModal: React.FC<{ open: boolean; onClose: () => void }> = ({ open, onC
         address: restaurantAddress,
         items: items,
         specialRequests: orderDescription,
+        totalAmount: totalAmount,
         __meta: {},
       };
       if(userId){
@@ -76,7 +79,7 @@ const CartModal: React.FC<{ open: boolean; onClose: () => void }> = ({ open, onC
           {cart.length > 0 ? (
                       <List sx={{display: 'flex',flexDirection:'column',gap:'10px'}}>
                       {cart.map(item => (
-                        <ListItem key={item.id} style={{ display: 'flex', alignItems: 'center', boxShadow: '0px 4px 8px rgba(0, 0, 0, 0.1)',borderRadius:'8px',background:'#fff' }}>
+                        <ListItem key={item.id} style={{ display: 'flex', alignItems: 'center', boxShadow: '0px 4px 8px rgba(0, 0, 0, 0.1)',borderRadius:'8px',background:'radial-gradient(circle at -1% 57.5%, #001A6E 0%, #074799 90%) no-repeat center center fixed',color:'#fff' }}>
                           {/* Display item image */}
                           <div style={{
                           display: 'flex',
@@ -94,7 +97,7 @@ const CartModal: React.FC<{ open: boolean; onClose: () => void }> = ({ open, onC
                             style={{ borderRadius: '8px' }}
                           />
                           <ListItemText
-                          style={{textAlign:'right'}}
+                          style={{textAlign:'right',color:'#fff'}}
                             primary={item.name}
                             secondary={`تعداد: ${item.number} | قیمت: ${item.price * item.number} تومان`}
                           />
@@ -110,6 +113,24 @@ const CartModal: React.FC<{ open: boolean; onClose: () => void }> = ({ open, onC
                   
                         </ListItem>
                       ))}
+                        <ListItem
+                          style={{
+                            display: 'flex',
+                            justifyContent: 'flex-end',
+                            alignItems: 'center',
+                            boxShadow: '0px 4px 8px rgba(0, 0, 0, 0.1)',
+                            borderRadius: '8px',
+                            background: '#074799',
+                            color: '#fff',
+                            padding: '10px',
+                          }}
+                        >
+                          <ListItemText
+                            style={{ textAlign: 'right', color: '#fff' }}
+                            primary="جمع کل"
+                            secondary={`قیمت کل: ${totalAmount} تومان`}
+                          />
+                        </ListItem>
                     </List>
           ) : (
             <Box sx={{display:'flex',flexDirection:'column',justifyContent:'center',alignItems:'center',gap:'5px'}}>
