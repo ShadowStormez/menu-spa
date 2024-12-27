@@ -34,19 +34,22 @@ const CartModal: React.FC<{ open: boolean; onClose: () => void }> = ({ open, onC
       const items = cart.map(item => ({
         id: item.id,
         name: item.name,
-        number: item.number
+        quantity: item.number
       }));
 
       const order = {
-        id: generateRandomUUID(),
-        restaurant: { id: restaurantId },
-        user: { id: userId },
-        tableNumber: tableId,
-        address: restaurantAddress,
-        items: items,
-        specialRequests: orderDescription,
-        totalAmount: totalAmount,
-        __meta: {},
+        status: true, // Add the status attribute
+        data: {
+          id: generateRandomUUID(),
+          restaurant: { id: restaurantId },
+          user: { id: userId },
+          tableNumber: tableId,
+          address: restaurantAddress,
+          items: items,
+          specialRequests: orderDescription,
+          totalAmount: totalAmount,
+          __meta: {}, // Optional metadata
+        },
       };
       if(userId){
         await createOrder(order);

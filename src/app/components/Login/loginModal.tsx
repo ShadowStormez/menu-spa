@@ -108,7 +108,7 @@ const LoginModal = ({
           label="رمز عبور"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
-          type="password"
+          type={showPassword ? 'text' : 'password'}
           fullWidth
           error={!!errors.password}
           helperText={errors.password}
