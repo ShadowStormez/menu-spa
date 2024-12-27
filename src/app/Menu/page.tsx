@@ -7,7 +7,9 @@ import TabList from './components/Tablist/Tablist';
 import { ThemeProvider, LinearProgress } from '@mui/material';
 import theme from '../Theme/theme';
 import MenuItem from './components/MenuItem/MenuItem';
-import Sidebar from './components/Sidebar/Sidebar';
+import Sidebar from './components/Sidebar/Sidebar'; // Import your Sidebar component
+
+// utils
 import useRestaurantProfile from '@/app/utils/useRestaurantProfile';
 import useAllMenus from '@/app/utils/useAllMenus';
 import { useDispatch, useSelector } from 'react-redux';
@@ -17,27 +19,24 @@ import { useAuth } from '../hooks/useAuth';
 import { setShowSignUpModal, setShowLoginModal } from '../store/logSignSlice';
 import LoginModal from '../components/Login/loginModal';
 
+
 export default function Menu() {
   const restaurantId = useSelector((state: RootState) => state.global.restaurantId);
-  const { restaurantData } = useRestaurantProfile(restaurantId);
+  const tableId = useSelector((state: RootState) => state.global.tableId);
+  const { restaurantData } = useRestaurantProfile(restaurantId); 
   const { menuData } = useAllMenus(restaurantId);
   const dispatch = useDispatch();
   const { showSignUpModal, showLoginModal } = useSelector((state: any) => state.logSign);
+  
+  
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false); // State for sidebar visibility
 
-  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  const { categoryRefs, tabListRef, activeCategory, isTabListFixed, handleTabClick } = useScrollManager(menuData?.data ?? []);
 
-  const { categoryRefs, tabListRef, activeCategory, isTabListFixed, handleTabClick } =
-    useScrollManager(menuData?.data ?? []);
-
-  const { handleLogin, handleSignUp } = useAuth();
-
-  useEffect(() => {
-    if (isSidebarOpen) {
-      document.body.classList.add('sidebar-open');
-    } else {
-      document.body.classList.remove('sidebar-open');
-    }
-  }, [isSidebarOpen]);
+  const {
+    handleLogin,
+    handleSignUp,
+  } = useAuth();
 
   if (!menuData || !restaurantData) {
     return <LinearProgress />;
@@ -45,14 +44,18 @@ export default function Menu() {
 
   const categories = menuData?.data.map((menu) => menu?.category || 'default-category');
 
+
+
+
+
   return (
     <ThemeProvider theme={theme}>
       <MenuPageStyle>
-        <MenuHero
-          logoUUID={restaurantData?.data.logoIds[1]}
-          backgroundImageUUID={restaurantData?.data.logoIds[0]}
-          name={restaurantData?.data.name}
-          onUserIconClick={() => setIsSidebarOpen(true)}
+        <MenuHero 
+          logoUUID={restaurantData?.data.logoIds[1]} 
+          backgroundImageUUID={restaurantData?.data.logoIds[0]} 
+          name={restaurantData?.data.name} 
+          onUserIconClick={() => setIsSidebarOpen(true)} // Pass function to open sidebar
         />
         <div ref={tabListRef}>
           <TabList
@@ -63,6 +66,7 @@ export default function Menu() {
           />
         </div>
 
+        {/* Menu Items */}
         <div className="menu-container">
           {menuData?.data.map((menuData) => (
             <div
@@ -88,36 +92,30 @@ export default function Menu() {
             </div>
           ))}
         </div>
+        <Sidebar isOpen={isSidebarOpen} onClose={() => setIsSidebarOpen(false)}  onLoginClick={() => {
+          dispatch(setShowLoginModal(true))
+        }} />
+        <>
+            <SignUpModal
+              open={showSignUpModal}
+              onClose={() => dispatch(setShowSignUpModal(false))}
+              onSignUp={handleSignUp}
+              onShowLogin={() => {
+                dispatch(setShowSignUpModal(false));
+                dispatch(setShowLoginModal(true));
+              }}
+            />
 
-        {isSidebarOpen && (
-          <div className="overlay" onClick={() => setIsSidebarOpen(false)} />
-        )}
-
-        <Sidebar
-          isOpen={isSidebarOpen}
-          onClose={() => setIsSidebarOpen(false)}
-          onLoginClick={() => dispatch(setShowLoginModal(true))}
-        />
-
-        <SignUpModal
-          open={showSignUpModal}
-          onClose={() => dispatch(setShowSignUpModal(false))}
-          onSignUp={handleSignUp}
-          onShowLogin={() => {
-            dispatch(setShowSignUpModal(false));
-            dispatch(setShowLoginModal(true));
-          }}
-        />
-
-        <LoginModal
-          open={showLoginModal}
-          onClose={() => dispatch(setShowLoginModal(false))}
-          onLogin={handleLogin}
-          onShowSignUp={() => {
-            dispatch(setShowLoginModal(false));
-            dispatch(setShowSignUpModal(true));
-          }}
-        />
+            <LoginModal
+              open={showLoginModal}
+              onClose={() => dispatch(setShowLoginModal(false))}
+              onLogin={handleLogin}
+              onShowSignUp={() => {
+                dispatch(setShowLoginModal(false));
+                dispatch(setShowSignUpModal(true));
+              }}
+            />
+          </>
       </MenuPageStyle>
     </ThemeProvider>
   );
