@@ -136,7 +136,7 @@ export default function MenuItemPage({ params }: { params: Promise<{ id: string 
                 +
               </Button>
                 <div className="number-container">
-                  <span>{number}</span>
+                  <span style={{color:"white"}}>{number}</span>
                 </div>
               <Button
                 variant="itemDetails"

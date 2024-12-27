@@ -69,7 +69,7 @@ const theme = createTheme({
             background:'radial-gradient(circle, rgba(13,146,244,1) 10%, rgba(7,71,153,1) 40%, rgba(0,26,110,1) 70%)',
             display:'flex',
             flexDirection:'row',
-            justifyContent:'space-between',
+            justifyContent:'space-around',
             alignItems:'center',
             gap:'60px',
             borderRadius:'30px',
@@ -175,7 +175,7 @@ const theme = createTheme({
             height: '50px',
             minWidth: '50px',
             borderRadius: '50%',
-            backgroundColor:'var(--primary-color)',
+            background:'transparent',
             color:'#fff'
           },
         },
