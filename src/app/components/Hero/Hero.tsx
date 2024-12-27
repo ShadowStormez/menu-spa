@@ -11,26 +11,14 @@ const Hero = ({ restaurantName }: HeroProps) => {
     <HeroStyle>
       <div className="Hero-Container">
         {restaurantName ? (
-          <>
-        
-     <ReactTyped
-     strings={[`به`]}
-     typeSpeed={40}
-     backSpeed={50}
-     loop={false}
-     showCursor={false}
-     />
- <span style={{color:'var(--secondary-color)',fontWeight:'bold'}}>{restaurantName}</span>
-      <ReactTyped
-          strings={[' 👋خوش آمدید']}
-          typeSpeed={40}
-          backSpeed={50}
-          loop={false}
-      />
-   </>
-        ) : (
-          null
-        )}
+          <ReactTyped
+            strings={[`به <span style="color: var(--secondary-color); font-weight: bold;">سگدونی</span> 👋خوش آمدید`]}
+            typeSpeed={40}
+            backSpeed={50}
+            loop={false}
+            showCursor={false}
+          />
+        ) : null}
       </div>
     </HeroStyle>
   );

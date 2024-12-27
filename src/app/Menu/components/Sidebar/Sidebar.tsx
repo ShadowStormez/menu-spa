@@ -45,7 +45,7 @@ const Sidebar = ({ isOpen, onClose,onLoginClick }: SideBarProps) => {
             <div className={`sidebar ${isOpen ? 'open' : ''}`}>
                 <div className="close-button-container">
                     <button className="close-btn" onClick={onClose}>
-                        <CloseIcon width={20} height={20} fill="var(--secondary-color)" />
+                        <CloseIcon width={20} height={20} stroke="var(--secondary-color)" />
                     </button>
                 </div>
                 <div className="user">

@@ -43,7 +43,9 @@ const QuestionnairePage = () => {
   if (error) return <Typography color="error">{error}</Typography>;
 
   const handleStartQuestionnaire = () => {
-    dispatch(setShowSignUpModal(true));
+    if(!isLoggedIn){
+      dispatch(setShowSignUpModal(true));
+    }
     if(isLoggedIn){
       setOpenQuestionnaire(true);
     } 
