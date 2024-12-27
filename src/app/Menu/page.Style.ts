@@ -1,22 +1,6 @@
 import styled from "@emotion/styled"
 export const MenuPageStyle=styled.div`
 
-  /* Overlay for dimming the rest of the screen */
-  .overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background-color: rgba(0, 0, 0, 0.5);
-    z-index: 1000;
-  }
-
-  /* Prevent scrolling when sidebar is open */
-  body.sidebar-open {
-    overflow: hidden;
-  }
-
 .hero-tablist-container {
   position: relative;
 }

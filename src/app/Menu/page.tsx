@@ -38,15 +38,22 @@ export default function Menu() {
     handleSignUp,
   } = useAuth();
 
+  useEffect(() => {
+    if (isSidebarOpen) {
+      document.body.classList.add('sidebar-open');
+    } else {
+      document.body.classList.remove('sidebar-open');
+    }
+    return () => {
+      document.body.classList.remove('sidebar-open');
+    };
+  }, [isSidebarOpen]);
+
   if (!menuData || !restaurantData) {
     return <LinearProgress />;
   }
 
   const categories = menuData?.data.map((menu) => menu?.category || 'default-category');
-
-
-
-
 
   return (
     <ThemeProvider theme={theme}>
@@ -92,6 +99,8 @@ export default function Menu() {
             </div>
           ))}
         </div>
+
+        {isSidebarOpen && <div className="overlay" onClick={() => setIsSidebarOpen(false)} />}
         <Sidebar isOpen={isSidebarOpen} onClose={() => setIsSidebarOpen(false)}  onLoginClick={() => {
           dispatch(setShowLoginModal(true))
         }} />
