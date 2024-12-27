@@ -3,7 +3,7 @@ import { createTheme } from '@mui/material/styles';
 
 declare module '@mui/material/Button' {
   interface ButtonPropsVariantOverrides {
-    incrementDecrement: true;
+    MenuItemIncrementDecrement:true;
     cart:true;
     itemDetails:true;
     skip:true;
@@ -66,13 +66,13 @@ const theme = createTheme({
         styleOverrides: {
           root:{
             position:'relative',
-            backgroundColor:'var(--secondary-color)',
+            background:'radial-gradient(circle, rgba(13,146,244,1) 10%, rgba(7,71,153,1) 40%, rgba(0,26,110,1) 70%)',
             display:'flex',
             flexDirection:'row',
             justifyContent:'space-between',
             alignItems:'center',
             gap:'60px',
-            borderRadius:'8px',
+            borderRadius:'30px',
           }
         }
       },
@@ -132,7 +132,7 @@ const theme = createTheme({
         root: {
           backgroundColor: "var(--primary-color)",
           color: "white",
-          borderRadius: "8px",
+          borderRadius: "30px",
           padding: "10px 20px",
           transition: "all 0.3s ease",
           border:"2px solid transparent",
@@ -155,10 +155,16 @@ const theme = createTheme({
           },
         },
         {
-          props: { variant: 'incrementDecrement' }, 
+          props: { variant: 'MenuItemIncrementDecrement' }, 
           style: {
+            backgroundColor: "transparent",
+            color:"#fff",
+            borderRadius:"30px",
             fontSize:'20px',
-            border:'none'
+            border:'none',
+            "&:hover": {
+              backgroundColor: "transparent"
+            }
           },
         },
         {

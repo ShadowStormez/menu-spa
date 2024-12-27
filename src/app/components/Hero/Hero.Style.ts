@@ -2,7 +2,8 @@ import styled from "@emotion/styled"
 export const HeroStyle=styled.div`
 .Hero-Container{
   display: flex;
-  justify-content: flex-end;
+  justify-content: flex-start;
+  direction:rtl;
   align-items:center;
   font-size: 24px;
   padding: 20px;

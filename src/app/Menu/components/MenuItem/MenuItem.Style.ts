@@ -8,7 +8,7 @@ export const MenuItemStyle=styled.div`
     background-color:#fff;
     align-items: center;
     height: auto;
-    border-radius:8px;
+    border-radius:30px;
     -webkit-box-shadow: 9px 9px 25px -3px rgba(0,0,0,0.75);
 -moz-box-shadow: 9px 9px 25px -3px rgba(0,0,0,0.75);
 box-shadow: 9px 9px 25px -3px rgba(0,0,0,0.75);
@@ -98,7 +98,7 @@ box-shadow: 9px 9px 25px -3px rgba(0,0,0,0.75);
     height: 50px;
 
     .number-container{
-    background-color:var(--primary-color);
+      background: linear-gradient(360deg, rgba(13,146,244,1) 20%, rgba(7,71,153,1) 55%, rgba(0,26,110,1) 80%);
     border-radius:50%;
     width: 40px;
     height: 40px;

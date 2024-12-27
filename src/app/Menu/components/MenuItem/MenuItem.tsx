@@ -93,7 +93,7 @@ const MenuItem: React.FC<MenuItemProps> = ({ name, description, price,id,logoIds
           </Button>
         ) : (
           <ButtonGroup fullWidth>
-            <Button style={{borderRadius:'8px'}} variant="incrementDecrement" onClick={handleIncrement}>+</Button>
+            <Button variant="MenuItemIncrementDecrement" onClick={handleIncrement}>+</Button>
             <div className="white-space">
             <div className="number-container">
             <span>
@@ -101,7 +101,7 @@ const MenuItem: React.FC<MenuItemProps> = ({ name, description, price,id,logoIds
             </span>
             </div>
             </div>
-            <Button  style={{borderRadius:'8px'}} variant="incrementDecrement" onClick={handleDecrement}>-</Button>
+            <Button variant="MenuItemIncrementDecrement" onClick={handleDecrement}>-</Button>
           </ButtonGroup>
         )}
       </div>
