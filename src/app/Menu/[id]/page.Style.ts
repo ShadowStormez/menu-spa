@@ -105,7 +105,7 @@ height:100vh;
     margin: 0 auto;
     background-color: #fff;
     display: flex;
-    justify-content: center;
+    justify-content: space-around;
     align-items: center;
     flex-direction: row;
     gap: 20px;

@@ -176,7 +176,10 @@ const theme = createTheme({
             minWidth: '50px',
             borderRadius: '50%',
             background:'transparent',
-            color:'#fff'
+            color:'#fff',
+            "&:hover": {
+              backgroundColor: "transparent"
+            }
           },
         },
         {
