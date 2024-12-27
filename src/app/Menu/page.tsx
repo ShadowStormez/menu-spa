@@ -12,24 +12,39 @@ import Sidebar from './components/Sidebar/Sidebar'; // Import your Sidebar compo
 // utils
 import useRestaurantProfile from '@/app/utils/useRestaurantProfile';
 import useAllMenus from '@/app/utils/useAllMenus';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../store';
+import SignUpModal from '../components/SignUp/SignUpModal';
+import { useAuth } from '../hooks/useAuth';
+import { setShowSignUpModal, setShowLoginModal } from '../store/logSignSlice';
+import LoginModal from '../components/Login/loginModal';
+
 
 export default function Menu() {
   const restaurantId = useSelector((state: RootState) => state.global.restaurantId);
   const tableId = useSelector((state: RootState) => state.global.tableId);
   const { restaurantData } = useRestaurantProfile(restaurantId); 
   const { menuData } = useAllMenus(restaurantId);
+  const dispatch = useDispatch();
+  const { showSignUpModal, showLoginModal } = useSelector((state: any) => state.logSign);
+  
   
   const [isSidebarOpen, setIsSidebarOpen] = useState(false); // State for sidebar visibility
 
   const { categoryRefs, tabListRef, activeCategory, isTabListFixed, handleTabClick } = useScrollManager(menuData?.data ?? []);
+
+  const {
+    handleLogin,
+    handleSignUp,
+  } = useAuth();
 
   if (!menuData || !restaurantData) {
     return <LinearProgress />;
   }
 
   const categories = menuData?.data.map((menu) => menu?.category || 'default-category');
+
+
 
 
 
@@ -77,8 +92,30 @@ export default function Menu() {
             </div>
           ))}
         </div>
+        <Sidebar isOpen={isSidebarOpen} onClose={() => setIsSidebarOpen(false)}  onLoginClick={() => {
+          dispatch(setShowLoginModal(true))
+        }} />
+        <>
+            <SignUpModal
+              open={showSignUpModal}
+              onClose={() => dispatch(setShowSignUpModal(false))}
+              onSignUp={handleSignUp}
+              onShowLogin={() => {
+                dispatch(setShowSignUpModal(false));
+                dispatch(setShowLoginModal(true));
+              }}
+            />
 
-        <Sidebar isOpen={isSidebarOpen} onClose={() => setIsSidebarOpen(false)} />
+            <LoginModal
+              open={showLoginModal}
+              onClose={() => dispatch(setShowLoginModal(false))}
+              onLogin={handleLogin}
+              onShowSignUp={() => {
+                dispatch(setShowLoginModal(false));
+                dispatch(setShowSignUpModal(true));
+              }}
+            />
+          </>
       </MenuPageStyle>
     </ThemeProvider>
   );

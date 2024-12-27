@@ -2,22 +2,23 @@
 import React, { useState,useRef,useEffect } from 'react';
 import { Box, Button, TextField, Slider, Typography, LinearProgress, CircularProgress, ThemeProvider,Modal } from '@mui/material';
 import useAllQuestions from '../utils/getQuestions'; // Custom hook for fetching questions
-import SignUpModal from './components/SignUpModal'; // Sign-up modal component
-import LoginModal from './components/loginModal'; // Login modal component
+import SignUpModal from '../components/SignUp/SignUpModal'; // Sign-up modal component
+import LoginModal from '../components/Login/loginModal'; // Login modal component
 import { useQuestionnaire } from './hooks/useQuestionnaire'; // Custom hook for questionnaire logic
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../store'; 
+import { setShowSignUpModal, setShowLoginModal } from '../store/logSignSlice';
 import theme from '../Theme/theme';
 
 import { useRouter } from 'next/navigation';
+import { useAuth } from '../hooks/useAuth';
 
 const QuestionnairePage = () => {
   const { questions, loading, error } = useAllQuestions(); // Fetch all questions
-  const [showSignUpModal, setShowSignUpModal] = useState(false);
-  const [showLoginModal, setShowLoginModal] = useState(false);
+  const dispatch = useDispatch();
+  const { showSignUpModal, showLoginModal } = useSelector((state: any) => state.logSign);
   const { isLoggedIn } = useSelector((state: any) => state.auth);
   const router = useRouter();
-  // const restaurantId = useSelector((state: RootState) => state.global.restaurantId);
 
   // Using the custom hook
   const {
@@ -28,19 +29,21 @@ const QuestionnairePage = () => {
     handleInputChange,
     handleChoice,
     handleSliderChange,
-    handleSignUp,
-    handleLogin,
     submitAnswers,
     surveyComplete,
-    setOpenQuestionnaire,
-    openQuestionnaire,
   } = useQuestionnaire(questions);
+  const {
+    handleLogin,
+    handleSignUp,
+    openQuestionnaire,
+    setOpenQuestionnaire
+  } = useAuth();
 
   if (loading) return <LinearProgress />;
   if (error) return <Typography color="error">{error}</Typography>;
 
   const handleStartQuestionnaire = () => {
-    setShowSignUpModal(true);
+    dispatch(setShowSignUpModal(true));
     if(isLoggedIn){
       setOpenQuestionnaire(true);
     } 
@@ -201,21 +204,21 @@ const QuestionnairePage = () => {
           <>
             <SignUpModal
               open={showSignUpModal}
-              onClose={() => setShowSignUpModal(false)}
+              onClose={() => dispatch(setShowSignUpModal(false))}
               onSignUp={handleSignUp}
               onShowLogin={() => {
-                setShowLoginModal(true)
-                setShowSignUpModal(false)
+                dispatch(setShowSignUpModal(false));
+                dispatch(setShowLoginModal(true));
               }}
             />
 
             <LoginModal
               open={showLoginModal}
-              onClose={() => setShowLoginModal(false)}
+              onClose={() => dispatch(setShowLoginModal(false))}
               onLogin={handleLogin}
               onShowSignUp={() => {
-                setShowLoginModal(false)
-                setShowSignUpModal(true)
+                dispatch(setShowLoginModal(false));
+                dispatch(setShowSignUpModal(true));
               }}
             />
           </>

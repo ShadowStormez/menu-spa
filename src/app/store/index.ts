@@ -7,6 +7,7 @@ import categoryReducer from './categorySlice';
 import cartReducer from './cartSlice';
 import globalReducer from './globalSlice';
 import authReducer from './authSlice';
+import logSignReducer from './logSignSlice';
 
 // Define persistence configurations
 const globalPersistConfig = {
@@ -29,6 +30,7 @@ const rootReducer = combineReducers({
   cart: cartReducer,
   global: persistedGlobalReducer,
   auth: persistedAuthReducer,
+  logSign: logSignReducer
 });
 
 // Configure Store with Redux DevTools Enabled

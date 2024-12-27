@@ -10,9 +10,10 @@ import { setIsLoggedIn, setUserId, setUserName } from '@/app/store/authSlice';
 interface SideBarProps {
     isOpen: boolean;
     onClose: () => void;
+    onLoginClick: () => void;
 }
 
-const Sidebar = ({ isOpen, onClose }: SideBarProps) => {
+const Sidebar = ({ isOpen, onClose,onLoginClick }: SideBarProps) => {
     const { isLoggedIn, userName } = useSelector((state: any) => state.auth);
     const dispatch = useDispatch();
     const [loading, setLoading] = useState(false);
@@ -30,6 +31,11 @@ const Sidebar = ({ isOpen, onClose }: SideBarProps) => {
             onClose(); // Close the sidebar after logout
         }
     };
+    const handleLoginClick = () => {
+        onClose();
+        onLoginClick;
+};
+
     
 
     return (
@@ -44,9 +50,9 @@ const Sidebar = ({ isOpen, onClose }: SideBarProps) => {
                     {isLoggedIn && userName ? (
                         <span>{userName}</span>
                     ) : (
-                        <IconButton>
-                            <span style={{ fontSize: '20px' }}>ورود</span>
-                        </IconButton>
+                        <IconButton onClick={handleLoginClick}>
+                        <span style={{ fontSize: '20px' }}>ورود</span>
+                      </IconButton>
                     )}
                 </div>
                 {isLoggedIn && (
