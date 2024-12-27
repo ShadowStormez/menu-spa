@@ -5,6 +5,7 @@ import { useDispatch } from 'react-redux';
 import { setUserId, setIsLoggedIn, setUserName } from '../store/authSlice'; // Import redux actions
 import { apiSignUp, apiLogin } from '../utils/Users';
 import toast from 'react-hot-toast';
+import { setShowSignUpModal,setShowLoginModal } from '../store/logSignSlice';
 
 export const useAuth = () => {
   const dispatch = useDispatch();
@@ -18,6 +19,8 @@ export const useAuth = () => {
       dispatch(setUserName(newUser.username));
       dispatch(setIsLoggedIn(true)); // Set isLoggedIn to true
       toast.success('حساب کاربری شما با موفقیت ساخته شد');
+      dispatch(setShowSignUpModal(false));
+      dispatch(setShowLoginModal(false));
       setOpenQuestionnaire(true);
     } catch (error) {
       if (error instanceof Error) {
@@ -33,6 +36,8 @@ export const useAuth = () => {
       dispatch(setUserName(loginUser.loginUser.usernameOrMobile));
       dispatch(setIsLoggedIn(true)); // Set isLoggedIn to true
       toast.success('وارد شدید');
+      dispatch(setShowLoginModal(false));
+      dispatch(setShowSignUpModal(false));
       setOpenQuestionnaire(true);
     } catch (error) {
       if (error instanceof Error) {

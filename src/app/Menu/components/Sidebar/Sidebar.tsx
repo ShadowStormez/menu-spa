@@ -32,8 +32,8 @@ const Sidebar = ({ isOpen, onClose,onLoginClick }: SideBarProps) => {
         }
     };
     const handleLoginClick = () => {
-        onClose();
-        onLoginClick;
+        onClose(); // Close the sidebar
+        onLoginClick();
 };
 
     
