@@ -147,6 +147,7 @@ const QuestionnairePage = () => {
             min={slider.min}
             max={slider.max}
             step={slider.step}
+            defaultValue={(slider.min + slider.max)/2}
             marks={[
               { value: slider.min, label: slider.min.toString() },
               { value: slider.max, label: slider.max.toString() },
