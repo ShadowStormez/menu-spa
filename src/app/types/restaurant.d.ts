@@ -5,7 +5,7 @@ export interface RestaurantProfile {
     _id: string;
     name: string;
     address: string;
-    logoIds: string[];
+    logoIds: string[] | null;
     createdAt: string;
     updatedAt: string;
     __v: number;

@@ -17,7 +17,7 @@ interface MenuItemProps {
   description: string;
   price: number;
   // category: string;
-  logoIds:string[]
+  logoIds:string[] | null;
 }
 
 const MenuItem: React.FC<MenuItemProps> = ({ name, description, price,id,logoIds}) => {

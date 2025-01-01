@@ -4,7 +4,7 @@ interface Item {
     description: string;
     price: number;
     number: number;
-    logoIds:string[];
+    logoIds:string[] | null;
     calories: number;
     createdAt: string;
     updatedAt: string;
