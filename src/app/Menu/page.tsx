@@ -59,8 +59,6 @@ export default function Menu() {
     <ThemeProvider theme={theme}>
       <MenuPageStyle>
         <MenuHero 
-          logoUUID={restaurantData?.data?.logoIds[1]} 
-          backgroundImageUUID={restaurantData?.data?.logoIds[0]} 
           name={restaurantData?.data.name} 
           onUserIconClick={() => setIsSidebarOpen(true)} // Pass function to open sidebar
         />
@@ -92,7 +90,6 @@ export default function Menu() {
                     description={menuItem.description}
                     price={menuItem.price}
                     id={menuItem._id}
-                    logoIds={menuItem?.logoIds}
                   />
                 ))}
               </div>

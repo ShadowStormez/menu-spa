@@ -45,11 +45,11 @@ export default function MenuItemPage({ params }: { params: Promise<{ id: string 
   }
 
 
-  const { name, description, price, logoIds } = TheeItem;
+  const { name, description, price} = TheeItem;
 
   // Add to cart
   const handleAddToCart = () => {
-    dispatch(addItem({ id: itemId, name, price, logoIds,number })); // Add item to cart
+    dispatch(addItem({ id: itemId, name, price,number })); // Add item to cart
     toast.success(`${name} به سفارش های شما اضافه شد`);
   };
 

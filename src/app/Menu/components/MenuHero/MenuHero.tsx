@@ -10,15 +10,15 @@ import { RootState } from '@/app/store';
 import { getImageUrl } from '@/app/utils/getImageUrl';
 
 interface HeroProps {
-  backgroundImageUUID: string | undefined;
-  logoUUID:string | undefined;
+  // backgroundImageUUID: string | undefined;
+  // logoUUID:string | null;
   name:string | undefined;
   onUserIconClick: () => void; // New prop for handling user icon click
 }
 
-const MenuHero: React.FC<HeroProps> = ({ backgroundImageUUID, logoUUID, name, onUserIconClick }) => {
+const MenuHero: React.FC<HeroProps> = ({ name, onUserIconClick }) => {
 
-  const backgroundImageUrl = getImageUrl(backgroundImageUUID);
+  // const backgroundImageUrl = getImageUrl(backgroundImageUUID);
   const [firstWord, ...restWords] = name?.split(' ') || [];
   
   const [open, setOpen] = useState(false);
@@ -40,7 +40,7 @@ const MenuHero: React.FC<HeroProps> = ({ backgroundImageUUID, logoUUID, name, on
         </div>
         <div
           className="background-layer"
-          style={{ backgroundImage: `url(${backgroundImageUrl})` }}
+          // style={{ backgroundImage: `url(${backgroundImageUrl})` }}
         ></div>
         <div className="hero-content">
           <h1 className="hero-title"><span>{firstWord}</span>{' '}

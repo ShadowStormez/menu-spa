@@ -7,7 +7,7 @@ interface CartItem {
   name: string;
   price: number;
   number: number;
-  logoIds: string[] | null; // Allow string or StaticImageData
+  // logoIds: string[] | null; // Allow string or StaticImageData
 }
 
 interface CartState {
