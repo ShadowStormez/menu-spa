@@ -22,6 +22,7 @@ export interface Order {
     address: string;
     items: Item[];
     specialRequests: string;
+    orderGroupId: string;
     totalAmount: number;
     __meta: object; // Optional metadata
   };

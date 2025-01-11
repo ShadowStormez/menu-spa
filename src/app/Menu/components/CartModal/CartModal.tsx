@@ -46,6 +46,7 @@ const CartModal: React.FC<{ open: boolean; onClose: () => void }> = ({ open, onC
           address: restaurantAddress,
           items: items,
           specialRequests: orderDescription,
+          orderGroupId: generateRandomUUID(),
           totalAmount: totalAmount,
           __meta: {}, // Optional metadata
         },
