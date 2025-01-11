@@ -47,8 +47,8 @@ export default function MenuItemPage({ params }: { params: Promise<{ id: string 
 
 
   const { name, description, price,logoIds } = TheeItem;
-  const foodImageUncropped = getImageUrl(logoIds[0]) || foodDefault;
-  const foodImageBackground = getImageUrl(logoIds[2]) || foodDefault;
+  const foodImageUncropped = getImageUrl(logoIds?.[0]) || foodDefault;
+  const foodImageBackground = getImageUrl(logoIds?.[2]) || foodDefault;
 
   // Add to cart
   const handleAddToCart = () => {

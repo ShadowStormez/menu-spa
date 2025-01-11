@@ -142,9 +142,15 @@ const QuestionnairePage = () => {
     {questions.data[currentQuestionIndex].type === 'slider' &&
       questions.data[currentQuestionIndex].sliders?.map((slider, idx) => (
         <Box key={idx} sx={{ mb: 3, direction: 'rtl' }}>
-          <div className="slider-label">
+          <div className="slider-label" style={{
+            display: 'flex',
+            flexDirection: 'column',
+            justifyContent: 'flex-start',
+            alignItems: 'start',
+            gap:'5px'
+          }}>
           <Typography>{slider.label}</Typography>
-          <Typography>{slider.scale}</Typography>
+          <Typography sx={{fontSize:'14px', color:'gray'}}>{slider.scale}</Typography>
           </div>
           <Slider
             min={slider.min}

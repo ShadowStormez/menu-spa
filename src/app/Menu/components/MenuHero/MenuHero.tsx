@@ -18,7 +18,6 @@ interface HeroProps {
 const MenuHero: React.FC<HeroProps> = ({ backgroundImageUUID, logoUUID, name, onUserIconClick }) => {
   const backgroundImageUrl = getImageUrl(backgroundImageUUID);
   const logoUrl = getImageUrl(logoUUID);
-  const [firstWord, ...restWords] = name?.split(' ') || [];
 
   const [open, setOpen] = useState(false);
   const cartCount = useSelector((state: RootState) => state.cart.items.reduce((acc, item) => acc + item.number, 0));
