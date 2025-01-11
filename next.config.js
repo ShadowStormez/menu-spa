@@ -2,7 +2,10 @@
  * @type {import('next').NextConfig}
  */
 const nextConfig = {
-  output: 'standalone',  // Renamed from experimental.outputStandalone
+  output: 'standalone',
+  images: {
+    domains: ["menyou-svc-gw.darkube.app"],
+  },
   webpack(config) {
     // Add custom rules for SVG handling
     config.module.rules.push({
