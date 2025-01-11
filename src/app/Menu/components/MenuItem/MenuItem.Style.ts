@@ -63,6 +63,7 @@ box-shadow: 9px 9px 25px -3px rgba(0,0,0,0.75);
         font-size: 12px;
         color: gray;
         width: 100%;
+        height:35px;
         text-align:right;
       }
     }
