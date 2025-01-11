@@ -1,4 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { StaticImageData } from 'next/image';
 import toast from 'react-hot-toast';
 
 
@@ -7,7 +8,7 @@ interface CartItem {
   name: string;
   price: number;
   number: number;
-  logoIds: string[] // Allow string or StaticImageData
+  foodImageUncropped:string | StaticImageData;
 }
 
 interface CartState {

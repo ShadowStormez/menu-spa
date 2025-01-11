@@ -3,9 +3,10 @@ import { TablistStyle } from './Tablist.Style';
 import Image, { StaticImageData } from "next/image";
 import { maincourse, appetizer, dessert, beverages } from '@/app/assets/icons';
 import { useDragAndTouchScroll } from '../../hooks/useDragScroll'; // import the custom hook
+import { Category } from '@/app/types/all-menus';
 
 interface TabListProps {
-  categories: string[] | undefined;
+  categories: Category[] | undefined;
   activeCategory: string;
   onTabClick: (category: string) => void;
   isFixed: boolean;
@@ -40,13 +41,6 @@ const TabList: React.FC<TabListProps> = ({
     }
   }, [activeCategory, tabListRef]);
 
-  const categoryImages: { [key: string]: string | StaticImageData } = {
-    'اصلی': maincourse,
-    "پیش غذا": appetizer,
-    'دسر': dessert,
-    "نوشیدنی‌": beverages,
-  };
-
   return (
     <TablistStyle>
       <div
@@ -62,16 +56,15 @@ const TabList: React.FC<TabListProps> = ({
       >
         {categories?.map((category) => (
           <button
-            key={category}
-            className={`tab ${activeCategory === category ? 'active' : ''}`}
-            onClick={() => onTabClick(category)}
+            key={category.category}
+            className={`tab ${activeCategory === category.category ? 'active' : ''}`}
+            onClick={() => onTabClick(category.category)}
           >
             <div className="icon-container">
-              <Image src={categoryImages[category]} width={35} height={35} alt="category-icon" />
+              <Image src={category.logoId} width={35} height={35} alt="category-icon" />
             </div>
-            {/* Only show category name when the tab is active */}
             <span className="category-name">
-              {category}
+              {category.category}
             </span>
           </button>
         ))}

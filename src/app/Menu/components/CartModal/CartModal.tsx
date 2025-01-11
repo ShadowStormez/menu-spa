@@ -6,7 +6,6 @@ import { Button, Dialog, DialogTitle, DialogContent, DialogActions, List, ListIt
 import { useMediaQuery,Box } from '@mui/material';
 import { CartModalStyle } from './CartModal.Style';
 import Image from 'next/image';
-import { foodDefaultBG } from '@/app/assets/images';
 import {generateRandomUUID} from '../../../utils/UuidCreator'
 import { createOrder } from '../../../utils/createOrder'
 import { EmptyCart } from '@/app/assets/icons';
@@ -92,7 +91,7 @@ const CartModal: React.FC<{ open: boolean; onClose: () => void }> = ({ open, onC
                           justifyContent: 'flex-start',
                         }}>
                           <Image  
-                            src={foodDefaultBG} 
+                            src={item.foodImageUncropped} 
                             alt={item.name}
                             width={100}
                             height={100}

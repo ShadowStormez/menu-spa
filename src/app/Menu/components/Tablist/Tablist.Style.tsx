@@ -42,7 +42,7 @@ export const TablistStyle=styled.div`
     &.active {
     background-color:var(--secondary-color);
       width:60px;
-      height: 100px;
+      height: auto;
       border-radius: 50px;
       display: flex;
       flex-direction: column;
@@ -52,6 +52,10 @@ export const TablistStyle=styled.div`
         width:50px;
         height:50px;
         background-color:var(--primary-color);
+        margin:4px;
+      }
+      .category-name{
+        margin:4px 0;
       }
     }
     &:hover {
@@ -74,6 +78,7 @@ export const TablistStyle=styled.div`
       font-weight: 500;
       text-align: center;
       color: white;
+      margin:0 4px;
 
       &.show {
         display: flex;

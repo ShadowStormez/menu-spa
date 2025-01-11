@@ -62,10 +62,7 @@ box-shadow: 9px 9px 25px -3px rgba(0,0,0,0.75);
       .description {
         font-size: 12px;
         color: gray;
-        width: 12rem;
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
+        width: 100%;
         text-align:right;
       }
     }
@@ -120,22 +117,5 @@ box-shadow: 9px 9px 25px -3px rgba(0,0,0,0.75);
     border-radius: 50%;
     padding: 8px;
     color: #fff; /* Default text color */
-  }
-
-  /* Category-specific styles */
-  .menu-item-category.vegetarian {
-    background-color: #81c784; /* Light green */
-  }
-
-  .menu-item-category.chilly {
-    background-color: #e57373; /* Light red */
-  }
-
-  .menu-item-category.non-vegan {
-    background-color: #ffb74d; /* Light orange */
-  }
-
-  .menu-item-category.vegan {
-    background-color: #64b5f6; /* Light blue */
   }
 `

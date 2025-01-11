@@ -1,7 +1,7 @@
 import React from "react";
-import Image, { StaticImageData } from "next/image";
+import Image from "next/image";
 import { MenuItemStyle } from "./MenuItem.Style";
-import { vegan, vegetarian, chilly, ArrowLeft } from "@/app/assets/icons"; // Import necessary icons
+import { ArrowLeft } from "@/app/assets/icons"; // Import necessary icons
 import { Button, ButtonGroup } from "@mui/material";
 import Link from "next/link";
 
@@ -9,26 +9,29 @@ import { useDispatch, useSelector } from 'react-redux';
 import { addItem, decrementNumber, incrementNumber } from '@/app/store/cartSlice';
 import toast from "react-hot-toast";
 import { RootState } from "@/app/store";
-import { foodDefaultBG } from "@/app/assets/images";
+import { getImageUrl } from "@/app/utils/getImageUrl";
+import { foodDefault } from "@/app/assets/images";
 
 interface MenuItemProps {
   id:string;
   name: string;
   description: string;
   price: number;
-  // category: string;
-  logoIds:string[]
+  logoIds:string[];
 }
 
 const MenuItem: React.FC<MenuItemProps> = ({ name, description, price,id,logoIds}) => {
   const dispatch = useDispatch();
+  const foodImageUncropped = getImageUrl(logoIds[0]) || foodDefault;
+  const foodImageCropped = getImageUrl(logoIds[1]) || foodDefault;
+
   // Get number from Redux state
   const number = useSelector((state: RootState) =>
     state.cart.items.find(item => item.id === id)?.number || 0
   );
 
   const handleAddToCart = () => {
-    dispatch(addItem({ id, name, price,number,logoIds })); // Add item to cart
+    dispatch(addItem({ id, name, price,number,foodImageUncropped })); // Add item to cart
     toast.success(`${name} به سفارش های شما اضافه شد`);
   };
 
@@ -42,19 +45,12 @@ const MenuItem: React.FC<MenuItemProps> = ({ name, description, price,id,logoIds
     toast.error(`${name} از سفارش های شما کم شد`);
   };
 
-  // Map category to the appropriate icon
-  const categoryIcons: { [key: string]: StaticImageData } = {
-    vegetarian,
-    vegan,
-    chilly,
-  };
-
   return (
     <MenuItemStyle>
       <div className="menu-item">
         <div className="menu-item-image-wrapper">
           <Image
-            src={foodDefaultBG} // Fallback to default image
+            src={foodImageCropped} // Fallback to default image
             alt={name}
             width={300} // Set width for image
             height={200} // Set height for image

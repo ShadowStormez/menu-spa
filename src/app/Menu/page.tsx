@@ -52,8 +52,8 @@ export default function Menu() {
   if (!menuData || !restaurantData) {
     return <LinearProgress />;
   }
-
-  const categories = menuData?.data.map((menu) => menu?.category || 'default-category');
+//inja umadi object haye categoriaro darovordi na khode esmeshono havaset bashe
+  const categories = menuData?.data.map((menu) => menu || 'default-category');
 
   return (
     <ThemeProvider theme={theme}>

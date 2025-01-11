@@ -3,7 +3,6 @@ import Image from "next/image";
 import { Badge, Button, ButtonGroup, IconButton, ThemeProvider,LinearProgress } from "@mui/material";
 import { MenuItemIdStyle } from "./page.Style";
 import {  cartIcon, chilly, vegan, vegetarian } from "@/app/assets/icons";
-import { foodDefaultBG } from "@/app/assets/images";
 import Header from "../components/Header/Header";
 
 import { useDispatch, useSelector } from 'react-redux';
@@ -16,6 +15,8 @@ import CartModal from "../components/CartModal/CartModal";
 
 //utils 
 import useAllmenus from '../../utils/useAllMenus'
+import { getImageUrl } from "@/app/utils/getImageUrl";
+import { foodDefault } from "@/app/assets/images";
 
 
 
@@ -45,11 +46,13 @@ export default function MenuItemPage({ params }: { params: Promise<{ id: string 
   }
 
 
-  const { name, description, price, logoIds } = TheeItem;
+  const { name, description, price,logoIds } = TheeItem;
+  const foodImageUncropped = getImageUrl(logoIds[0]) || foodDefault;
+  const foodImageBackground = getImageUrl(logoIds[2]) || foodDefault;
 
   // Add to cart
   const handleAddToCart = () => {
-    dispatch(addItem({ id: itemId, name, price, logoIds,number })); // Add item to cart
+    dispatch(addItem({ id: itemId, name, price,foodImageUncropped,number })); // Add item to cart
     toast.success(`${name} به سفارش های شما اضافه شد`);
   };
 
@@ -80,7 +83,7 @@ export default function MenuItemPage({ params }: { params: Promise<{ id: string 
       <div className="image-container">
         <Header/>
       <Image
-        src={foodDefaultBG}
+        src={foodImageBackground}
         alt="Background Image"
         layout="fill"
         objectFit="cover"
