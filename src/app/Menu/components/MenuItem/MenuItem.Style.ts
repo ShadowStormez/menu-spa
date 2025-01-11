@@ -62,7 +62,10 @@ box-shadow: 9px 9px 25px -3px rgba(0,0,0,0.75);
       .description {
         font-size: 12px;
         color: gray;
-        width: 100%;
+        max-width: 200px;
+        word-wrap: break-word;
+        overflow-wrap: break-word;
+        white-space: normal;
         height:35px;
         text-align:right;
       }
