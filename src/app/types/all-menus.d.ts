@@ -18,6 +18,7 @@ interface Item {
   interface Category {
     _id: string;
     restaurant: Restaurant;
+    logoId:string;
     category: string;
     items: Item[];
     createdAt: string;

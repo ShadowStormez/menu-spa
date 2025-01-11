@@ -142,7 +142,10 @@ const QuestionnairePage = () => {
     {questions.data[currentQuestionIndex].type === 'slider' &&
       questions.data[currentQuestionIndex].sliders?.map((slider, idx) => (
         <Box key={idx} sx={{ mb: 3, direction: 'rtl' }}>
+          <div className="slider-label">
           <Typography>{slider.label}</Typography>
+          <Typography>{slider.scale}</Typography>
+          </div>
           <Slider
             min={slider.min}
             max={slider.max}

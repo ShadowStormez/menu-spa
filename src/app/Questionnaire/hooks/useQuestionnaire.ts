@@ -91,7 +91,7 @@ export const useQuestionnaire = (questions: QuestionsArray | null) => {
 
       if (value.toLowerCase() === "no") {
         submitAnswers();
-      }
+      }else handleNextQuestion();
 
       return updatedAnswers;
     });
