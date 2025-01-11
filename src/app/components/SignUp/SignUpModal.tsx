@@ -139,6 +139,8 @@ const SignUpModal = ({
                   </IconButton>
                 </InputAdornment>
               ),
+            },
+            formHelperText: {
               sx: {
                 textAlign: 'right',
                 direction: 'rtl',

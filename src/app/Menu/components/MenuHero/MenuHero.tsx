@@ -19,6 +19,7 @@ interface HeroProps {
 const MenuHero: React.FC<HeroProps> = ({ backgroundImageUUID, logoUUID, name, onUserIconClick }) => {
 
   const backgroundImageUrl = getImageUrl(backgroundImageUUID);
+  const logo = getImageUrl(logoUUID);
   const [firstWord, ...restWords] = name?.split(' ') || [];
   
   const [open, setOpen] = useState(false);
@@ -43,8 +44,7 @@ const MenuHero: React.FC<HeroProps> = ({ backgroundImageUUID, logoUUID, name, on
           style={{ backgroundImage: `url(${backgroundImageUrl})` }}
         ></div>
         <div className="hero-content">
-          <h1 className="hero-title"><span>{firstWord}</span>{' '}
-          {restWords.join(' ')}</h1>
+          <Image src={logo} width={200} height={200} alt='restuarant-logo'/>
           <p className="animated-text">Powered by Men<span>YOU</span></p>
         </div>
       </div>

@@ -59,8 +59,8 @@ export default function Menu() {
     <ThemeProvider theme={theme}>
       <MenuPageStyle>
         <MenuHero 
-          logoUUID={restaurantData?.data.logoIds[1]} 
-          backgroundImageUUID={restaurantData?.data.logoIds[0]} 
+          logoUUID={restaurantData?.data.logoIds[0]} 
+          backgroundImageUUID={restaurantData?.data.logoIds[1]} 
           name={restaurantData?.data.name} 
           onUserIconClick={() => setIsSidebarOpen(true)} // Pass function to open sidebar
         />
