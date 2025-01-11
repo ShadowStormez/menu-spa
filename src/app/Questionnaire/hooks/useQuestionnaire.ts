@@ -17,12 +17,34 @@ export const useQuestionnaire = (questions: QuestionsArray | null) => {
   const router = useRouter();
 
   const handleNextQuestion = () => {
+    const currentQuestion = questions?.data[currentQuestionIndex];
+  
+    if (!currentQuestion) return;
+  
+    // Find the answer for the current question
+    const answer = answers.find(ans => ans.question.id === currentQuestion._id);
+  
+    // Validate based on question type
+    if (currentQuestion.isRequired) {
+      if (
+        !answer || 
+        (currentQuestion.type === 'text-input' && (!answer.answerText || answer.answerText.trim() === '')) || 
+        (currentQuestion.type === 'choice' && (!answer.answerText || answer.answerText.trim() === '')) || 
+        (currentQuestion.type === 'slider' && (!answer.answerValues || answer.answerValues.length === 0))
+      ) {
+        toast.error("لطفا به سوالات پاسخ دهید!");
+        return;
+      }
+    }
+  
+    // Move to the next question or submit answers if it's the last one
     if (currentQuestionIndex < (questions?.data?.length ?? 0) - 1) {
       setCurrentQuestionIndex(prevIndex => prevIndex + 1);
     } else {
       submitAnswers();
     }
   };
+  
 
   const handlePrevQuestion = () => {
     if (currentQuestionIndex > 0) {

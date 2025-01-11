@@ -128,7 +128,7 @@ const QuestionnairePage = () => {
     
     {(questions.data[currentQuestionIndex].type === 'text' || questions.data[currentQuestionIndex].type === 'text-input') && (
   <TextField
-    label={questions.data[currentQuestionIndex].questionText}
+    placeholder={questions.data[currentQuestionIndex].placeholder}
     fullWidth
     onChange={(e) =>
       handleInputChange(e.target.value, questions.data[currentQuestionIndex]._id)
@@ -182,6 +182,8 @@ const QuestionnairePage = () => {
     )}
   </Box>
 )}
+{
+questions?.data[currentQuestionIndex].type === 'choice'? null : (
 <Box sx={{display:'flex',flexDirection:'row',alignItems:'center',justifyContent:'center',gap:'10px'}}>
 {currentQuestionIndex > 0 && (
   <Button
@@ -198,6 +200,9 @@ const QuestionnairePage = () => {
   {currentQuestionIndex === (questions?.data?.length ?? 0) - 1 ? 'ثبت' : 'بعدی'}
   </Button>
 </Box>
+)
+}
+
 
               </>
             )}

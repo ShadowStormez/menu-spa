@@ -1,6 +1,6 @@
 interface Slider {
   id:string;
-  label: string;
+  label: string | null;
   min: number;
   max: number;
   step: number;
@@ -11,7 +11,7 @@ interface Question {
   _id: string
   questionText: string;
   type: 'slider' | 'text'|'text-input'| 'choice'; 
-  placeholder: string | null;
+  placeholder: string | undefined;
   options: string[] | null;
   sliders: Slider[] | null; 
   isRequired: boolean;
