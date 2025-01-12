@@ -8,7 +8,7 @@ interface CartItem {
   name: string;
   price: number;
   number: number;
-  foodImageUncropped:string | StaticImageData;
+  foodImageUncropped:string;
 }
 
 interface CartState {

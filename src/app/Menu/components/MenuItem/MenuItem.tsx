@@ -22,8 +22,8 @@ interface MenuItemProps {
 
 const MenuItem: React.FC<MenuItemProps> = ({ name, description, price,id,logoIds}) => {
   const dispatch = useDispatch();
-  const foodImageUncropped = getImageUrl(logoIds?.[0]) || foodDefault;
-  const foodImageCropped = getImageUrl(logoIds?.[1]) || foodDefault;
+  const foodImageUncropped = getImageUrl(logoIds[0]);
+  const foodImageCropped = getImageUrl(logoIds[1]);
 
   // Get number from Redux state
   const number = useSelector((state: RootState) =>
@@ -49,14 +49,18 @@ const MenuItem: React.FC<MenuItemProps> = ({ name, description, price,id,logoIds
     <MenuItemStyle>
       <div className="menu-item">
         <div className="menu-item-image-wrapper">
+          {foodImageCropped && (
           <Image
-            src={foodImageCropped} // Fallback to default image
-            alt={name}
-            width={300} // Set width for image
-            height={200} // Set height for image
-            objectFit="cover" // Ensure proper aspect ratio
-            className="FoodImage"
-          />
+          loader={() => foodImageCropped}
+          src={foodImageCropped}
+          alt={name}
+          width={300}
+          height={200}
+          objectFit="cover"
+          className="FoodImage"
+        />
+          )}
+
         </div>
         <div className="menu-item-details-container">
           <div className="menu-item-details">

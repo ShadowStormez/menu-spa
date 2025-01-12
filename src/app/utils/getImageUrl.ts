@@ -1,4 +1,3 @@
-export const getImageUrl = (uuid: string | undefined): string | undefined => {
-  if (!uuid) return undefined;
+export const getImageUrl = (uuid: string): string => {
   return `http://menyou-svc-gw.darkube.app/api/v1/documents/${uuid}`;
 };

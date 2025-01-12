@@ -9,8 +9,8 @@ import { RootState } from '@/app/store';
 import { getImageUrl } from '@/app/utils/getImageUrl';
 
 interface HeroProps {
-  backgroundImageUUID: string | undefined;
-  logoUUID: string | undefined;
+  backgroundImageUUID: string;
+  logoUUID: string;
   name: string | undefined;
   onUserIconClick: () => void;
 }
@@ -47,8 +47,8 @@ const MenuHero: React.FC<HeroProps> = ({ backgroundImageUUID, logoUUID, name, on
             <Image
               loader={() => logoUrl}
               src={logoUrl}
-              width={200}
-              height={200}
+              width={400}
+              height={400}
               alt="restaurant-logo"
             />
           )}

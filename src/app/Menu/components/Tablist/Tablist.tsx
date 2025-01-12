@@ -1,9 +1,9 @@
 import React, { useEffect } from 'react';
 import { TablistStyle } from './Tablist.Style';
-import Image, { StaticImageData } from "next/image";
-import { maincourse, appetizer, dessert, beverages } from '@/app/assets/icons';
-import { useDragAndTouchScroll } from '../../hooks/useDragScroll'; // import the custom hook
+import Image from "next/image";
+import { useDragAndTouchScroll } from '../../hooks/useDragScroll';
 import { Category } from '@/app/types/all-menus';
+import { getImageUrl } from '@/app/utils/getImageUrl';
 
 interface TabListProps {
   categories: Category[] | undefined;
@@ -36,7 +36,7 @@ const TabList: React.FC<TabListProps> = ({
       activeTab.scrollIntoView({
         behavior: 'smooth',
         block: 'nearest',
-        inline: 'start', // Center the active tab horizontally
+        inline: 'start',
       });
     }
   }, [activeCategory, tabListRef]);
@@ -46,28 +46,38 @@ const TabList: React.FC<TabListProps> = ({
       <div
         ref={tabListRef}
         className={`tablist ${isFixed ? 'fixed' : ''}`}
-        onMouseDown={handleMouseDown}  // Bind mouse events
+        onMouseDown={handleMouseDown}
         onMouseMove={handleMouseMove}
         onMouseUp={handleMouseUp}
         onMouseLeave={handleMouseLeave}
-        onTouchStart={handleTouchStart} // Bind touch events
+        onTouchStart={handleTouchStart}
         onTouchMove={handleTouchMove}
         onTouchEnd={handleTouchEnd}
       >
-        {categories?.map((category) => (
-          <button
-            key={category.category}
-            className={`tab ${activeCategory === category.category ? 'active' : ''}`}
-            onClick={() => onTabClick(category.category)}
-          >
-            <div className="icon-container">
-              <Image src={category.logoId} width={35} height={35} alt="category-icon" />
-            </div>
-            <span className="category-name">
-              {category.category}
-            </span>
-          </button>
-        ))}
+        {categories?.map((category) => {
+          const categoryImage = getImageUrl(category.logoId);
+
+          return (
+            <button
+              key={category.category}
+              className={`tab ${activeCategory === category.category ? 'active' : ''}`}
+              onClick={() => onTabClick(category.category)}
+            >
+              <div className="icon-container">
+                {categoryImage && (
+                <Image
+                loader={() => categoryImage} // Ensures remote images work
+                src={categoryImage}
+                width={35}
+                height={35}
+                alt="category-icon"
+              />
+                )}
+              </div>
+              <span className="category-name">{category.category}</span>
+            </button>
+          );
+        })}
       </div>
     </TablistStyle>
   );
