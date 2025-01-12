@@ -91,18 +91,17 @@ const CartModal: React.FC<{ open: boolean; onClose: () => void }> = ({ open, onC
                           gap: '10px',
                           justifyContent: 'flex-start',
                         }}>
-                          {item.foodImageUncropped && (
+                        {item.foodImageUncropped && (
                           <Image  
-                          loader={() => item.foodImageUncropped} 
-                          src={item.foodImageUncropped}
-                          alt={item.name}
-                          width={100}
-                          height={100}
-                          objectFit="cover"
-                          style={{ borderRadius: '8px' }}
-                        />
-                          )}
-
+                            loader={() => item.foodImageUncropped || '/default-image.jpg'} // ✅ Always return a string
+                            src={item.foodImageUncropped || '/default-image.jpg'} // ✅ Ensure src is always a valid image
+                            alt={item.name}
+                            width={100}
+                            height={100}
+                            objectFit="cover"
+                            style={{ borderRadius: '8px' }}
+                          />
+                        )}
                           <ListItemText
                           style={{textAlign:'right',color:'#fff'}}
                             primary={item.name}

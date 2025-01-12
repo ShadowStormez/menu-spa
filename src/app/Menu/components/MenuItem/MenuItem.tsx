@@ -22,8 +22,8 @@ interface MenuItemProps {
 
 const MenuItem: React.FC<MenuItemProps> = ({ name, description, price,id,logoIds}) => {
   const dispatch = useDispatch();
-  const foodImageUncropped = getImageUrl(logoIds[0]);
-  const foodImageCropped = getImageUrl(logoIds[1]);
+  const foodImageUncropped = getImageUrl(logoIds?.[0]);
+  const foodImageCropped = getImageUrl(logoIds?.[1]);
 
   // Get number from Redux state
   const number = useSelector((state: RootState) =>
