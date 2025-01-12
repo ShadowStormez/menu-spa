@@ -10,6 +10,7 @@ import {generateRandomUUID} from '../../../utils/UuidCreator'
 import { createOrder } from '../../../utils/createOrder'
 import { EmptyCart } from '@/app/assets/icons';
 import toast from 'react-hot-toast';
+import { foodDefault } from '@/app/assets/images';
 
 const CartModal: React.FC<{ open: boolean; onClose: () => void }> = ({ open, onClose }) => {
 
@@ -91,17 +92,14 @@ const CartModal: React.FC<{ open: boolean; onClose: () => void }> = ({ open, onC
                           gap: '10px',
                           justifyContent: 'flex-start',
                         }}>
-                        {item.foodImageUncropped && (
                           <Image  
-                            loader={() => item.foodImageUncropped || '/default-image.jpg'} // ✅ Always return a string
-                            src={item.foodImageUncropped || '/default-image.jpg'} // ✅ Ensure src is always a valid image
+                            src={item.foodImageUncropped || foodDefault }
                             alt={item.name}
                             width={100}
                             height={100}
                             objectFit="cover"
                             style={{ borderRadius: '8px' }}
                           />
-                        )}
                           <ListItemText
                           style={{textAlign:'right',color:'#fff'}}
                             primary={item.name}

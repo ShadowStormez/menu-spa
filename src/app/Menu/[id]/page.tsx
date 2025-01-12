@@ -47,8 +47,9 @@ export default function MenuItemPage({ params }: { params: Promise<{ id: string 
 
 
   const { name, description, price,logoIds } = TheeItem;
-  const foodImageUncropped = getImageUrl(logoIds?.[0]);
-  const foodImageBackground = getImageUrl(logoIds?.[2]);
+  const foodImageBackground = logoIds?.[2] ? getImageUrl(logoIds[2]) : foodDefault;
+  const foodImageUncropped = logoIds?.[0] ? getImageUrl(logoIds[0]) : foodDefault;
+
 
   // Add to cart
   const handleAddToCart = () => {
@@ -82,16 +83,13 @@ export default function MenuItemPage({ params }: { params: Promise<{ id: string 
     </div>
       <div className="image-container">
         <Header/>
-        {foodImageBackground && (
           <Image
-          loader={() => foodImageBackground}
-          src={foodImageBackground}
+          src={foodImageBackground || foodDefault}
           alt="Background Image"
           layout="fill"
           objectFit="cover"
           priority
           />
-        )}
       <div style={{
         position: 'absolute',
         top: 0,
