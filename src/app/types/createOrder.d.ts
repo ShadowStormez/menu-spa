@@ -9,7 +9,7 @@ interface Restaurant {
 interface Item {
   id: string;
   name: string;
-  quantity: number;
+  number: number;
 }
 
 export interface Order {

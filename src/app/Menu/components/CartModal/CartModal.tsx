@@ -34,7 +34,7 @@ const CartModal: React.FC<{ open: boolean; onClose: () => void }> = ({ open, onC
       const items = cart.map(item => ({
         id: item.id,
         name: item.name,
-        quantity: item.number
+        number: item.number
       }));
 
       const order = {
