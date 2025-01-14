@@ -37,9 +37,8 @@ const CartModal: React.FC<{ open: boolean; onClose: () => void }> = ({ open, onC
         number: item.number
       }));
 
-      const order = {
-        status: true, // Add the status attribute
-        data: {
+      const order = 
+         {
           id: generateRandomUUID(),
           restaurant: { id: restaurantId },
           user: { id: userId },
@@ -48,9 +47,6 @@ const CartModal: React.FC<{ open: boolean; onClose: () => void }> = ({ open, onC
           items: items,
           specialRequests: orderDescription,
           orderGroupId: generateRandomUUID(),
-          totalAmount: totalAmount,
-          __meta: {}, // Optional metadata
-        },
       };
       if(userId){
         await createOrder(order);

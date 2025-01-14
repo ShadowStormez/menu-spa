@@ -13,8 +13,6 @@ interface Item {
 }
 
 export interface Order {
-  status: boolean; // Top-level status field
-  data: {
     id: string; // Order ID
     restaurant: Restaurant;
     user: User;
@@ -23,7 +21,4 @@ export interface Order {
     items: Item[];
     specialRequests: string;
     orderGroupId: string;
-    totalAmount: number;
-    __meta: object; // Optional metadata
   };
-}
