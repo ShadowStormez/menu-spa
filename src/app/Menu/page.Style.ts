@@ -29,6 +29,8 @@ export const MenuPageStyle=styled.div`
  .FoodImage{
   position:relative;
   bottom:30px;
+  height: 200px;
+  object-fit:cover;
  }
 }
 

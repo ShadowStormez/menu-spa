@@ -94,7 +94,8 @@ const CartModal: React.FC<{ open: boolean; onClose: () => void }> = ({ open, onC
                             width={100}
                             height={100}
                             objectFit="cover"
-                            style={{ borderRadius: '8px' }}
+                            style={{ borderRadius: '8px',height: '100px',
+                              objectFit: 'cover' }}
                           />
                           <ListItemText
                           style={{textAlign:'right',color:'#fff'}}
