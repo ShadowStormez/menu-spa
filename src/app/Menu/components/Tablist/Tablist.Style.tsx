@@ -49,7 +49,7 @@ export const TablistStyle=styled.div`
       justify-content: space-evenly;
       align-items:center;
       .icon-container{
-        width:50px;
+        width:60px; //injaro yadet bashe ridi
         height:50px;
         background-color:var(--primary-color);
         margin:4px;

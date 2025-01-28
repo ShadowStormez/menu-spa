@@ -30,7 +30,7 @@ export const MenuPageStyle=styled.div`
   position:relative;
   bottom:30px;
   height: 200px;
-  object-fit:cover;
+  object-fit:none;
  }
 }
 
