@@ -54,7 +54,7 @@ const MenuItem: React.FC<MenuItemProps> = ({ name, description, price,id,logoIds
           alt={name}
           width={300}
           height={200}
-          objectFit="cover"
+          objectFit="none"
           className="FoodImage"
         />
         </div>

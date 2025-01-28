@@ -11,7 +11,7 @@ export const apiSubmitAnswers = async (userId: string, answers: Preferences) => 
     };
 
     const response = await axios.post(
-      `http://menyou-svc-gw.darkube.app/api/v1/restaurants/${userId}/user_preferences`,
+      `https://menyou-svc-gw.darkube.app/api/v1/restaurants/${userId}/user_preferences`,
       preferences,
       {
         withCredentials: true,

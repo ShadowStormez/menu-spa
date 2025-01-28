@@ -15,7 +15,7 @@ export const apiLogin = async (usernameOrMobile: string, password: string) => {
   try {
     const loginUser = { usernameOrMobile, password };
 
-    const loginUrl = 'http://menyou-svc-gw.darkube.app/api/v1/auth/login';
+    const loginUrl = 'https://menyou-svc-gw.darkube.app/api/v1/auth/login';
     const response = await axios.post(loginUrl, loginUser, {
       withCredentials: true,
     });
