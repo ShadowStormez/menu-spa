@@ -1,0 +1,15 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;700&display=swap');
+
+/* Utility classes for font switching */
+.farsi-font {
+  font-family: 'Vazirmatn', sans-serif !important;
+}
+.english-font {
+  font-family: 'Roboto', sans-serif !important;
+}
+
+/* Optional: set html defaults for both scripts */
+body {
+  font-family: 'Vazirmatn', 'Roboto', sans-serif;
+}

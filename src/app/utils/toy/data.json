@@ -1,0 +1,108 @@
+{
+    "status": true,
+    "data": [
+      {
+        "_id": "cat001",
+        "restaurant": {
+          "id": "rest001"
+        },
+        "category": "قهوه سرد",
+        "items": [
+          {
+            "_id": "item001",
+            "name": "آیس امریکانو",
+            "description": "دو شات اسپرسو به همراه آب و یخ",
+            "price": 115130,
+            "number": 1,
+            "calories": 5,
+            "createdAt": "2025-08-12T09:00:00Z",
+            "updatedAt": "2025-08-12T09:00:00Z",
+            "__v": 0
+          },
+          {
+            "_id": "item002",
+            "name": "آیس لته",
+            "description": "دو شات اسپرسو به همراه شیر و یخ",
+            "price": 180200,
+            "number": 1,
+            "calories": 2,
+            "createdAt": "2025-08-12T09:05:00Z",
+            "updatedAt": "2025-08-12T09:05:00Z",
+            "__v": 0
+          }
+        ],
+        "createdAt": "2025-08-12T08:55:00Z",
+        "updatedAt": "2025-08-12T08:55:00Z",
+        "__v": 0
+      },
+      {
+        "_id": "cat002",
+        "restaurant": {
+          "id": "rest001"
+        },
+        "category": "قهوه گرم",
+        "items": [
+          {
+            "_id": "item003",
+            "name": "آمریکانو",
+            "description": "دو شات اسپرسو به همراه آب ",
+            "price": 115130,
+            "number": 1,
+            "calories": 320,
+            "createdAt": "2025-08-12T09:10:00Z",
+            "updatedAt": "2025-08-12T09:10:00Z",
+            "__v": 0
+          },
+          {
+            "_id": "item004",
+            "name": "لته",
+            "description": "دو شات اسپرسو به همراه شیر ",
+            "price": 180200,
+            "number": 1,
+            "calories": 210,
+            "createdAt": "2025-08-12T09:15:00Z",
+            "updatedAt": "2025-08-12T09:15:00Z",
+            "__v": 0
+          }
+        ],
+        "createdAt": "2025-08-12T09:00:00Z",
+        "updatedAt": "2025-08-12T09:00:00Z",
+        "__v": 0
+      },
+      {
+        "_id": "cat003",
+        "restaurant": {
+          "id": "rest001"
+        },
+        "category": "نوشیدنی گرم",
+        "items": [
+          {
+            "_id": "item004",
+            "name": "هات چاکلت",
+            "description": " پودر شکلات و شیر",
+            "price": 160,
+            "number": 1,
+            "calories": 320,
+            "createdAt": "2025-08-12T09:10:00Z",
+            "updatedAt": "2025-08-12T09:10:00Z",
+            "__v": 0
+          },
+          {
+            "_id": "item005",
+            "name": "چای",
+            "description": " چای سیاه",
+            "price": 90,
+            "number": 1,
+            "calories": 210,
+            "createdAt": "2025-08-12T09:15:00Z",
+            "updatedAt": "2025-08-12T09:15:00Z",
+            "__v": 0
+          }
+        ],
+        "createdAt": "2025-08-12T09:00:00Z",
+        "updatedAt": "2025-08-12T09:00:00Z",
+        "__v": 0
+      }
+    ]
+  }
+  
