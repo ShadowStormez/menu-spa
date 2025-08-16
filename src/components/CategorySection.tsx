@@ -187,7 +187,7 @@ const formatPrice = (price: string, itemId: string, flavor?: string) => {
           <DialogHandle onMouseDown={handleDragStart} onTouchStart={handleDragStart} />
           <DialogImageWrap>
             <Image
-              src={item.logoIds && item.logoIds.length > 0 ? getImageUrl(item.logoIds[0]) : IcedAmericano}
+              src={item.logoIds && item.logoIds.length > 0 && item.logoIds[0] !== '' ? getImageUrl(item.logoIds[0]) : IcedAmericano}
               alt={item.name}
               width={96}
               height={96}
@@ -328,7 +328,7 @@ const formatPrice = (price: string, itemId: string, flavor?: string) => {
             <ItemCard isActive={isActive} onClick={() => setOpenDialogId(item._id)} style={{ cursor: 'pointer' }}>
               <ItemImageWrap>
                 <Image
-                  src={item.logoIds && item.logoIds.length > 0 ? getImageUrl(item.logoIds[0]) : IcedAmericano}
+                  src={item.logoIds && item.logoIds.length > 0 && item.logoIds[0] !== '' ? getImageUrl(item.logoIds[0]) : IcedAmericano}       
                   alt={item.name}
                   width={96}
                   height={96}

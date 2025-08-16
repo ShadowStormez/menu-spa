@@ -1,0 +1,54 @@
+{
+    "id": "3a1f9c2e-7c4b-4d2a-bf1e-9a2d3f6c8b1a",
+    "category": "قهوه گرم",
+    "description": "",
+    "restaurant": {
+        "id": "9e4b2d1a-3f6c-4a9e-bd7c-2ec31a5f60c3"
+    },
+    "logoId": "6783c2ce42f87dd66d48cdc7",
+    "items": [
+        {
+            "_id": "d4ba5c3f-a20a-417c-b4c2-73adfdd0be07",
+            "name": "پرتزل",
+            "description": "پرتزل یک پرتزل است که می گوید به به پرتزل",
+            "price": 45000,
+            "number": 0,
+            "calories": 0,
+            "logoIds": [
+                "678389c542f87dd66d48cda1",
+                "678389db42f87dd66d48cdac",
+                "678389f042f87dd66d48cdae"
+            ]
+        },
+        {
+            "_id": "8fb8a952-81f1-4901-8168-e636ec5a2666",
+            "name": "سیمیت",
+            "description": "سیمیت یک سیمیت است که می گوید به به سیمیت",
+            "price": 38000,
+            "number": 0,
+            "calories": 0,
+            "logoIds": [
+                "67838a1542f87dd66d48cdb6",
+                "67838a2b42f87dd66d48cdbc",
+                "67838a4d42f87dd66d48cdbe"
+            ]
+        }
+    ],
+    "__meta": {}
+}
+
+
+2. 9e4b2d1a-3f6c-4a9e-bd7c-2ec31a5f60c3
+3. 7d2c4b1e-8f3a-4c9e-a1b2-6c8b1a9e4d3f
+4. 1e9a2d3f-6c8b-4a7d-bf1e-3a1f9c2e7c4b
+5. 4a9e3f6c-2d1a-4b7d-a1b2-9e4d3f6c8b1a
+6. 6c8b1a9e-3f6c-4d2a-bf1e-7c4b2d1a3a1f
+7. 2ec31a5f-60c3-4a9e-bd7c-1e9a2d3f6c8b
+8. bf1e3a1f-9c2e-4b7d-a1b2-6c8b1a9e4d3f
+9. 8f3a4c9e-2d1a-4a7d-bf1e-3a1f9c2e7c4b
+10. a1b29e4d-3f6c-4d2a-bf1e-6c8b1a9e3f6c
+11. 7c4b2d1a-3a1f-4a9e-bd7c-2ec31a5f60c3
+12. 9e4d3f6c-8b1a-4a7d-bf1e-1e9a2d3f6c8b
+13. 3f6c2d1a-4b7d-4c9e-a1b2-9e4d3f6c8b1a
+14. 6c8b1a9e-3a1f-4d2a-bf1e-7c4b2d1a9e4d
+15. 2d1a3f6c-8b1a-4a9e-bd7c-1e9a2d3f60c3

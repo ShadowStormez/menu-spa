@@ -12,7 +12,7 @@ interface HeaderProps {
 
 export default function Header({ logoId }: HeaderProps) {
   // Use the logo from API if available, otherwise use default LogoFinal
-  const logoSrc = logoId ? getImageUrl(logoId) : LogoFinal;
+  const logoSrc = logoId && logoId !== '' ? getImageUrl(logoId) : LogoFinal;
   
   return (
     <HeaderContainer>

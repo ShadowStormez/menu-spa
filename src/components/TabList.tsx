@@ -56,7 +56,7 @@ const TabList: React.FC<TabListProps> = ({ categories, activeCategory, onTabClic
           >
             <div className="icon-container">
               <Image
-                src={category.logoId ? getImageUrl(category.logoId) : IcedIcon}
+                src={category.logoId && category.logoId !== '' ? getImageUrl(category.logoId) : IcedIcon}
                 width={35}
                 height={35}
                 alt={category.category}
