@@ -163,14 +163,22 @@ const formatPrice = (price: string, itemId: string, flavor?: string) => {
     const flavor = selectedFlavors[item._id];
     const showFlavor = needsFlavorDropdown(item.name);
     const handleDragStart = (e: React.TouchEvent | React.MouseEvent) => {
-  const startY = 'touches' in e ? e.touches[0].clientY : e.clientY;
+  if (typeof window === 'undefined') return; // Prevent SSR crash
+
+  const startY =
+    'touches' in e ? e.touches[0].clientY : (e as React.MouseEvent).clientY;
 
   const handleDragMove = (moveEvent: TouchEvent | MouseEvent) => {
-    const currentY = 'touches' in moveEvent ? moveEvent.touches[0].clientY : (moveEvent as MouseEvent).clientY;
+    const currentY =
+      'touches' in moveEvent
+        ? moveEvent.touches[0].clientY
+        : (moveEvent as MouseEvent).clientY;
+
     const deltaY = currentY - startY;
 
     if (deltaY > 100) {
       setOpenDialogId(null); // Close if dragged down enough
+
       document.removeEventListener('touchmove', handleDragMove);
       document.removeEventListener('mousemove', handleDragMove);
     }
@@ -179,6 +187,7 @@ const formatPrice = (price: string, itemId: string, flavor?: string) => {
   document.addEventListener('touchmove', handleDragMove);
   document.addEventListener('mousemove', handleDragMove);
 };
+
     return (
       <>
         <Overlay onClick={() => setOpenDialogId(null)} />
