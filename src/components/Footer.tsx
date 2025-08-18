@@ -67,10 +67,11 @@ export default function Footer({ address }: FooterProps) {
             </p>
             <div className="footer-icons">
             <a href="https://instagram.com" target="_blank" rel="noopener noreferrer">
-              <FaInstagram size={32} color="#E1306C" />
+              <Image src={InstagramIcon} width={32} height={32} alt="instagram" />
             </a>
             <a href="https://maps.google.com" target="_blank" rel="noopener noreferrer">
-              <FaMapMarkerAlt size={32} color="#0284C7" />
+              <Image src={GoogleMapsIcon} width={32} height={32} alt="google-maps" />
+      
             </a>
           </div>
 

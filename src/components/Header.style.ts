@@ -10,7 +10,6 @@ export const HeaderContainer = styled.header`
   align-items: flex-start;
   justify-content: center;
   padding-top: 8px;
-  
 `;
 
 /* ☁️ Cloud container with layout variables and animations */
@@ -19,7 +18,7 @@ export const Clouds = styled.div`
   --cloud-width: min(40vw, 320px);
   --overlap-ratio: 0.3333;
   --overlap: calc(var(--cloud-width) * var(--overlap-ratio));
-  --meeting-left: calc(50% + (var(--overlap) / 2));
+  --meeting-left: calc(50% + (var(--overlap) / 2)); /* default center */
   --cloud-height: calc(var(--cloud-width) * 1.3);
   --cloud-top-extra: 24px;
 
@@ -55,9 +54,10 @@ export const Clouds = styled.div`
     }
   }
 
-    @media (max-width: 480px) {
-    --cloud-width: min(45vw, 360px); /* Bigger clouds on small screens */
-    --cloud-top-extra: 32px;         /* Slightly more vertical space */
+  @media (max-width: 640px) {
+    --cloud-width: min(45vw, 360px);
+    --cloud-top-extra: 32px;
+    --meeting-left: calc(52% + (var(--overlap) / 2)); /* shift center slightly right */
   }
 `;
 
@@ -71,11 +71,10 @@ export const CloudLeft = styled.div`
   animation: slideInLeft 1.8s ease-out forwards;
   z-index: 0;
 
-@media (max-width: 640px) {
-  width: calc(var(--cloud-width) * 1.2);
-  left: calc(var(--meeting-left) - calc(var(--cloud-width) * 1.2)); /* for CloudLeft */
-}
-
+  @media (max-width: 640px) {
+    width: calc(var(--cloud-width) * 1.2);
+    left: calc(var(--meeting-left) - calc(var(--cloud-width) * 1.2)); /* for CloudLeft */
+  }
 `;
 
 /* ➡️ Right cloud (overlaps and sits slightly higher) */
@@ -88,11 +87,10 @@ export const CloudRight = styled.div`
   animation: slideInRight 1.8s ease-out forwards;
   z-index: 1;
 
-@media (max-width: 640px) {
-  width: calc(var(--cloud-width) * 1.2);
-  left: calc(var(--meeting-left) - calc(var(--cloud-width) * 1.2 * var(--overlap-ratio))); /* updated overlap */
-}
-
+  @media (max-width: 640px) {
+    width: calc(var(--cloud-width) * 1.2);
+    left: calc(var(--meeting-left) - calc(var(--cloud-width) * 1.2 * var(--overlap-ratio))); /* updated overlap */
+  }
 `;
 
 /* 🎯 Logo centered above cloud overlap */
@@ -106,8 +104,8 @@ export const LogoWrap = styled.div`
   animation-delay: 1.9s;
   z-index: 2;
 
-    @media (max-width: 480px) {
-    transform: translateX(-50%) scale(1.2); /* Slight enlargement */
-    top: calc(var(--cloud-height) * 0.2);
+  @media (max-width: 640px) {
+    top: calc(var(--cloud-height) * 0.18);
+    transform: translateX(-54%) scale(1.1); /* Slight enlargement */
   }
 `;

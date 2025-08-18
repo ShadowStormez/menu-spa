@@ -93,27 +93,41 @@ export const ItemCard = styled.div<{ isActive?: boolean }>`
   `}
 
   &::before {
-    content: "";
-    position: absolute;
-    right: -20px;
-    bottom: -25px;
-    width: 400px;
-    height: 220px;
-    background-image: url(${clouds.src});
-    background-size: cover;
-    background-repeat: no-repeat;
-    background-position: center right;
-    z-index: 0;
-    opacity: ${({ isActive }) => (isActive ? 0.6 : 0.9)};
-    filter: ${({ isActive }) =>
-      isActive ? 'hue-rotate(45deg) brightness(1.2)' : 'drop-shadow(0 4px 6px rgba(0, 0, 0, 0.2))'};
-    pointer-events: none;
-    transform: translateZ(-1px);
-  }
+  content: "";
+  position: absolute;
+  right: -20px;
+  bottom: -25px;
+  width: 400px;
+  height: 220px;
+  background-image: url(${clouds.src});
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center right;
+  z-index: 0;
+  opacity: 0.9;
+  filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.2));
+  pointer-events: none;
+  transform: translate3d(0, 0, 0);
+  transition: opacity 0.3s ease, filter 0.3s ease;
+}
+
+${({ isActive }) =>
+  isActive &&
+  `
+    &::before {
+      opacity: 0.6;
+      filter: hue-rotate(45deg) brightness(1.2);
+    }
+  `}
+
 
   > * {
     position: relative;
     z-index: 1;
+  }
+
+  @media (max-width: 946px) {
+    height:450px;
   }
 
 

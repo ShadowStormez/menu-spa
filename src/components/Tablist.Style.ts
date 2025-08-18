@@ -25,6 +25,10 @@ export const TablistStyle = styled.div`
     scroll-padding-inline: 20px;
     mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
   -webkit-mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
+
+  @media (max-width: 640px) {
+    margin: 200px auto 50px auto;
+  }
   }
 
   .tablist::-webkit-scrollbar {

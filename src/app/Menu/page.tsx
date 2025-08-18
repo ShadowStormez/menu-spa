@@ -10,9 +10,10 @@ import useRestaurantProfile from "@/app/utils/useRestaurantProfile";
 import useAllMenus from "@/app/utils/useAllMenus";
 import toyMenuData from "@/app/utils/toy/data.json";
 import ScrollToTopButton from "@/components/ScrollToTopButton";
+import supportsEmoji from "../utils/SupportsEmoji";
 
 // Default restaurant ID
-const DEFAULT_RESTAURANT_ID = "6475c95d4e6bcc9e4d3e5ae3";
+const DEFAULT_RESTAURANT_ID = "c7f3a9e2-1b4d-4f8e-9a6c-7d2e3b9f1c84";
 
 export default function MenuPage() {
   const [activeCategory, setActiveCategory] = useState<string>("");
@@ -105,21 +106,21 @@ useEffect(() => {
       <Footer address={restaurantData?.data?.address} />
       <ScrollToTopButton />
       <div style={{ textAlign: "center", marginTop: "24px", marginBottom: "16px" }}>
-  <span
-    style={{
-      backgroundColor: "transparent",
-      color: "#fff",
-      padding: "6px 12px",
-      fontSize: "18px",
-      borderRadius: "8px",
-      fontWeight: 500,
-      fontFamily: "sans-serif",
-      display: "inline-block",
-    }}
-  >
-     Made with love 🩵 in Iran
-  </span>
-</div>
+        <span
+          style={{
+            backgroundColor: "transparent",
+            color: "#fff",
+            padding: "6px 12px",
+            fontSize: "18px",
+            borderRadius: "8px",
+            fontWeight: 500,
+            fontFamily: "sans-serif",
+            display: "inline-block",
+          }}
+        >
+          Made with love {supportsEmoji("🩵") ? "🩵" : "💙"} in Iran
+        </span>
+        </div>
 
     </MenuStyle>
   );

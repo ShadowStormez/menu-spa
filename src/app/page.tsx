@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import Menu from "./Menu/page";
 import { LinearProgress } from "@mui/material";
 
+
 export default function Home() {
   const [isReady, setIsReady] = useState(false);
 
