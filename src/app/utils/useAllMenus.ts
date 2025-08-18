@@ -10,6 +10,7 @@ export default function useAllMenus(restaurantId: string | null ) {
 
     const fetchAllMenus = async () => {
       try {
+        console.log("Using restaurantId:", restaurantId);
         const response = await axios.get(`https://menyou-svc-gw.darkube.app/api/v1/restaurants/${restaurantId}/all_menus`);
         setMenuData(response.data);
       } catch (error) {
