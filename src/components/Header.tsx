@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import Cloud from "@/app/assets/icons/Cloud.png";
+import Cloud from "@/app/assets/icons/Cloud-min.png";
 import LogoFinal from "@/app/assets/icons/LogoFinal.png";
 import { HeaderContainer, Clouds, CloudLeft, CloudRight, LogoWrap } from "./Header.style";
 import { getImageUrl } from "@/app/utils/getImageUrl";

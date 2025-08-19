@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import Image from "next/image";
-import Cloud from "@/app/assets/icons/Cloud.png";
+import Cloud from "@/app/assets/icons/Cloud-min.png";
 import InstagramIcon from "@/app/assets/icons/instagram.png";
 import GoogleMapsIcon from "@/app/assets/icons/google-maps.png";
 import { FooterContainer, FooterCloud } from "./Footer.style";

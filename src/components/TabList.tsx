@@ -3,7 +3,7 @@
 import React, { useRef, useEffect } from "react";
 import Image from "next/image";
 import { TablistStyle } from "./Tablist.Style";
-import IcedIcon from "@/app/assets/icons/Iced.png";
+import IcedIcon from "@/app/assets/icons/IcedCoffee-min.png";
 import { Category } from "@/app/types/all-menus";
 import { getImageUrl } from "@/app/utils/getImageUrl";
 

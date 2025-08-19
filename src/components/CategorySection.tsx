@@ -424,7 +424,7 @@ const needsFlavorDropdown = (itemName: string) => {
                       handleSelectorClick(item._id, 0);
                     }}
                   >
-                    ۷۰/۳ عربیکا
+                    ۷۰/۳۰ عربیکا
                   </SelectorButton>
                   <SelectorButton
                     active={selectedOptions[item._id] === 1}
