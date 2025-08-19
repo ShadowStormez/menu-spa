@@ -1,9 +1,9 @@
 "use client";
 
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState, useRef, useLayoutEffect } from "react";
+import { VariableSizeList as List } from "react-window";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
-import { throttle } from "../utils/throttle";
 import MenuStyle from "./page.style";
 import { LinearProgress } from "@mui/material";
 import TabList from "@/components/TabList";
@@ -20,105 +20,105 @@ const DEFAULT_RESTAURANT_ID = "c7f3a9e2-1b4d-4f8e-9a6c-7d2e3b9f1c84";
 export default function MenuPage() {
   const [isReady, setIsReady] = useState(false);
   const [activeCategory, setActiveCategory] = useState<string>("");
-  const categoryRefs = useRef<{[key: string]: HTMLDivElement | null}>({});
   const headerRef = useRef<HTMLDivElement | null>(null);
+  const listRef = useRef<List>(null);
+  const itemHeights = useRef<number[]>([]);
+  const categoryOffsets = useRef<number[]>([]);
+  const [size, setSize] = useState({ width: 0, height: 0 });
+  const listContainerRef = useRef<HTMLDivElement>(null);
   
-  // Fetch restaurant profile
   const { restaurantData } = useRestaurantProfile(DEFAULT_RESTAURANT_ID);
-  
-  // Fetch menu data
   const { menuData } = useAllMenus(DEFAULT_RESTAURANT_ID);
   const finalMenuData = menuData?.data?.length ? menuData : toyMenuData;
-
-
-  const smoothScrollTo = (targetY: number, duration = 600) => {
-  const startY = window.scrollY;
-  const distance = targetY - startY;
-  let startTime: number | null = null;
-
-  const step = (timestamp: number) => {
-    if (!startTime) startTime = timestamp;
-    const progress = timestamp - startTime;
-    const percent = Math.min(progress / duration, 1);
-    window.scrollTo(0, startY + distance * percent);
-    if (percent < 1) {
-      requestAnimationFrame(step);
-    }
-  };
-
-  requestAnimationFrame(step);
-};
-
-  
-const handleTabClick = (categoryId: string) => {
-  const element = categoryRefs.current[categoryId];
-  if (element) {
-    const offsetTop = element.offsetTop;
-
-    // Optional: adjust for fixed headers or padding
-    const scrollTarget = offsetTop - 80; // tweak this offset if needed
-
-    smoothScrollTo(scrollTarget, 800); // 800ms scroll duration
-  }
-};
-
-  
-useEffect(() => {
-  const handleScroll = () => {
-    const tabList = document.querySelector('.tablist');
-
-    if (headerRef.current && tabList) {
-      const headerRect = headerRef.current.getBoundingClientRect();
-      const isFixed = headerRect.bottom <= 0;
-
-      if (isFixed) {
-        tabList.classList.add('fixed');
-      } else {
-        // Tab list is unfixed → clear active tab
-        tabList.classList.remove('fixed');
-        if (activeCategory) {
-          setActiveCategory("");
-        }
-      }
-    }
-
-    // Don't try to find active category if tablist isn't fixed
-    if (!tabList?.classList.contains('fixed')) {
-      return;
-    }
-
-    // Update active category based on scroll position
-    const categories = finalMenuData?.data || [];
-    for (const category of categories) {
-      const element = categoryRefs.current[category._id];
-      if (element) {
-        const rect = element.getBoundingClientRect();
-        if (rect.top <= 100 && rect.bottom >= 100) {
-          setActiveCategory(category._id);
-          break;
-        }
-      }
-    }
-  };
-
-  const throttledScrollHandler = throttle(handleScroll, 300);
-
-  window.addEventListener('scroll', throttledScrollHandler);
-  return () => window.removeEventListener('scroll', throttledScrollHandler);
-}, [finalMenuData, activeCategory]);
 
   useEffect(() => {
     const timer = setTimeout(() => {
       setIsReady(true);
-    }, 800); // adjust delay as needed
-
+    }, 800);
     return () => clearTimeout(timer);
   }, []);
 
+  useLayoutEffect(() => {
+    if (listContainerRef.current) {
+      const resizeObserver = new ResizeObserver(entries => {
+        for (const entry of entries) {
+          setSize({
+            width: entry.contentRect.width,
+            height: entry.contentRect.height,
+          });
+        }
+      });
+      resizeObserver.observe(listContainerRef.current);
+      // Set initial size
+      setSize({
+        width: listContainerRef.current.clientWidth,
+        height: listContainerRef.current.clientHeight,
+      });
+      return () => resizeObserver.disconnect();
+    }
+  }, []);
+
+  useEffect(() => {
+    if (finalMenuData?.data) {
+      const heights: number[] = [];
+      const offs: number[] = [];
+      let currentOffset = 0;
+      finalMenuData.data.forEach(category => {
+        // Estimate height based on number of items
+        const headerHeight = 80; // Approximate height of the category header
+        const itemHeight = 120; // Approximate height of an item card
+        const h = headerHeight + category.items.length * itemHeight;
+        heights.push(h);
+        offs.push(currentOffset);
+        currentOffset += h;
+      });
+      itemHeights.current = heights;
+      categoryOffsets.current = offs;
+    }
+  }, [finalMenuData]);
+
+  const getItemSize = (index: number) => itemHeights.current[index] || 0;
+
+  const handleTabClick = (categoryId: string) => {
+    if (finalMenuData?.data && listRef.current) {
+      const index = finalMenuData.data.findIndex(c => c._id === categoryId);
+      if (index !== -1) {
+        listRef.current.scrollToItem(index, 'start');
+      }
+    }
+  };
+
+  const handleListScroll = ({ scrollOffset }: { scrollOffset: number }) => {
+    // Determine active category based on scroll offset
+    let index = 0;
+    for (let i = 0; i < categoryOffsets.current.length; i++) {
+      if (categoryOffsets.current[i] <= scrollOffset + 1) {
+        index = i;
+      } else {
+        break;
+      }
+    }
+    const activeId = finalMenuData?.data[index]?._id;
+    if (activeId && activeId !== activeCategory) {
+      setActiveCategory(activeId);
+    }
+  };
+
+  const Row = ({ index, style }: { index: number; style: React.CSSProperties }) => {
+    const category = finalMenuData!.data[index];
+    return (
+      <div style={style}>
+        <CategorySection
+          title={category.category}
+          items={category.items}
+          categoryId={category._id}
+        />
+      </div>
+    );
+  };
   
   return (
     <div style={{ position: "relative" }}>
-      {/* Loading screen */}
       {!isReady && (
         <div
           style={{
@@ -127,7 +127,7 @@ useEffect(() => {
             left: 0,
             width: "100vw",
             height: "100vh",
-            backgroundColor: "#0284c7", // blue background
+            backgroundColor: "#0284c7",
             zIndex: 9999,
             display: "flex",
             flexDirection: "column",
@@ -139,20 +139,21 @@ useEffect(() => {
             sx={{
               width: "100%",
               height: "4px",
-              backgroundColor: "#60a5fa", // lighter blue track
+              backgroundColor: "#60a5fa",
               "& .MuiLinearProgress-bar": {
-                backgroundColor: "#ffffff", // white progress bar
+                backgroundColor: "#ffffff",
               },
             }}
           />
         </div>
       )}
-
-      {/* Main content */}
       <div
         style={{
           opacity: isReady ? 1 : 0,
           transition: "opacity 0.4s ease-in-out",
+          height: '100vh',
+          display: 'flex',
+          flexDirection: 'column'
         }}
       >
         <MenuStyle>
@@ -162,41 +163,40 @@ useEffect(() => {
             activeCategory={activeCategory}
             onTabClick={handleTabClick}
           />
-      {finalMenuData?.data?.map((category) => (
-        <div 
-          key={category._id} 
-          ref={(el: HTMLDivElement | null) => {
-            categoryRefs.current[category._id] = el;
-          }}
-        >
-          <CategorySection 
-            title={category.category} 
-            items={category.items} 
-            categoryId={category._id}
-          />
-        </div>
-      ))}
-      <Footer address={restaurantData?.data?.address} phone={restaurantData?.data?.phone} />
-      <ScrollToTopButton />
-      <div style={{ textAlign: "center", marginTop: "24px", marginBottom: "16px" }}>
-        <span
-          style={{
-            backgroundColor: "transparent",
-            color: "#fff",
-            padding: "6px 12px",
-            fontSize: "18px",
-            borderRadius: "8px",
-            fontWeight: 500,
-            fontFamily: "sans-serif",
-            display: "inline-block",
-          }}
-        >
-          Made with {supportsEmoji({ emoji: "🩵" }) ? "🩵" : "💙"} in Iran
-
-        </span>
-        </div>
-
-    </MenuStyle>
+          <div ref={listContainerRef} style={{ flex: 1, willChange: 'transform' }}>
+            {size.width > 0 && (
+              <List
+                ref={listRef}
+                height={size.height}
+                width={size.width}
+                itemCount={finalMenuData?.data?.length || 0}
+                itemSize={getItemSize}
+                onScroll={handleListScroll}
+                estimatedItemSize={450} // An average estimate
+              >
+                {Row}
+              </List>
+            )}
+          </div>
+          <Footer address={restaurantData?.data?.address} phone={restaurantData?.data?.phone} />
+          <ScrollToTopButton />
+          <div style={{ textAlign: "center", marginTop: "24px", marginBottom: "16px" }}>
+            <span
+              style={{
+                backgroundColor: "transparent",
+                color: "#fff",
+                padding: "6px 12px",
+                fontSize: "18px",
+                borderRadius: "8px",
+                fontWeight: 500,
+                fontFamily: "sans-serif",
+                display: "inline-block",
+              }}
+            >
+              Made with {supportsEmoji({ emoji: "🩵" }) ? "🩵" : "💙"} in Iran
+            </span>
+          </div>
+        </MenuStyle>
       </div>
     </div>
   );
