@@ -168,7 +168,7 @@ useEffect(() => {
             display: "inline-block",
           }}
         >
-          Made with love {supportsEmoji({ emoji: "🩵" }) ? "🩵" : "💙"} in Iran
+          Made with {supportsEmoji({ emoji: "🩵" }) ? "🩵" : "💙"} in Iran
 
         </span>
         </div>

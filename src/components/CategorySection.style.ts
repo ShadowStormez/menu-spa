@@ -64,7 +64,6 @@ export const HeaderTitle = styled.span`
 export const ItemCard = styled.div<{ isActive?: boolean }>`
   width: 90vw;
   height:350px;
-  background: ${({ isActive }) => (isActive ? '#fef9c3' : '#ffffff')};
   padding: 10px;
   border-radius: 50px;
   box-shadow:
@@ -85,14 +84,19 @@ export const ItemCard = styled.div<{ isActive?: boolean }>`
   transform: perspective(1000px) rotateX(1deg);
 
   ${({ isActive }) =>
-    isActive &&
+    isActive ?
     `
     background: #fef9c3; /* Light yellow */
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
     transform: perspective(1000px) rotateX(1deg) scale(1.02);
-  `}
+    
+  `
+    : `
+      background: #fff;
+    `
+}
 
-  &::before {
+&::before {
   content: "";
   position: absolute;
   right: -20px;
@@ -104,27 +108,19 @@ export const ItemCard = styled.div<{ isActive?: boolean }>`
   background-repeat: no-repeat;
   background-position: center right;
   z-index: 0;
-  opacity: 0.9;
-  filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.2));
   pointer-events: none;
   transform: translate3d(0, 0, 0);
   transition: opacity 0.3s ease, filter 0.3s ease;
+  backface-visibility: hidden;
+  will-change: opacity, filter;
+  opacity: ${({ isActive }) => (isActive ? 0.6 : 0.9)};
+  filter: ${({ isActive }) =>
+    `drop-shadow(0 4px 6px rgba(0, 0, 0, 0.2)) ${
+      isActive ? 'hue-rotate(45deg) brightness(1.2)' : ''
+    }`};
 }
 
-${({ isActive }) =>
-  isActive
-    ? `
-    &::before {
-      opacity: 0.6;
-      filter: hue-rotate(45deg) brightness(1.2);
-    }
-  `
-    : `
-    &::before {
-      opacity: 0.9;
-      filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.2));
-    }
-  `}
+
 
 
   > * {
@@ -188,6 +184,7 @@ export const ItemContent = styled.div`
 
   @media (max-width: 640px) {
     width: 100%;
+    min-height:150px;
     padding: 16px;
     align-items: flex-start;
   }
@@ -300,8 +297,8 @@ export const BottomDialog = styled.div`
     z-index: 0;
     opacity: 0.95;
     filter:
-      drop-shadow(0 4px 6px rgba(0, 0, 0, 0.2))
-      drop-shadow(-2px 2px 4px rgba(0, 0, 0, 0.1)); /* layered shadows */
+    drop-shadow(0 4px 6px rgba(0, 0, 0, 0.2))
+    drop-shadow(-2px 2px 4px rgba(0, 0, 0, 0.1)); /* layered shadows */
     transform: rotateX(5deg) rotateY(-3deg); /* slight tilt for 3D illusion */
     pointer-events: none;
   }

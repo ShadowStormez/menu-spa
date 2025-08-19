@@ -29,7 +29,7 @@ export const TablistStyle = styled.div`
   -webkit-mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
 
   @media (max-width: 640px) {
-    margin: 200px auto 50px auto;
+    margin: 100px auto 50px auto;
   }
   }
 

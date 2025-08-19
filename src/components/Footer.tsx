@@ -59,13 +59,13 @@ export default function Footer({ address, phone }: FooterProps) {
             </p>
             <p className="footer-phone">
               <span className="highlight">تلفن:</span>{" "}
-              <a href={`tel:${phone || "+982144448888"}`} className="phone-link">{phone || "۴۴۴۴۸۸۸۸"}</a>
+              <a href={`tel:${phone || "+989121342390"}`} className="phone-link">{phone || "۰۹۱۲۱۳۴۲۳۹۰"}</a>
             </p>
             <div className="footer-icons">
-            <a href="https://instagram.com" target="_blank" rel="noopener noreferrer">
+            <a href="https://www.instagram.com/abrcafe.gisha?igsh=MTh5bHpjeml2eWEyNQ==" target="_blank" rel="noopener noreferrer">
               <Image src={InstagramIcon} width={32} height={32} alt="instagram" />
             </a>
-            <a href="https://maps.google.com" target="_blank" rel="noopener noreferrer">
+            <a href="https://maps.app.goo.gl/QfYnJEKpHUp5h2wJA?g_st=ipc" target="_blank" rel="noopener noreferrer">
               <Image src={GoogleMapsIcon} width={32} height={32} alt="google-maps" />
       
             </a>

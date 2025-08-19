@@ -129,9 +129,10 @@ const CategorySection = ({ title, items, categoryId }: CategorySectionProps) => 
   };
 
   // Check if item needs flavor dropdown
-  const needsFlavorDropdown = (itemName: string) => {
-    return FLAVOR_DROPDOWN_ITEMS.some(keyword => itemName.includes(keyword));
-  };
+const needsFlavorDropdown = (itemName: string) => {
+  return FLAVOR_DROPDOWN_ITEMS.some(keyword => itemName === keyword);
+};
+
 
   const getFlavorOptions = (itemName: string) => {
     if (itemName === "هات چاکلت") {
@@ -258,7 +259,7 @@ const CategorySection = ({ title, items, categoryId }: CategorySectionProps) => 
                       handleSelectorClick(item._id, 0);
                     }}
                   >
-                    ۷۰/۳ عربیکا
+                    ۷۰/۳۰ عربیکا
                   </SelectorButton>
                   <SelectorButton
                     active={selectedOptions[item._id] === 1}
