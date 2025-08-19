@@ -1,6 +1,6 @@
 "use client";
 
-import { useState,useEffect } from "react";
+import { useState,useEffect, memo } from "react";
 import Image from "next/image";
 import IcedAmericano from "@/app/assets/icons/LogoFinal.png";
 import { getImageUrl } from "@/app/utils/getImageUrl";
@@ -82,7 +82,7 @@ type AccordionState = {
   [itemId: string]: boolean;
 };
 
-export default function CategorySection({ title, items, categoryId }: CategorySectionProps) {
+const CategorySection = ({ title, items, categoryId }: CategorySectionProps) => {
   // State to track selected options for each item
   const [selectedOptions, setSelectedOptions] = useState<{ [itemId: string]: number }>(() => {
   const defaults: { [itemId: string]: number } = {};
@@ -536,4 +536,5 @@ export default function CategorySection({ title, items, categoryId }: CategorySe
   );
 }
 
+export default memo(CategorySection);
 
