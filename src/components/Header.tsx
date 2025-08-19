@@ -1,5 +1,6 @@
 "use client";
 
+import React from "react";
 import Image from "next/image";
 import Cloud from "@/app/assets/icons/Cloud.png";
 import LogoFinal from "@/app/assets/icons/LogoFinal.png";
@@ -10,12 +11,12 @@ interface HeaderProps {
   logoId?: string;
 }
 
-export default function Header({ logoId }: HeaderProps) {
+const Header = React.forwardRef<HTMLDivElement, HeaderProps>(({ logoId }, ref) => {
   // Use the logo from API if available, otherwise use default LogoFinal
   const logoSrc = logoId && logoId !== '' ? getImageUrl(logoId) : LogoFinal;
   
   return (
-    <HeaderContainer>
+    <HeaderContainer ref={ref}>
       <Clouds>
         <CloudLeft>
           <Image src={Cloud} alt="Cloud left" width={640} height={320} priority style={{ width: "100%", height: "auto" }} />
@@ -36,6 +37,10 @@ export default function Header({ logoId }: HeaderProps) {
       </Clouds>
     </HeaderContainer>
   );
-}
+});
+
+Header.displayName = "Header";
+
+export default Header;
 
 
