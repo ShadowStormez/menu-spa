@@ -27,7 +27,7 @@ import {
   BottomDialog,
   DialogContent,
 } from "./CategorySection.style";
-import { Left, Down } from "@/app/assets/icons"; // Import left and down icons
+import { Left, Down, Caramel, Chocolate, Coconut, Cookie, Hazelnut, Irish, Vanilla } from "@/app/assets/icons"; // Import left and down icons
 
 interface CategorySectionProps {
   title: string;
@@ -39,12 +39,19 @@ interface CategorySectionProps {
 const COFFEE_KEYWORD = "قهوه";
 
 // Items that need flavor dropdown
-const FLAVOR_DROPDOWN_ITEMS = [
-  "لته", "آیس لته", "هات چاکلت", "وایت چاکلت", "دارک چاکلت", "فراپاچینو"
+const FLAVOR_DROPDOWN_ITEMS = ["هات چاکلت","فراپاچینو","آیس لاته","لاته"
 ];
 
 // Flavor options
-const FLAVOR_OPTIONS = ["None", "شکلات", "کارامل", "فندق", "کوکی"];
+const FLAVOR_OPTIONS = [
+  { name: "وانیل", icon: Vanilla },
+  { name: "آیریش", icon: Irish },
+  { name: "نارگیل", icon: Coconut },
+  { name: "شکلات", icon: Chocolate },
+  { name: "کارامل", icon: Caramel },
+  { name: "فندق", icon: Hazelnut },
+  { name: "کوکی", icon: Cookie },
+];
 // Styled overlay and dialog
 const Overlay = styled.div`
   position: fixed;
@@ -118,8 +125,8 @@ export default function CategorySection({ title, items, categoryId }: CategorySe
       ...prev,
       [itemId]: flavor
     }));
-    // If "None" is selected, close accordion
-    if (flavor === "None") {
+    // If "هیچکدوم" is selected, close accordion
+    if (flavor === "هیچکدوم") {
       setAccordion(prev => ({ ...prev, [itemId]: false }));
     }
   };
@@ -129,33 +136,50 @@ export default function CategorySection({ title, items, categoryId }: CategorySe
     return FLAVOR_DROPDOWN_ITEMS.some(keyword => itemName.includes(keyword));
   };
 
-const formatPrice = (price: string, itemId: string, flavor?: string) => {
-  // Remove any non-digit characters
-  const cleanPrice = price.replace(/\D/g, '');
+  const getFlavorOptions = (itemName: string) => {
+    if (itemName.includes("هات چاکلت")) {
+      return FLAVOR_OPTIONS.filter(f => ["فندق", "کوکی"].includes(f.name));
+    }
+    if (itemName.includes("فراپاچینو")) {
+      return FLAVOR_OPTIONS.filter(f => ["کارامل", "شکلات", "آیریش"].includes(f.name));
+    }
+    if (itemName.includes("لاته") || itemName.includes("آیس لاته")) {
+      return FLAVOR_OPTIONS;
+    }
+    return [];
+  };
 
-  let prices: string[] = [];
+  const formatPrice = (price: string, itemId: string, itemName: string, flavor?: string) => {
+    // Remove any non-digit characters
+    const cleanPrice = price.replace(/\D/g, '');
 
-  if (cleanPrice.length === 6) {
-    // Split into two 3-digit prices
-    prices = [cleanPrice.slice(0, 3), cleanPrice.slice(3)];
-  } else {
-    prices = [cleanPrice];
-  }
+    let prices: string[] = [];
 
-  const selectedOption = selectedOptions[itemId] || 0;
-  let selectedPrice = prices[selectedOption] || prices[0];
+    if (cleanPrice.length === 6) {
+      // Split into two 3-digit prices
+      prices = [cleanPrice.slice(0, 3), cleanPrice.slice(3)];
+    } else {
+      prices = [cleanPrice];
+    }
 
-  // Add 30 if flavor is selected and not "None"
-  if (flavor && flavor !== "None") {
-    selectedPrice = String(Number(selectedPrice) + 30);
-  }
+    const selectedOption = selectedOptions[itemId] || 0;
+    let selectedPrice = prices[selectedOption] || prices[0];
 
-  // Convert to Farsi digits
-  const toFarsiDigits = (str: string) =>
-    str.replace(/\d/g, d => String.fromCharCode(d.charCodeAt(0) + 1728));
+    // Add 34 for هات چاکلت flavors, 30 for others
+    if (flavor && flavor !== "هیچکدوم") {
+      if (itemName.includes("هات چاکلت")) {
+        selectedPrice = String(Number(selectedPrice) + 34);
+      } else {
+        selectedPrice = String(Number(selectedPrice) + 30);
+      }
+    }
 
-  return `${toFarsiDigits(selectedPrice)} تومان`;
-};
+    // Convert to Farsi digits
+    const toFarsiDigits = (str: string) =>
+      str.replace(/\d/g, d => String.fromCharCode(d.charCodeAt(0) + 1728));
+
+    return `${toFarsiDigits(selectedPrice)} تومان`;
+  };
 
 
   // Render dialog for item
@@ -207,11 +231,11 @@ const formatPrice = (price: string, itemId: string, flavor?: string) => {
           <ItemContent>
             <ItemTitle lang="fa">
               {item.name}
-              {showFlavor && flavor && flavor !== "None" ? ` ${flavor}` : ""}
+              {showFlavor && flavor && flavor !== "هیچکدوم" ? ` ${flavor}` : ""}
             </ItemTitle>
             <ItemDesc>{item.description}</ItemDesc>
             {/* Selector buttons for coffee */}
-            {title.includes(COFFEE_KEYWORD) && (
+            {(title === "قهوه سرد" || title === "قهوه گرم" || (title === "تاپینگ" && item.name === "شات اسپرسو")) && (
                <Selector>
                 <SelectorLabel>لاین قهوتون چی باشه؟</SelectorLabel>
                 <SelectorButtons>
@@ -265,9 +289,8 @@ const formatPrice = (price: string, itemId: string, flavor?: string) => {
       maxWidth: '100%',
     }}
   >
-    {FLAVOR_OPTIONS.map((flavor) => {
-      const isSelected = selectedFlavors[item._id] === flavor;
-      const isNone = flavor === "None";
+    {getFlavorOptions(item.name).map((flavor) => {
+      const isSelected = selectedFlavors[item._id] === flavor.name;
 
       const baseColor = "rgb(223, 195, 60)";
       const selectedBg = "#FDE047";
@@ -275,8 +298,8 @@ const formatPrice = (price: string, itemId: string, flavor?: string) => {
 
       return (
         <button
-          key={flavor}
-          onClick={() => handleFlavorChange(item._id, flavor)}
+          key={flavor.name}
+          onClick={() => handleFlavorChange(item._id, flavor.name)}
           style={{
             padding: '6px 12px',
             borderRadius: '9999px',
@@ -292,12 +315,39 @@ const formatPrice = (price: string, itemId: string, flavor?: string) => {
             overflow: 'hidden',
             textOverflow: 'ellipsis',
             boxShadow: isSelected ? '0 2px 4px rgba(0, 0, 0, 0.2)' : 'none',
+            display: 'flex',
+            alignItems: 'center',
+            gap: '5px'
           }}
         >
-          {isNone ? "هیچکدوم" : flavor}
+          <Image src={flavor.icon} alt={flavor.name} width={20} height={20} />
+          {flavor.name}
         </button>
       );
     })}
+    {!item.name.includes("فراپاچینو") && (
+      <button
+        onClick={() => handleFlavorChange(item._id, "هیچکدوم")}
+        style={{
+            padding: '6px 12px',
+            borderRadius: '9999px',
+            border: selectedFlavors[item._id] === "هیچکدوم" ? 'none' : `1px solid rgb(223, 195, 60,0.1)`,
+            backgroundColor: selectedFlavors[item._id] === "هیچکدوم"
+              ? "#FDE047"
+              : 'rgb(223, 195, 60,0.1)',
+            color: selectedFlavors[item._id] === "هیچکدوم" ? "#000000" : "rgb(223, 195, 60)",
+            fontWeight: 500,
+            cursor: 'pointer',
+            maxWidth: '160px',
+            whiteSpace: 'nowrap',
+            overflow: 'hidden',
+            textOverflow: 'ellipsis',
+            boxShadow: selectedFlavors[item._id] === "هیچکدوم" ? '0 2px 4px rgba(0, 0, 0, 0.2)' : 'none',
+        }}
+      >
+        هیچکدوم
+      </button>
+    )}
   </div>
 )}
 
@@ -308,7 +358,7 @@ const formatPrice = (price: string, itemId: string, flavor?: string) => {
 )}
 
             <Price>
-              {formatPrice(String(item.price), item._id, flavor)}
+              {formatPrice(String(item.price), item._id, item.name, flavor)}
             </Price>
           </ItemContent>
           </DialogContent>
@@ -347,11 +397,11 @@ const formatPrice = (price: string, itemId: string, flavor?: string) => {
               <ItemContent>
                 <ItemTitle>
                   {item.name}
-                  {showFlavor && flavor && flavor !== "None" ? ` ${flavor}` : ""}
+                  {showFlavor && flavor && flavor !== "هیچکدوم" ? ` ${flavor}` : ""}
                 </ItemTitle>
                 <ItemDesc>{item.description}</ItemDesc>
                 {/* Selector buttons for coffee */}
-                {title.includes(COFFEE_KEYWORD) && (
+                {(title === "قهوه سرد" || title === "قهوه گرم" || (title === "تاپینگ" && item.name === "شات اسپرسو")) && (
               <Selector>
                 <SelectorLabel>لاین قهوتون چی باشه؟</SelectorLabel>
                 <SelectorButtons>
@@ -404,9 +454,8 @@ const formatPrice = (price: string, itemId: string, flavor?: string) => {
       maxWidth: '100%',
     }}
   >
-    {FLAVOR_OPTIONS.map((flavor) => {
-      const isSelected = selectedFlavors[item._id] === flavor;
-      const isNone = flavor === "None";
+    {getFlavorOptions(item.name).map((flavor) => {
+      const isSelected = selectedFlavors[item._id] === flavor.name;
 
       const baseColor = "rgb(223, 195, 60)";
       const selectedBg = "#FDE047";
@@ -414,8 +463,8 @@ const formatPrice = (price: string, itemId: string, flavor?: string) => {
 
       return (
         <button
-          key={flavor}
-          onClick={() => handleFlavorChange(item._id, flavor)}
+          key={flavor.name}
+          onClick={() => handleFlavorChange(item._id, flavor.name)}
           style={{
             padding: '6px 12px',
             borderRadius: '9999px',
@@ -431,13 +480,39 @@ const formatPrice = (price: string, itemId: string, flavor?: string) => {
             overflow: 'hidden',
             textOverflow: 'ellipsis',
             boxShadow: isSelected ? '0 2px 4px rgba(0, 0, 0, 0.2)' : 'none',
+            display: 'flex',
+            alignItems: 'center',
+            gap: '5px'
           }}
         >
-          {isNone ? "هیچکدوم" : flavor}
+          <Image src={flavor.icon} alt={flavor.name} width={20} height={20} />
+          {flavor.name}
         </button>
       );
     })}
-
+    {!item.name.includes("فراپاچینو") && (
+        <button
+            onClick={() => handleFlavorChange(item._id, "هیچکدوم")}
+            style={{
+                padding: '6px 12px',
+                borderRadius: '9999px',
+                border: selectedFlavors[item._id] === "هیچکدوم" ? 'none' : `1px solid rgb(223, 195, 60,0.1)`,
+                backgroundColor: selectedFlavors[item._id] === "هیچکدوم"
+                  ? "#FDE047"
+                  : 'rgb(223, 195, 60,0.1)',
+                color: selectedFlavors[item._id] === "هیچکدوم" ? "#000000" : "rgb(223, 195, 60)",
+                fontWeight: 500,
+                cursor: 'pointer',
+                maxWidth: '160px',
+                whiteSpace: 'nowrap',
+                overflow: 'hidden',
+                textOverflow: 'ellipsis',
+                boxShadow: selectedFlavors[item._id] === "هیچکدوم" ? '0 2px 4px rgba(0, 0, 0, 0.2)' : 'none',
+            }}
+        >
+            هیچکدوم
+        </button>
+    )}
   </div>
 )}
 
@@ -448,7 +523,7 @@ const formatPrice = (price: string, itemId: string, flavor?: string) => {
 )}
 
                 <Price>
-                  {formatPrice(String(item.price), item._id, flavor)}
+                  {formatPrice(String(item.price), item._id, item.name, flavor)}
                 </Price>
               </ItemContent>
             </ItemCard>
