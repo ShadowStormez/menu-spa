@@ -26,7 +26,7 @@ const TabList: React.FC<TabListProps> = ({ categories, activeCategory, onTabClic
         activeTab.scrollIntoView({
           behavior: "smooth",
           block: "nearest",
-          inline: "center",
+          inline: "nearest",
         });
       }
     }
