@@ -8,9 +8,10 @@ import GoogleMapsIcon from "@/app/assets/icons/google-maps.png";
 import { FooterContainer, FooterCloud } from "./Footer.style";
 interface FooterProps {
   address?: string;
+  phone?: string;
 }
 
-export default function Footer({ address }: FooterProps) {
+export default function Footer({ address, phone }: FooterProps) {
   const [isVisible, setIsVisible] = useState(false);
 
   useEffect(() => {
@@ -54,11 +55,11 @@ export default function Footer({ address }: FooterProps) {
           />
           <div className="footer-content">
             <p className="footer-address">
-              📍<span className="highlight">آدرس:</span> {address ?? "گیشا-نبش قدرتی-پلاک ۳۰"}
+              📍<span className="highlight">آدرس:</span> {address || "گیشا-نبش قدرتی-پلاک ۳۰"}
             </p>
             <p className="footer-phone">
               <span className="highlight">تلفن:</span>{" "}
-              <a href="tel:+982144448888" className="phone-link">۴۴۴۴۸۸۸۸</a>
+              <a href={`tel:${phone || "+982144448888"}`} className="phone-link">{phone || "۴۴۴۴۸۸۸۸"}</a>
             </p>
             <div className="footer-icons">
             <a href="https://instagram.com" target="_blank" rel="noopener noreferrer">
