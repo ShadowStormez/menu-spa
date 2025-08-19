@@ -134,16 +134,29 @@ const CategorySection = ({ title, items, categoryId }: CategorySectionProps) => 
   };
 
   const getFlavorOptions = (itemName: string) => {
-    if (itemName.includes("هات چاکلت")) {
+    if (itemName === "هات چاکلت") {
       return FLAVOR_OPTIONS.filter(f => ["فندق", "کوکی"].includes(f.name));
     }
-    if (itemName.includes("فراپاچینو")) {
+    if (itemName === "فراپاچینو") {
       return FLAVOR_OPTIONS.filter(f => ["کارامل", "شکلات", "آیریش"].includes(f.name));
     }
-    if (itemName.includes("لاته") || itemName.includes("آیس لاته")) {
+    if (itemName === "لاته" || itemName === "آیس لاته") {
       return FLAVOR_OPTIONS;
     }
     return [];
+  };
+
+  const getItemTitle = (itemName: string, flavor?: string) => {
+    if (itemName === "لاته" && flavor === "شکلات") {
+      return "موکا";
+    }
+    if (itemName === "آیس لاته" && flavor === "شکلات") {
+      return "آیس موکا";
+    }
+    if (itemName === "لاته" && flavor === "کارامل") {
+      return "کارامل ماکیاتو";
+    }
+    return `${itemName}${flavor && flavor !== "هیچکدوم" ? ` ${flavor}` : ""}`;
   };
 
   const formatPrice = (price: string, itemId: string, itemName: string, flavor?: string) => {
@@ -152,7 +165,10 @@ const CategorySection = ({ title, items, categoryId }: CategorySectionProps) => 
 
     let prices: string[] = [];
 
-    if (cleanPrice.length === 6) {
+    if (cleanPrice.length === 5) {
+      // Split into 2 and 3-digit prices
+      prices = [cleanPrice.slice(0, 2), cleanPrice.slice(2)];
+    } else if (cleanPrice.length === 6) {
       // Split into two 3-digit prices
       prices = [cleanPrice.slice(0, 3), cleanPrice.slice(3)];
     } else {
@@ -227,8 +243,7 @@ const CategorySection = ({ title, items, categoryId }: CategorySectionProps) => 
           </DialogImageWrap>
           <ItemContent>
             <ItemTitle lang="fa">
-              {item.name}
-              {showFlavor && flavor && flavor !== "هیچکدوم" ? ` ${flavor}` : ""}
+              {getItemTitle(item.name, flavor)}
             </ItemTitle>
             <ItemDesc>{item.description}</ItemDesc>
             {/* Selector buttons for coffee */}
@@ -286,6 +301,29 @@ const CategorySection = ({ title, items, categoryId }: CategorySectionProps) => 
       maxWidth: '100%',
     }}
   >
+    {item.name !== "فراپاچینو" && (
+      <button
+        onClick={() => handleFlavorChange(item._id, "هیچکدوم")}
+        style={{
+            padding: '6px 12px',
+            borderRadius: '9999px',
+            border: selectedFlavors[item._id] === "هیچکدوم" ? 'none' : `1px solid rgb(223, 195, 60,0.1)`,
+            backgroundColor: selectedFlavors[item._id] === "هیچکدوم"
+              ? "#FDE047"
+              : 'rgb(223, 195, 60,0.1)',
+            color: selectedFlavors[item._id] === "هیچکدوم" ? "#000000" : "rgb(223, 195, 60)",
+            fontWeight: 500,
+            cursor: 'pointer',
+            maxWidth: '160px',
+            whiteSpace: 'nowrap',
+            overflow: 'hidden',
+            textOverflow: 'ellipsis',
+            boxShadow: selectedFlavors[item._id] === "هیچکدوم" ? '0 2px 4px rgba(0, 0, 0, 0.2)' : 'none',
+        }}
+      >
+        هیچکدوم
+      </button>
+    )}
     {getFlavorOptions(item.name).map((flavor) => {
       const isSelected = selectedFlavors[item._id] === flavor.name;
 
@@ -317,34 +355,11 @@ const CategorySection = ({ title, items, categoryId }: CategorySectionProps) => 
             gap: '5px'
           }}
         >
-          <Image src={flavor.icon} alt={flavor.name} width={20} height={20} />
           {flavor.name}
+          <Image src={flavor.icon} alt={flavor.name} width={20} height={20} />
         </button>
       );
     })}
-    {!item.name.includes("فراپاچینو") && (
-      <button
-        onClick={() => handleFlavorChange(item._id, "هیچکدوم")}
-        style={{
-            padding: '6px 12px',
-            borderRadius: '9999px',
-            border: selectedFlavors[item._id] === "هیچکدوم" ? 'none' : `1px solid rgb(223, 195, 60,0.1)`,
-            backgroundColor: selectedFlavors[item._id] === "هیچکدوم"
-              ? "#FDE047"
-              : 'rgb(223, 195, 60,0.1)',
-            color: selectedFlavors[item._id] === "هیچکدوم" ? "#000000" : "rgb(223, 195, 60)",
-            fontWeight: 500,
-            cursor: 'pointer',
-            maxWidth: '160px',
-            whiteSpace: 'nowrap',
-            overflow: 'hidden',
-            textOverflow: 'ellipsis',
-            boxShadow: selectedFlavors[item._id] === "هیچکدوم" ? '0 2px 4px rgba(0, 0, 0, 0.2)' : 'none',
-        }}
-      >
-        هیچکدوم
-      </button>
-    )}
   </div>
 )}
 
@@ -393,8 +408,7 @@ const CategorySection = ({ title, items, categoryId }: CategorySectionProps) => 
               </ItemImageWrap>
               <ItemContent>
                 <ItemTitle>
-                  {item.name}
-                  {showFlavor && flavor && flavor !== "هیچکدوم" ? ` ${flavor}` : ""}
+                  {getItemTitle(item.name, flavor)}
                 </ItemTitle>
                 <ItemDesc>{item.description}</ItemDesc>
                 {/* Selector buttons for coffee */}
@@ -451,6 +465,29 @@ const CategorySection = ({ title, items, categoryId }: CategorySectionProps) => 
       maxWidth: '100%',
     }}
   >
+    {item.name !== "فراپاچینو" && (
+        <button
+            onClick={() => handleFlavorChange(item._id, "هیچکدوم")}
+            style={{
+                padding: '6px 12px',
+                borderRadius: '9999px',
+                border: selectedFlavors[item._id] === "هیچکدوم" ? 'none' : `1px solid rgb(223, 195, 60,0.1)`,
+                backgroundColor: selectedFlavors[item._id] === "هیچکدوم"
+                  ? "#FDE047"
+                  : 'rgb(223, 195, 60,0.1)',
+                color: selectedFlavors[item._id] === "هیچکدوم" ? "#000000" : "rgb(223, 195, 60)",
+                fontWeight: 500,
+                cursor: 'pointer',
+                maxWidth: '160px',
+                whiteSpace: 'nowrap',
+                overflow: 'hidden',
+                textOverflow: 'ellipsis',
+                boxShadow: selectedFlavors[item._id] === "هیچکدوم" ? '0 2px 4px rgba(0, 0, 0, 0.2)' : 'none',
+            }}
+        >
+            هیچکدوم
+        </button>
+    )}
     {getFlavorOptions(item.name).map((flavor) => {
       const isSelected = selectedFlavors[item._id] === flavor.name;
 
@@ -482,34 +519,11 @@ const CategorySection = ({ title, items, categoryId }: CategorySectionProps) => 
             gap: '5px'
           }}
         >
-          <Image src={flavor.icon} alt={flavor.name} width={20} height={20} />
           {flavor.name}
+          <Image src={flavor.icon} alt={flavor.name} width={20} height={20} />
         </button>
       );
     })}
-    {!item.name.includes("فراپاچینو") && (
-        <button
-            onClick={() => handleFlavorChange(item._id, "هیچکدوم")}
-            style={{
-                padding: '6px 12px',
-                borderRadius: '9999px',
-                border: selectedFlavors[item._id] === "هیچکدوم" ? 'none' : `1px solid rgb(223, 195, 60,0.1)`,
-                backgroundColor: selectedFlavors[item._id] === "هیچکدوم"
-                  ? "#FDE047"
-                  : 'rgb(223, 195, 60,0.1)',
-                color: selectedFlavors[item._id] === "هیچکدوم" ? "#000000" : "rgb(223, 195, 60)",
-                fontWeight: 500,
-                cursor: 'pointer',
-                maxWidth: '160px',
-                whiteSpace: 'nowrap',
-                overflow: 'hidden',
-                textOverflow: 'ellipsis',
-                boxShadow: selectedFlavors[item._id] === "هیچکدوم" ? '0 2px 4px rgba(0, 0, 0, 0.2)' : 'none',
-            }}
-        >
-            هیچکدوم
-        </button>
-    )}
   </div>
 )}
 
