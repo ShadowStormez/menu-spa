@@ -5,6 +5,7 @@ const nextConfig: NextConfig = {
   images: {
     domains: ['menyou-svc-gw.darkube.app'],
   },
+  trailingSlash: true,
 };
 
 export default nextConfig;
