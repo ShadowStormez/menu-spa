@@ -64,7 +64,7 @@ export const HeaderTitle = styled.span`
 export const ItemCard = styled.div<{ isActive?: boolean }>`
   width: 90vw;
   height:350px;
-  background: #ffffff;
+  background: ${({ isActive }) => (isActive ? '#fef9c3' : '#ffffff')};
   padding: 10px;
   border-radius: 50px;
   box-shadow:

@@ -1,8 +1,9 @@
 "use client";
 
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState, useRef, useCallback } from "react";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
+import { throttle } from "../utils/throttle";
 import MenuStyle from "./page.style";
 import TabList from "@/components/TabList";
 import CategorySection from "@/components/CategorySection";
@@ -73,8 +74,10 @@ useEffect(() => {
     }
   };
 
-  window.addEventListener('scroll', handleScroll);
-  return () => window.removeEventListener('scroll', handleScroll);
+  const throttledScrollHandler = throttle(handleScroll, 200);
+
+  window.addEventListener('scroll', throttledScrollHandler);
+  return () => window.removeEventListener('scroll', throttledScrollHandler);
 }, [finalMenuData, activeCategory]);
 
 
