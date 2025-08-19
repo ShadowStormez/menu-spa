@@ -62,13 +62,23 @@ export const FooterCloud = styled.div<{ isVisible: boolean }>`
     font-size: 16px; /* Adjust for smaller screens */
   }
 }
-  .phone-link {
+ .phone-link {
   background: linear-gradient(to right, #0284C7, #38BDF8);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
+  color: transparent; /* fallback for other browsers */
   font-weight: bold;
-  text-decoration: none;
+  text-decoration: underline;
+  cursor: pointer;
+  transition: opacity 0.2s ease;
 }
+
+.phone-link:hover,
+.phone-link:focus {
+  opacity: 0.8;
+  text-decoration: underline;
+}
+
   
   
   .footer-icons {
