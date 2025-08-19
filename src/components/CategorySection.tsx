@@ -35,9 +35,6 @@ interface CategorySectionProps {
   categoryId: string;
 }
 
-// Coffee-related items that need selector buttons
-const COFFEE_KEYWORD = "قهوه";
-
 // Items that need flavor dropdown
 const FLAVOR_DROPDOWN_ITEMS = ["هات چاکلت","فراپاچینو","آیس لاته","لاته"
 ];
