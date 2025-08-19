@@ -29,14 +29,39 @@ export default function MenuPage() {
   // Fetch menu data
   const { menuData } = useAllMenus(DEFAULT_RESTAURANT_ID);
   const finalMenuData = menuData?.data?.length ? menuData : toyMenuData;
-  
-  // Handle tab click to scroll to category
-  const handleTabClick = (categoryId: string) => {
-    const element = categoryRefs.current[categoryId];
-    if (element) {
-      element.scrollIntoView({ behavior: 'smooth' });
+
+
+  const smoothScrollTo = (targetY: number, duration = 600) => {
+  const startY = window.scrollY;
+  const distance = targetY - startY;
+  let startTime: number | null = null;
+
+  const step = (timestamp: number) => {
+    if (!startTime) startTime = timestamp;
+    const progress = timestamp - startTime;
+    const percent = Math.min(progress / duration, 1);
+    window.scrollTo(0, startY + distance * percent);
+    if (percent < 1) {
+      requestAnimationFrame(step);
     }
   };
+
+  requestAnimationFrame(step);
+};
+
+  
+const handleTabClick = (categoryId: string) => {
+  const element = categoryRefs.current[categoryId];
+  if (element) {
+    const offsetTop = element.offsetTop;
+
+    // Optional: adjust for fixed headers or padding
+    const scrollTarget = offsetTop - 80; // tweak this offset if needed
+
+    smoothScrollTo(scrollTarget, 800); // 800ms scroll duration
+  }
+};
+
   
 useEffect(() => {
   const handleScroll = () => {
