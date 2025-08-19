@@ -6,17 +6,12 @@ import Cloud from "@/app/assets/icons/Cloud.png";
 import InstagramIcon from "@/app/assets/icons/instagram.png";
 import GoogleMapsIcon from "@/app/assets/icons/google-maps.png";
 import { FooterContainer, FooterCloud } from "./Footer.style";
-import { FaInstagram, FaMapMarkerAlt } from "react-icons/fa";
-import { SiGooglemaps } from "react-icons/si";
-
-
 interface FooterProps {
   address?: string;
 }
 
 export default function Footer({ address }: FooterProps) {
   const [isVisible, setIsVisible] = useState(false);
-  const defaultAddress = "📍آدرس: ";
 
   useEffect(() => {
     const handleScroll = () => {
