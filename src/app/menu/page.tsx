@@ -23,12 +23,11 @@ export default function MenuPage() {
   const categoryRefs = useRef<{[key: string]: HTMLDivElement | null}>({});
   const tabListRef = useRef<HTMLDivElement | null>(null);
   
-  // Fetch restaurant profile
-  const { restaurantData } = useRestaurantProfile(DEFAULT_RESTAURANT_ID);
-  
-  // Fetch menu data
-  const { menuData } = useAllMenus(DEFAULT_RESTAURANT_ID);
-  const finalMenuData = menuData?.data?.length ? menuData : toyMenuData;
+ const { restaurantData, isLoading: isRestaurantLoading } = useRestaurantProfile(DEFAULT_RESTAURANT_ID);
+ const { menuData, isLoading: isMenuLoading } = useAllMenus(DEFAULT_RESTAURANT_ID);
+
+ const isLoading = isRestaurantLoading || isMenuLoading;
+ const finalMenuData = menuData?.data?.length ? menuData : toyMenuData;
 
   
 // In MenuPage component - replace handleTabClick
@@ -168,6 +167,7 @@ useEffect(() => {
           categories={finalMenuData?.data || []} 
           activeCategory={activeCategory}
           onTabClick={handleTabClick}
+          isLoading={isLoading}
         />
           </div>
      {(
@@ -182,6 +182,7 @@ useEffect(() => {
             title={category.category} 
             items={category.items} 
             categoryId={category._id}
+            isLoading={isLoading}
           />
         </div>
         ))
