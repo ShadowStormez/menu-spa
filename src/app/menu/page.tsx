@@ -1,11 +1,10 @@
 "use client";
 
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState, useRef,useCallback } from "react";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
-import { throttle } from "../utils/throttle";
 import MenuStyle from "./page.style";
-import { LinearProgress } from "@mui/material";
+import { LinearProgress, Skeleton } from "@mui/material";
 import TabList from "@/components/TabList";
 import CategorySection from "@/components/CategorySection";
 import useRestaurantProfile from "@/app/utils/useRestaurantProfile";
@@ -13,6 +12,7 @@ import useAllMenus from "@/app/utils/useAllMenus";
 import toyMenuData from "@/app/utils/toy/data.json";
 import ScrollToTopButton from "@/components/ScrollToTopButton";
 import supportsEmoji from "../utils/SupportsEmoji";
+import { Category } from "../types/all-menus";
 
 // Default restaurant ID
 const DEFAULT_RESTAURANT_ID = "c7f3a9e2-1b4d-4f8e-9a6c-7d2e3b9f1c84";
@@ -30,82 +30,88 @@ export default function MenuPage() {
   const { menuData } = useAllMenus(DEFAULT_RESTAURANT_ID);
   const finalMenuData = menuData?.data?.length ? menuData : toyMenuData;
 
-
-  const smoothScrollTo = (targetY: number, duration = 600) => {
-  const startY = window.scrollY;
-  const distance = targetY - startY;
-  let startTime: number | null = null;
-
-  const step = (timestamp: number) => {
-    if (!startTime) startTime = timestamp;
-    const progress = timestamp - startTime;
-    const percent = Math.min(progress / duration, 1);
-    window.scrollTo(0, startY + distance * percent);
-    if (percent < 1) {
-      requestAnimationFrame(step);
-    }
-  };
-
-  requestAnimationFrame(step);
-};
-
   
+// In MenuPage component - replace handleTabClick
 const handleTabClick = (categoryId: string) => {
   const element = categoryRefs.current[categoryId];
   if (element) {
-    const offsetTop = element.offsetTop;
-
-    // Optional: adjust for fixed headers or padding
-    const scrollTarget = offsetTop - 80; // tweak this offset if needed
-
-    smoothScrollTo(scrollTarget, 800); // 800ms scroll duration
+    // Direct scroll instead of smooth scroll through all items
+      element.scrollIntoView({ block: 'start' });
   }
 };
 
   
-useEffect(() => {
-  const handleScroll = () => {
-    const tabList = document.querySelector('.tablist');
+// In MenuPage.tsx - Move useCallback to the top level, outside useEffect
 
-    if (tabListRef.current && tabList) {
-      const tabListRect = tabListRef.current.getBoundingClientRect();
-      const isFixed = tabListRect.top <= 0;
 
-      if (isFixed) {
-        tabList.classList.add('fixed');
-      } else {
-        // Tab list is unfixed → clear active tab
-        tabList.classList.remove('fixed');
-        if (activeCategory) {
-          setActiveCategory("");
+
+// Separate function for updateActiveCategory
+const updateActiveCategory = useCallback((categories: Category[]) => {
+  for (const category of categories) {
+    const element = categoryRefs.current[category._id];
+    if (element) {
+      const rect = element.getBoundingClientRect();
+      if (rect.top <= 100 && rect.bottom >= 100) {
+        if (activeCategory !== category._id) {
+          setActiveCategory(category._id);
         }
+        break;
       }
     }
+  }
+}, [activeCategory]);
 
-    // Don't try to find active category if tablist isn't fixed
-    if (!tabList?.classList.contains('fixed')) {
+// Move this useCallback to the top level of your component (after your state declarations)
+const handleScroll = useCallback(() => {
+  const tabList = document.querySelector('.tablist');
+
+  if (tabListRef.current && tabList) {
+    const tabListRect = tabListRef.current.getBoundingClientRect();
+    const isFixed = tabListRect.top <= 0;
+
+    if (isFixed) {
+      tabList.classList.add('fixed');
+    } else {
+      tabList.classList.remove('fixed');
+      if (activeCategory) {
+        setActiveCategory("");
+      }
       return;
     }
+  }
 
-    // Update active category based on scroll position
+  // Only check active category when tablist is fixed
+  if (tabList?.classList.contains('fixed')) {
     const categories = finalMenuData?.data || [];
-    for (const category of categories) {
-      const element = categoryRefs.current[category._id];
-      if (element) {
-        const rect = element.getBoundingClientRect();
-        if (rect.top <= 100 && rect.bottom >= 100) {
-          setActiveCategory(category._id);
-          break;
-        }
-      }
+    
+    // Use requestIdleCallback for non-critical scroll updates
+    if (window.requestIdleCallback) {
+      window.requestIdleCallback(() => {
+        updateActiveCategory(categories);
+      }, { timeout: 100 });
+    } else {
+      updateActiveCategory(categories);
+    }
+  }
+}, [finalMenuData, activeCategory,updateActiveCategory]);
+
+// Now your useEffect should look like this:
+useEffect(() => {
+  let ticking = false;
+
+  const scrollHandler = () => {
+    if (!ticking) {
+      requestAnimationFrame(() => {
+        handleScroll();
+        ticking = false;
+      });
+      ticking = true;
     }
   };
 
-  const throttledScrollHandler = throttle(handleScroll, 300);
-
-  window.addEventListener('scroll', throttledScrollHandler);
-  return () => window.removeEventListener('scroll', throttledScrollHandler);
-}, [finalMenuData, activeCategory]);
+  window.addEventListener('scroll', scrollHandler, { passive: true });
+  return () => window.removeEventListener('scroll', scrollHandler);
+}, [handleScroll]); // Don't forget to add handleScroll as dependency
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -163,9 +169,10 @@ useEffect(() => {
           activeCategory={activeCategory}
           onTabClick={handleTabClick}
         />
-      </div>
-      {finalMenuData?.data?.map((category) => (
-        <div 
+          </div>
+     {(
+        finalMenuData?.data?.map((category) => (
+          <div 
           key={category._id} 
           ref={(el: HTMLDivElement | null) => {
             categoryRefs.current[category._id] = el;
@@ -177,7 +184,8 @@ useEffect(() => {
             categoryId={category._id}
           />
         </div>
-      ))}
+        ))
+      )}
       <Footer address={restaurantData?.data?.address} phone={restaurantData?.data?.phone} />
       <ScrollToTopButton />
       <div style={{ textAlign: "center", marginTop: "24px", marginBottom: "16px" }}>
@@ -203,3 +211,6 @@ useEffect(() => {
     </div>
   );
 }
+
+
+       

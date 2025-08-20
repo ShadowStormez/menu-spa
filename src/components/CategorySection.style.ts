@@ -1,6 +1,7 @@
 import styled from "@emotion/styled";
 import { clouds } from "@/app/assets/icons";
 
+/* In your CategorySection styles */
 export const CategorySectionContainer = styled.section`
   width: 100%;
   padding: 12px 0 20px 0;
@@ -9,6 +10,7 @@ export const CategorySectionContainer = styled.section`
   align-items: center;
   direction: rtl;
   font-family: var(--font-vazirmatn);
+  overflow: visible; /* Add this */
 `;
 
 export const CategoryHeaderContainer = styled.div`
