@@ -4,7 +4,7 @@ import { useEffect, useState, useRef,useCallback } from "react";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import MenuStyle from "./page.style";
-import { LinearProgress, Skeleton } from "@mui/material";
+import { LinearProgress } from "@mui/material";
 import TabList from "@/components/TabList";
 import CategorySection from "@/components/CategorySection";
 import useRestaurantProfile from "@/app/utils/useRestaurantProfile";
@@ -22,6 +22,7 @@ export default function MenuPage() {
   const [activeCategory, setActiveCategory] = useState<string>("");
   const categoryRefs = useRef<{[key: string]: HTMLDivElement | null}>({});
   const tabListRef = useRef<HTMLDivElement | null>(null);
+  const isScrollingRef = useRef(false);
   
  const { restaurantData, isLoading: isRestaurantLoading } = useRestaurantProfile(DEFAULT_RESTAURANT_ID);
  const { menuData, isLoading: isMenuLoading } = useAllMenus(DEFAULT_RESTAURANT_ID);
@@ -34,8 +35,13 @@ export default function MenuPage() {
 const handleTabClick = (categoryId: string) => {
   const element = categoryRefs.current[categoryId];
   if (element) {
+    isScrollingRef.current = true;
     // Direct scroll instead of smooth scroll through all items
-      element.scrollIntoView({ block: 'start' });
+    element.scrollIntoView({ block: 'start' });
+    setTimeout(() => {
+      setActiveCategory(categoryId);
+      isScrollingRef.current = false;
+    }, 500); // Prevent scroll handler from interfering and delay state update
   }
 };
 
@@ -51,17 +57,21 @@ const updateActiveCategory = useCallback((categories: Category[]) => {
     if (element) {
       const rect = element.getBoundingClientRect();
       if (rect.top <= 100 && rect.bottom >= 100) {
-        if (activeCategory !== category._id) {
-          setActiveCategory(category._id);
-        }
+        setActiveCategory(currentActiveCategory => {
+          if (currentActiveCategory !== category._id) {
+            return category._id;
+          }
+          return currentActiveCategory;
+        });
         break;
       }
     }
   }
-}, [activeCategory]);
+}, []);
 
 // Move this useCallback to the top level of your component (after your state declarations)
 const handleScroll = useCallback(() => {
+  if (isScrollingRef.current) return;
   const tabList = document.querySelector('.tablist');
 
   if (tabListRef.current && tabList) {
@@ -72,9 +82,12 @@ const handleScroll = useCallback(() => {
       tabList.classList.add('fixed');
     } else {
       tabList.classList.remove('fixed');
-      if (activeCategory) {
-        setActiveCategory("");
-      }
+      setActiveCategory(currentActiveCategory => {
+        if (currentActiveCategory) {
+          return "";
+        }
+        return currentActiveCategory;
+      });
       return;
     }
   }
@@ -92,7 +105,7 @@ const handleScroll = useCallback(() => {
       updateActiveCategory(categories);
     }
   }
-}, [finalMenuData, activeCategory,updateActiveCategory]);
+}, [finalMenuData, updateActiveCategory]);
 
 // Now your useEffect should look like this:
 useEffect(() => {
