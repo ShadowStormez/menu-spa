@@ -1,41 +1,27 @@
-"use client";
+// app/layout.tsx
+import type { Metadata } from "next";
 
-import { Inter } from "next/font/google";
-import "./globals.css";
-import "./fonts.css";
-import { Provider } from 'react-redux';
-import { store } from './store';
-import { Vazirmatn } from 'next/font/google';
-import { Roboto } from 'next/font/google';
-import EmotionProvider from "./EmotionProvider";
+export const metadata: Metadata = {
+  title: "کافه ابر",
+  description: "آدرس: گیشا، بین خیابان ۳۸ و ۴۰- تلفن: +۹۸۹۱۲۱۳۴۲۳۹۰",
+  icons: {
+    icon: "/LogoFinal.png", // <- This will point to public/favicon.ico
+    shortcut: "/LogoFinal.png",
+  }
+};
+export const viewport = "width=device-width, initial-scale=1, viewport-fit=cover";
 
-const vazirmatn = Vazirmatn({
-  subsets: ['latin'],
-  weight: ['400', '700'], // adjust as needed
-  variable: '--font-vazirmatn',
-});
-
-const roboto = Roboto({
-  subsets: ['latin'],
-  weight: ['400', '700'],
-  variable: '--font-roboto',
-});
-
-const inter = Inter({ subsets: ["latin"] });
+import ClientLayout from "./ClientLayout";
 
 export default function RootLayout({
   children,
-}: Readonly<{
+}: {
   children: React.ReactNode;
-}>) {
+}) {
   return (
-    <html lang="en" className={`${vazirmatn.variable} ${roboto.variable}`}>
-      <body className={inter.className}>
-        <Provider store={store}>
-          <EmotionProvider>
-            {children}
-          </EmotionProvider>
-        </Provider>
+    <html lang="en">
+      <body>
+        <ClientLayout>{children}</ClientLayout>
       </body>
     </html>
   );
