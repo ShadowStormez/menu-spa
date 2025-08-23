@@ -32,6 +32,7 @@ export default function MenuPage() {
   
 // In MenuPage component - replace handleTabClick
 const handleTabClick = (categoryId: string) => {
+  if (!categoryId) return; // Do nothing if categoryId is empty
   const element = categoryRefs.current[categoryId];
   if (element) {
     // Direct scroll instead of smooth scroll through all items
@@ -60,29 +61,11 @@ const updateActiveCategory = useCallback((categories: Category[]) => {
   }
 }, [activeCategory]);
 
-// Move this useCallback to the top level of your component (after your state declarations)
-const handleScroll = useCallback(() => {
-  const tabList = document.querySelector('.tablist');
+// In MenuPage.tsx - Add a new useEffect for scroll handling
+useEffect(() => {
+  const categories = finalMenuData?.data || [];
 
-  if (tabListRef.current && tabList) {
-    const tabListRect = tabListRef.current.getBoundingClientRect();
-    const isFixed = tabListRect.top <= 0;
-
-    if (isFixed) {
-      tabList.classList.add('fixed');
-    } else {
-      tabList.classList.remove('fixed');
-      if (activeCategory) {
-        setActiveCategory("");
-      }
-      return;
-    }
-  }
-
-  // Only check active category when tablist is fixed
-  if (tabList?.classList.contains('fixed')) {
-    const categories = finalMenuData?.data || [];
-    
+  const handleScroll = () => {
     // Use requestIdleCallback for non-critical scroll updates
     if (window.requestIdleCallback) {
       window.requestIdleCallback(() => {
@@ -91,16 +74,12 @@ const handleScroll = useCallback(() => {
     } else {
       updateActiveCategory(categories);
     }
-  }
-}, [finalMenuData, activeCategory,updateActiveCategory]);
+  };
 
-// Now your useEffect should look like this:
-useEffect(() => {
   let ticking = false;
-
-  const scrollHandler = () => {
+  const throttledScrollHandler = () => {
     if (!ticking) {
-      requestAnimationFrame(() => {
+      window.requestAnimationFrame(() => {
         handleScroll();
         ticking = false;
       });
@@ -108,9 +87,9 @@ useEffect(() => {
     }
   };
 
-  window.addEventListener('scroll', scrollHandler, { passive: true });
-  return () => window.removeEventListener('scroll', scrollHandler);
-}, [handleScroll]); // Don't forget to add handleScroll as dependency
+  window.addEventListener("scroll", throttledScrollHandler, { passive: true });
+  return () => window.removeEventListener("scroll", throttledScrollHandler);
+}, [finalMenuData, updateActiveCategory]);
 
   useEffect(() => {
     const timer = setTimeout(() => {

@@ -4,6 +4,9 @@ export const TablistStyle = styled.div`
   margin-top: 16px;
 
   .tablist {
+    position: sticky;
+    top: 0;
+    z-index: 100;
     background: linear-gradient(-45deg, #FDE047, #FEED8A, #C9A800);
     display: flex;
     flex-direction: row;
@@ -83,15 +86,6 @@ export const TablistStyle = styled.div`
     }
   }
 
-  .tablist.fixed {
-    position: fixed;
-    top: 0;
-    left: 0;
-    border-radius: 0 0 50px 50px;
-    margin: 0;
-    width: 100%;
-    z-index: 100;
-  }
 
   .tab.active {
     background-color: #CA8A04;
@@ -115,17 +109,6 @@ export const TablistStyle = styled.div`
     }
   }
   
-  /* Vertical tab style when fixed */
-.tablist.fixed .tab.active {
-  flex-direction: column;
-  height: auto;
-  padding: 8px;
-
-  .category-name {
-    display: block;
-    margin-top: 5px;
-  }
-}
 `;
 
 

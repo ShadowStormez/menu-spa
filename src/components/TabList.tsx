@@ -39,16 +39,6 @@ const TabList: React.FC<TabListProps> = ({
     }
   }, [activeCategory]);
 
-  useEffect(() => {
-    const handleWindowScroll = () => {
-      if (window.scrollY <= 10 && activeCategory) {
-        onTabClick(""); // Deselect tab
-      }
-    };
-
-    window.addEventListener("scroll", handleWindowScroll, { passive: true });
-    return () => window.removeEventListener("scroll", handleWindowScroll);
-  }, [activeCategory, onTabClick]);
 
   // Render skeleton tabs when loading
   if (isLoading) {

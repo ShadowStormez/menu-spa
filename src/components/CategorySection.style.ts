@@ -3,6 +3,7 @@ import { clouds } from "@/app/assets/icons";
 
 /* In your CategorySection styles */
 export const CategorySectionContainer = styled.section`
+  scroll-margin-top: 100px; /* Add this to prevent sticky header from overlapping */
   width: 100%;
   padding: 12px 0 20px 0;
   display: flex;
