@@ -24,6 +24,7 @@ interface Item {
     createdAt: string;
     updatedAt: string;
     __v: number;
+    sortPosition: number;
   }
   
   export interface AllMenus {

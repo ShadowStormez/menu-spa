@@ -81,7 +81,9 @@ const TabList: React.FC<TabListProps> = ({
   return (
     <TablistStyle>
       <div className="tablist" ref={tablistRef}>
-        {categories.map((category) => (
+        {[...categories]
+        .sort((a, b) => a.sortPosition - b.sortPosition)
+        .map((category) => (
           <div
             key={category._id}
             className={`tab ${activeCategory === category._id ? "active" : ""}`}
@@ -90,11 +92,15 @@ const TabList: React.FC<TabListProps> = ({
           >
             <div className="icon-container">
               <Image
-                src={category.logoId && category.logoId !== '' ? getImageUrl(category.logoId) : IcedIcon}
+                src={
+                  category.logoId && category.logoId !== ""
+                    ? getImageUrl(category.logoId)
+                    : IcedIcon
+                }
                 width={35}
                 height={35}
                 alt={category.category}
-                style={{ objectFit: 'cover' }}
+                style={{ objectFit: "cover" }}
               />
             </div>
             <span className="category-name" lang="fa">
