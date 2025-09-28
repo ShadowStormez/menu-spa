@@ -170,9 +170,10 @@ useEffect(() => {
           isLoading={isLoading}
         />
           </div>
-     {(
-        finalMenuData?.data?.map((category) => (
-          <div 
+     {[...(finalMenuData?.data || [])]
+      .sort((a, b) => a.sortPosition - b.sortPosition)
+      .map((category) => (
+        <div 
           key={category._id} 
           ref={(el: HTMLDivElement | null) => {
             categoryRefs.current[category._id] = el;
@@ -185,8 +186,8 @@ useEffect(() => {
             isLoading={isLoading}
           />
         </div>
-        ))
-      )}
+    ))}
+
       <Footer address={restaurantData?.data?.address} phone={restaurantData?.data?.phone} />
       <ScrollToTopButton />
       <div style={{ textAlign: "center", marginTop: "24px", marginBottom: "16px" }}>
