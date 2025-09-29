@@ -27,6 +27,7 @@ import {
   DialogImageWrap,
   BottomDialog,
   DialogContent,
+  DialogImageContainer,
 } from "./CategorySection.style";
 import { Left, Down, Caramel, Chocolate, Coconut, Cookie, Hazelnut, Irish, Vanilla } from "@/app/assets/icons";
 import { CategoryHeaderSkeleton, ImageSkeleton, ItemDescSkeleton, ItemTitleSkeleton, PriceSkeleton, SelectorButtonSkeleton, SelectorLabelSkeleton } from './Skeleton.style';
@@ -212,23 +213,28 @@ const CategorySection = ({ title, items, categoryId,isLoading = false }: Categor
         <BottomDialog onClick={e => e.stopPropagation()}>
           <DialogContent>
             <DialogHandle onMouseDown={handleDragStart} onTouchStart={handleDragStart} />
-            <DialogImageWrap>
-              {isLoading ? (
-                <ImageSkeleton 
-                      variant="rectangular" 
-                    />
-              ) : (
-                <Image
-                  src={item.logoIds && item.logoIds.length > 0 && item.logoIds[0] !== '' ? getImageUrl(item.logoIds[0]) : IcedAmericano}
-                  alt={item.name}
-                  width={96}
-                  height={96}
-                  quality={100}
-                  style={{ width: "100%", height: "100%", objectFit: "none" }}
-                />
-              )}
-            </DialogImageWrap>
-            <ItemContent>
+            {title !== "تاپینگ" && (
+            <DialogImageContainer>
+              <DialogImageWrap isFallback={!(item.logoIds && item.logoIds.length > 0 && item.logoIds[0] !== '')}>
+                {isLoading ? (
+                  <ImageSkeleton variant="rectangular" />
+                ) : (
+                  <Image
+                    src={item.logoIds && item.logoIds.length > 0 && item.logoIds[0] !== '' 
+                          ? getImageUrl(item.logoIds[0]) 
+                          : IcedAmericano}
+                    alt={item.name}
+                    width={500}
+                    height={500}
+                    quality={100}
+                    style={{ width: "100%", objectFit: "cover", aspectRatio: '1/1', borderRadius: '50px' }}
+                  />
+                )}
+              </DialogImageWrap>
+            </DialogImageContainer>
+          )}
+
+            <ItemContent fullSize={title === "تاپینگ"}>
               {isLoading ? (
                 <>
                   <ItemTitleSkeleton variant="rectangular"/>
@@ -438,22 +444,31 @@ const CategorySection = ({ title, items, categoryId,isLoading = false }: Categor
           return (
             <div key={processedItem._id}>
               <ItemCard isActive={isActive} onClick={() => setOpenDialogId(processedItem._id)} style={{ cursor: 'pointer' }}>
-                <ItemImageWrap>
-                  {isLoading ? (
-                    <ImageSkeleton 
-                      variant="rectangular" 
-                    />
-                  ) : (
-                    <Image
-                      src={processedItem.logoIds && processedItem.logoIds.length > 0 && processedItem.logoIds[0] !== '' ? getImageUrl(processedItem.logoIds[0]) : IcedAmericano}
-                      alt={processedItem.name}
-                      width={96}
-                      height={96}
-                      quality={100}
-                    />
+                {title !== "تاپینگ" && (
+                    <ItemImageWrap
+                    isFallback={!(processedItem.logoIds && processedItem.logoIds.length > 0 && processedItem.logoIds[0] !== '')}>
+                    {isLoading ? (
+                      <ImageSkeleton variant="rectangular" />
+                    ) : processedItem.logoIds && processedItem.logoIds.length > 0 && processedItem.logoIds[0] !== '' ? (
+                      <Image
+                        src={getImageUrl(processedItem.logoIds[0])}
+                        alt={processedItem.name}
+                        width={500}
+                        height={500}
+                        quality={100}
+                      />
+                    ) : (
+                      <Image
+                        src={IcedAmericano}
+                        alt={processedItem.name}
+                        width={100}
+                        height={100}
+                        quality={100}
+                      />
+                    )}
+                  </ItemImageWrap>
                   )}
-                </ItemImageWrap>
-                <ItemContent>
+                <ItemContent fullSize={title === "تاپینگ"}>
                   {isLoading ? (
                     <>
                       <ItemTitleSkeleton variant="rectangular"/>

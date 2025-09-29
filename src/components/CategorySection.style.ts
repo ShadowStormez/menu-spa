@@ -130,12 +130,8 @@ export const ItemCard = styled.div<{ isActive?: boolean }>`
     z-index: 1;
   }
 
-  @media (max-width: 946px) {
-    height:450px;
-  }
 
-
-  @media (max-width: 640px) {
+  @media (max-width: 780px) {
     flex-direction: column;
     height: auto;
     gap: 40px;
@@ -148,8 +144,8 @@ export const ItemCard = styled.div<{ isActive?: boolean }>`
 
 
 
-export const ItemImageWrap = styled.div`
-  width: 30%;
+export const ItemImageWrap = styled.div<{ isFallback?: boolean }>`
+  width: 35%;
   border-radius: 50px;
   overflow: hidden;
   background: #fff;
@@ -159,22 +155,42 @@ export const ItemImageWrap = styled.div`
   justify-content: center;
   z-index: 1; /* ✅ above background */
 
+  ${({ isFallback }) =>
+    isFallback &&
+    `
+    img {
+      max-width: 96px;
+      object-fit: contain;
+    }
+  `}
+
+  img {
+    width: 100%;
+    height: auto;
+    aspect-ratio: 1 / 1; /* Maintain square aspect ratio */
+    object-fit: cover;
+  }
+
   box-shadow:
     inset 0 1px 2px rgba(0, 0, 0, 0.06),
     0 4px 12px rgba(0, 0, 0, 0.1);
+
+    @media (max-width: 1245px) {
+    width: 40%;
+  }
 
     @media (max-width: 1100px) {
     width: 50%;
   }
 
-  @media (max-width: 640px) {
+  @media (max-width: 780px) {
     width: 100%;
     height: auto;
     aspect-ratio: 1 / 1; /* Maintain square aspect ratio */
   }
 `;
 
-export const ItemContent = styled.div`
+export const ItemContent = styled.div<{ fullSize?: boolean }>`
   width: 50%;
   display: flex;
   flex-direction: column;
@@ -184,9 +200,16 @@ export const ItemContent = styled.div`
   direction: rtl;
   z-index: 1; /* ✅ above background */
 
-  @media (max-width: 640px) {
+  ${({ fullSize }) =>
+    fullSize &&
+    `
     width: 100%;
-    min-height:150px;
+    height: 100%;
+  `}
+
+  @media (max-width: 780px) {
+    width: 100%;
+    min-height:180px;
     padding: 16px;
     align-items: flex-start;
   }
@@ -332,23 +355,43 @@ export const DialogContent = styled.div`
 
 
 
-
-export const DialogImageWrap = styled.div`
-  width: 100%;
-  max-height: 350px;
+export const DialogImageContainer = styled.div`
+width: 100%;
+display: flex;
+justify-content: center;
+align-items: center;
+`;
+export const DialogImageWrap = styled.div<{ isFallback?: boolean }>`
+  width: 50%;
   margin-bottom: 16px;
   border-radius: 50px;
   background: #fff;
   height: auto;
-  aspect-ratio: 16 / 9; /* Maintain aspect ratio */
+  aspect-ratio: 1 / 1; /* Maintain aspect ratio */
   display: flex;
   align-items: center;
   justify-content: center;
   z-index: 1; 
 
+  ${({ isFallback }) =>
+    isFallback &&
+    `
+    img {
+      max-width: 96px;
+      object-fit: contain;
+    }
+  `}
   box-shadow:
     inset 0 1px 2px rgba(0, 0, 0, 0.06),
     0 4px 12px rgba(0, 0, 0, 0.1);
+
+    @media (max-width: 780px) {
+    width: 70%;
+  }
+
+  @media (max-width: 640px) {
+    width: 100%;
+  }
 `;
 
 

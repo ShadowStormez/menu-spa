@@ -6,12 +6,12 @@
         "restaurant": {
           "id": "rest001"
         },
-        "category": "قهوه سرد",
+        "category": "تاپینگ",
         "items": [
           {
             "_id": "item001",
             "name": "آیس امریکانو",
-            "description": "دو شات اسپرسو به همراه آب و یخ",
+            "description": "",
             "price": 115130,
             "number": 1,
             "calories": 5,
