@@ -7,11 +7,11 @@ import MenuStyle from "./page.style";
 import { LinearProgress, Skeleton } from "@mui/material";
 import TabList from "@/components/TabList";
 import CategorySection from "@/components/CategorySection";
+import Featured from "@/components/Featured";
 import useRestaurantProfile from "@/app/utils/useRestaurantProfile";
 import useAllMenus from "@/app/utils/useAllMenus";
 import toyMenuData from "@/app/utils/toy/data.json";
 import ScrollToTopButton from "@/components/ScrollToTopButton";
-import supportsEmoji from "../utils/SupportsEmoji";
 import { Category } from "../types/all-menus";
 
 // Default restaurant ID
@@ -28,6 +28,10 @@ export default function MenuPage() {
 
  const isLoading = isRestaurantLoading || isMenuLoading;
  const finalMenuData = menuData?.data?.length ? menuData : toyMenuData;
+ // Find the category with title "پاییز"
+  const autumnCategory = finalMenuData?.data.find(
+    (category: Category) => category.category === "پاییز"
+  );
 
   
 // In MenuPage component - replace handleTabClick
@@ -162,6 +166,9 @@ useEffect(() => {
       >
         <MenuStyle>
           <Header logoId={restaurantData?.data?.logoIds?.[0]} />
+          <Featured
+          autumnCategory={autumnCategory}
+          />
           <div ref={tabListRef}>
         <TabList 
           categories={finalMenuData?.data || []} 
@@ -191,22 +198,49 @@ useEffect(() => {
       <Footer address={restaurantData?.data?.address} phone={restaurantData?.data?.phone} />
       <ScrollToTopButton />
       <div style={{ textAlign: "center", marginTop: "24px", marginBottom: "16px" }}>
-        <span
-          style={{
-            backgroundColor: "transparent",
-            color: "#fff",
-            padding: "6px 12px",
-            fontSize: "18px",
-            borderRadius: "8px",
-            fontWeight: 500,
-            fontFamily: "sans-serif",
-            display: "inline-block",
-          }}
-        >
-          Made with {supportsEmoji({ emoji: "🩵" }) ? "🩵" : "💙"} in Iran
+  <span
+    style={{
+      backgroundColor: "transparent",
+      color: "#fff",
+      padding: "6px 12px",
+      fontSize: "18px",
+      borderRadius: "8px",
+      fontWeight: 500,
+      fontFamily: "sans-serif",
+      display: "inline-block",
+    }}
+  >
+    Coded with ❤️ and ☕️ by{" "}
+    <br />
+    <a
+      href="https://github.com/ShadowStormez"
+      style={{
+        background: "linear-gradient(to right, #F2C94C, #F2994A)", // Modern browsers
+        WebkitBackgroundClip: "text",
+        WebkitTextFillColor: "transparent",
+        textDecoration: "none",
+        fontWeight: "bold",
+      }}
+    >
+      ShadowStorme
+    </a>{" "}
+    &{" "}
+    <a
+      href="https://github.com/s4j4d"
+      style={{
+        background: "linear-gradient(to right, #ff4d4d, #cc0000)",
+        WebkitBackgroundClip: "text",
+        WebkitTextFillColor: "transparent",
+        textDecoration: "none",
+        fontWeight: "bold",
+      }}
+    >
+      s4j4d
+    </a>
+  </span>
+</div>
 
-        </span>
-        </div>
+
 
     </MenuStyle>
       </div>

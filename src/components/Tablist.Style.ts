@@ -10,14 +10,14 @@ export const TablistStyle = styled.div`
     gap: 10px;
     align-items: center;
     justify-content: flex-start;
+    box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.5);
     direction: rtl;
     overflow-x: auto;
     padding:10px;
     transition: all 0.3s ease-in-out;
-    width: 100%; /* ✅ full width to allow scrolling */
+    width: 95%; /* ✅ full width to allow scrolling */
     border-radius: 50px;
     margin: 20px auto 24px auto;
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
     scrollbar-width: none;
     -ms-overflow-style: none;
     -webkit-overflow-scrolling: touch;
@@ -29,7 +29,7 @@ export const TablistStyle = styled.div`
   -webkit-mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
 
   @media (max-width: 640px) {
-    margin: 100px auto 50px auto;
+    margin: 25px auto 50px auto;
   }
   }
 

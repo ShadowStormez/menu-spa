@@ -2,7 +2,32 @@
 import styled from '@emotion/styled';
 
 const MenuStyle = styled.div`
-  background: linear-gradient(to bottom, #0284C7 60%, #FACC15 100%);
+  background: #0284C7;
+
+background: linear-gradient(
+  180deg,
+  #0284C7 0%,   /* dark at top */
+  #38BDF8 100%  /* lighter at bottom */
+);
+
+background: -moz-linear-gradient(
+  180deg,
+  #0284C7 0%,
+  #38BDF8 100%
+);
+
+background: -webkit-linear-gradient(
+  180deg,
+  #0284C7 0%,
+  #38BDF8 100%
+);
+
+filter: progid:DXImageTransform.Microsoft.gradient(
+  startColorstr="#0284C7",
+  endColorstr="#38BDF8",
+  GradientType=0
+);
+
   min-height: 100vh;
   display: flex;
   flex-direction: column;

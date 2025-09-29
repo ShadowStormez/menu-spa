@@ -449,23 +449,19 @@ const CategorySection = ({ title, items, categoryId,isLoading = false }: Categor
                     isFallback={!(processedItem.logoIds && processedItem.logoIds.length > 0 && processedItem.logoIds[0] !== '')}>
                     {isLoading ? (
                       <ImageSkeleton variant="rectangular" />
-                    ) : processedItem.logoIds && processedItem.logoIds.length > 0 && processedItem.logoIds[0] !== '' ? (
-                      <Image
-                        src={getImageUrl(processedItem.logoIds[0])}
-                        alt={processedItem.name}
-                        width={500}
-                        height={500}
-                        quality={100}
-                      />
                     ) : (
                       <Image
-                        src={IcedAmericano}
-                        alt={processedItem.name}
-                        width={100}
-                        height={100}
-                        quality={100}
-                      />
+                    src={processedItem.logoIds && processedItem.logoIds.length > 0 && processedItem.logoIds[0] !== '' 
+                          ? getImageUrl(processedItem.logoIds[0]) 
+                          : IcedAmericano}
+                    alt={processedItem.name}
+                    width={500}
+                    height={500}
+                    quality={100}
+                    style={{ width: "100%", objectFit: "cover", aspectRatio: '1/1', borderRadius: '50px' }}
+                  />
                     )}
+                      
                   </ItemImageWrap>
                   )}
                 <ItemContent fullSize={title === "تاپینگ"}>

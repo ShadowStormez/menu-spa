@@ -292,7 +292,9 @@ export const BottomDialog = styled.div`
   bottom: 0;
   left: 0;
   width: 100vw;
-  height: 60vh;
+  height: fit-content;
+  min-height: 25vh;
+  max-height: 50vh;
   background: linear-gradient(to top, #cceeff, #e6f7ff); /* subtle gradient for depth */
   border-radius: 24px 24px 0 0;
   box-shadow:
