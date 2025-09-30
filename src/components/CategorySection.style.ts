@@ -287,19 +287,17 @@ export const Overlay = styled.div`
   z-index: 999;
 `;
 
-export const BottomDialog = styled.div`
+export const BottomDialog = styled.div<{ hasImage: boolean }>`
   position: fixed;
   bottom: 0;
   left: 0;
   width: 100vw;
-  height: fit-content;
-  min-height: 25vh;
-  max-height: 50vh;
-  background: linear-gradient(to top, #cceeff, #e6f7ff); /* subtle gradient for depth */
+
+  background: linear-gradient(to top, #cceeff, #e6f7ff);
   border-radius: 24px 24px 0 0;
   box-shadow:
     0 -4px 12px rgba(0, 0, 0, 0.1),
-    inset 0 8px 16px rgba(255, 255, 255, 0.3); /* inner glow for lifted look */
+    inset 0 8px 16px rgba(255, 255, 255, 0.3);
   z-index: 1001;
   display: flex;
   flex-direction: column;
@@ -307,7 +305,10 @@ export const BottomDialog = styled.div`
   overflow: hidden;
   transition: transform 0.3s ease;
   animation: slideUp 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  perspective: 1000px; /* enables 3D transforms */
+  perspective: 1000px;
+
+  /* Adjust max-height based on prop */
+  height: ${({ hasImage }) => (hasImage ? '60vh' : '30vh')};
 
   &::before {
     content: "";
@@ -324,16 +325,20 @@ export const BottomDialog = styled.div`
     z-index: 0;
     opacity: 0.95;
     filter:
-    drop-shadow(0 4px 6px rgba(0, 0, 0, 0.2))
-    drop-shadow(-2px 2px 4px rgba(0, 0, 0, 0.1)); /* layered shadows */
-    transform: rotateX(5deg) rotateY(-3deg); /* slight tilt for 3D illusion */
+      drop-shadow(0 4px 6px rgba(0, 0, 0, 0.2))
+      drop-shadow(-2px 2px 4px rgba(0, 0, 0, 0.1));
+    transform: rotateX(5deg) rotateY(-3deg);
     pointer-events: none;
   }
 
   > * {
     position: relative;
     z-index: 1;
-    transform: translateZ(20px); /* lift content forward */
+    transform: translateZ(20px);
+  }
+
+  @media (max-width: 640px) {
+    max-height: ${({ hasImage }) => (hasImage ? '70vh' : '55vh')};
   }
 
   @keyframes slideUp {
@@ -347,6 +352,7 @@ export const BottomDialog = styled.div`
     }
   }
 `;
+
 
 export const DialogContent = styled.div`
   flex: 1;

@@ -210,7 +210,7 @@ const CategorySection = ({ title, items, categoryId,isLoading = false }: Categor
     return (
       <>
         <Overlay onClick={() => setOpenDialogId(null)} />
-        <BottomDialog onClick={e => e.stopPropagation()}>
+        <BottomDialog onClick={e => e.stopPropagation()} hasImage={title !== "تاپینگ"}>
           <DialogContent>
             <DialogHandle onMouseDown={handleDragStart} onTouchStart={handleDragStart} />
             {title !== "تاپینگ" && (
