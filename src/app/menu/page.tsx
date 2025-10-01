@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState, useRef,useCallback } from "react";
+import { useEffect, useState, useRef, useCallback } from "react";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import MenuStyle from "./page.style";
@@ -20,101 +20,124 @@ const DEFAULT_RESTAURANT_ID = "c7f3a9e2-1b4d-4f8e-9a6c-7d2e3b9f1c84";
 export default function MenuPage() {
   const [isReady, setIsReady] = useState(false);
   const [activeCategory, setActiveCategory] = useState<string>("");
-  const categoryRefs = useRef<{[key: string]: HTMLDivElement | null}>({});
+  const categoryRefs = useRef<{ [key: string]: HTMLDivElement | null }>({});
   const tabListRef = useRef<HTMLDivElement | null>(null);
-  
- const { restaurantData, isLoading: isRestaurantLoading } = useRestaurantProfile(DEFAULT_RESTAURANT_ID);
- const { menuData, isLoading: isMenuLoading } = useAllMenus(DEFAULT_RESTAURANT_ID);
 
- const isLoading = isRestaurantLoading || isMenuLoading;
- const finalMenuData = menuData?.data?.length ? menuData : toyMenuData;
- // Find the category with title "پاییز"
+  const { restaurantData, isLoading: isRestaurantLoading } = useRestaurantProfile(DEFAULT_RESTAURANT_ID);
+  const { menuData, isLoading: isMenuLoading } = useAllMenus(DEFAULT_RESTAURANT_ID);
+
+  const isLoading = isRestaurantLoading || isMenuLoading;
+  const finalMenuData = menuData?.data?.length ? menuData : toyMenuData;
+  // Find the category with title "پاییز"
   const autumnCategory = finalMenuData?.data.find(
     (category: Category) => category.category === "پاییز"
   );
 
-  
-// In MenuPage component - replace handleTabClick
-const handleTabClick = (categoryId: string) => {
-  const element = categoryRefs.current[categoryId];
-  if (element) {
-    // Direct scroll instead of smooth scroll through all items
-      element.scrollIntoView({ block: 'start' });
-  }
-};
 
-  
-// In MenuPage.tsx - Move useCallback to the top level, outside useEffect
-
-
-
-// Separate function for updateActiveCategory
-const updateActiveCategory = useCallback((categories: Category[]) => {
-  for (const category of categories) {
-    const element = categoryRefs.current[category._id];
+  // In MenuPage component - replace handleTabClick
+  const handleTabClick = (categoryId: string) => {
+    const element = categoryRefs.current[categoryId];
     if (element) {
-      const rect = element.getBoundingClientRect();
-      if (rect.top <= 100 && rect.bottom >= 100) {
-        if (activeCategory !== category._id) {
-          setActiveCategory(category._id);
-        }
-        break;
-      }
-    }
-  }
-}, [activeCategory]);
-
-// Move this useCallback to the top level of your component (after your state declarations)
-const handleScroll = useCallback(() => {
-  const tabList = document.querySelector('.tablist');
-
-  if (tabListRef.current && tabList) {
-    const tabListRect = tabListRef.current.getBoundingClientRect();
-    const isFixed = tabListRect.top <= 0;
-
-    if (isFixed) {
-      tabList.classList.add('fixed');
-    } else {
-      tabList.classList.remove('fixed');
-      if (activeCategory) {
-        setActiveCategory("");
-      }
-      return;
-    }
-  }
-
-  // Only check active category when tablist is fixed
-  if (tabList?.classList.contains('fixed')) {
-    const categories = finalMenuData?.data || [];
-    
-    // Use requestIdleCallback for non-critical scroll updates
-    if (window.requestIdleCallback) {
-      window.requestIdleCallback(() => {
-        updateActiveCategory(categories);
-      }, { timeout: 100 });
-    } else {
-      updateActiveCategory(categories);
-    }
-  }
-}, [finalMenuData, activeCategory,updateActiveCategory]);
-
-// Now your useEffect should look like this:
-useEffect(() => {
-  let ticking = false;
-
-  const scrollHandler = () => {
-    if (!ticking) {
-      requestAnimationFrame(() => {
-        handleScroll();
-        ticking = false;
-      });
-      ticking = true;
+      // Direct scroll instead of smooth scroll through all items
+      element.scrollIntoView({ block: 'start' });
     }
   };
 
-  window.addEventListener('scroll', scrollHandler, { passive: true });
-  return () => window.removeEventListener('scroll', scrollHandler);
-}, [handleScroll]); // Don't forget to add handleScroll as dependency
+
+  // In MenuPage.tsx - Move useCallback to the top level, outside useEffect
+
+
+
+
+
+  // Simplified scroll handler - only handles tablist fixed state
+  const handleScroll = useCallback(() => {
+    const tabList = document.querySelector('.tablist');
+
+    if (tabListRef.current && tabList) {
+      const tabListRect = tabListRef.current.getBoundingClientRect();
+      const isFixed = tabListRect.top <= 0;
+
+      if (isFixed) {
+        tabList.classList.add('fixed');
+      } else {
+        tabList.classList.remove('fixed');
+        if (activeCategory) {
+          setActiveCategory("");
+        }
+      }
+    }
+  }, [activeCategory]);
+
+  // Throttled scroll event listener for tablist fixed state
+  useEffect(() => {
+    let timeoutId: NodeJS.Timeout | null = null;
+    let lastScrollTime = 0;
+    const throttleDelay = 16; // ~60fps
+
+    const throttledScrollHandler = () => {
+      const now = Date.now();
+
+      if (timeoutId) {
+        clearTimeout(timeoutId);
+      }
+
+      // If enough time has passed, execute immediately
+      if (now - lastScrollTime >= throttleDelay) {
+        handleScroll();
+        lastScrollTime = now;
+      } else {
+        // Otherwise, schedule for later
+        timeoutId = setTimeout(() => {
+          handleScroll();
+          lastScrollTime = Date.now();
+          timeoutId = null;
+        }, throttleDelay - (now - lastScrollTime));
+      }
+    };
+
+    window.addEventListener('scroll', throttledScrollHandler, { passive: true });
+
+    return () => {
+      window.removeEventListener('scroll', throttledScrollHandler);
+      if (timeoutId) {
+        clearTimeout(timeoutId);
+      }
+    };
+  }, [handleScroll]);
+
+  // Set up intersection observer for category tracking
+  useEffect(() => {
+    const categories = finalMenuData?.data || [];
+    if (categories.length === 0) return;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            const categoryId = entry.target.getAttribute('data-category-id');
+            if (categoryId) {
+              setActiveCategory(categoryId);
+            }
+          }
+        });
+      },
+      {
+        rootMargin: '-100px 0px -50% 0px',
+        threshold: 0.1
+      }
+    );
+
+    categories.forEach(category => {
+      const element = categoryRefs.current[category._id];
+      if (element) {
+        element.setAttribute('data-category-id', category._id);
+        observer.observe(element);
+      }
+    });
+
+    return () => observer.disconnect();
+  }, [finalMenuData]); // ✅ Only depends on finalMenuData
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -124,7 +147,7 @@ useEffect(() => {
     return () => clearTimeout(timer);
   }, []);
 
-  
+
   return (
     <div style={{ position: "relative" }}>
       {/* Loading screen */}
@@ -167,86 +190,85 @@ useEffect(() => {
         <MenuStyle>
           <Header logoId={restaurantData?.data?.logoIds?.[0]} />
           <Featured
-          autumnCategory={autumnCategory}
+            autumnCategory={autumnCategory}
           />
           <div ref={tabListRef}>
-        <TabList 
-          categories={finalMenuData?.data || []} 
-          activeCategory={activeCategory}
-          onTabClick={handleTabClick}
-          isLoading={isLoading}
-        />
+            <TabList
+              categories={finalMenuData?.data || []}
+              activeCategory={activeCategory}
+              onTabClick={handleTabClick}
+              isLoading={isLoading}
+            />
           </div>
-     {[...(finalMenuData?.data || [])]
-      .sort((a, b) => a.sortPosition - b.sortPosition)
-      .map((category) => (
-        <div 
-          key={category._id} 
-          ref={(el: HTMLDivElement | null) => {
-            categoryRefs.current[category._id] = el;
-          }}
-        >
-          <CategorySection 
-            title={category.category} 
-            items={category.items} 
-            categoryId={category._id}
-            isLoading={isLoading}
-          />
-        </div>
-    ))}
+          {[...(finalMenuData?.data || [])]
+            .sort((a, b) => a.sortPosition - b.sortPosition)
+            .map((category) => (
+              <div
+                key={category._id}
+                ref={(el: HTMLDivElement | null) => {
+                  categoryRefs.current[category._id] = el;
+                }}
+              >
+                <CategorySection
+                  title={category.category}
+                  items={category.items}
+                  categoryId={category._id}
+                  isLoading={isLoading}
+                />
+              </div>
+            ))}
 
-      <Footer address={restaurantData?.data?.address} phone={restaurantData?.data?.phone} />
-      <ScrollToTopButton />
-      <div style={{ textAlign: "center", marginTop: "24px", marginBottom: "16px" }}>
-  <span
-    style={{
-      backgroundColor: "transparent",
-      color: "#fff",
-      padding: "6px 12px",
-      fontSize: "18px",
-      borderRadius: "8px",
-      fontWeight: 500,
-      fontFamily: "sans-serif",
-      display: "inline-block",
-    }}
-  >
-    Coded with ❤️ and ☕️ by{" "}
-    <br />
-    <a
-      href="https://github.com/ShadowStormez"
-      style={{
-        background: "linear-gradient(to right, #F2C94C, #F2994A)", // Modern browsers
-        WebkitBackgroundClip: "text",
-        WebkitTextFillColor: "transparent",
-        textDecoration: "none",
-        fontWeight: "bold",
-      }}
-    >
-      ShadowStorme
-    </a>{" "}
-    &{" "}
-    <a
-      href="https://github.com/s4j4d"
-      style={{
-        background: "linear-gradient(to right, #ff4d4d, #cc0000)",
-        WebkitBackgroundClip: "text",
-        WebkitTextFillColor: "transparent",
-        textDecoration: "none",
-        fontWeight: "bold",
-      }}
-    >
-      s4j4d
-    </a>
-  </span>
-</div>
+          <Footer address={restaurantData?.data?.address} phone={restaurantData?.data?.phone} />
+          <ScrollToTopButton />
+          <div style={{ textAlign: "center", marginTop: "24px", marginBottom: "16px" }}>
+            <span
+              style={{
+                backgroundColor: "transparent",
+                color: "#fff",
+                padding: "6px 12px",
+                fontSize: "18px",
+                borderRadius: "8px",
+                fontWeight: 500,
+                fontFamily: "sans-serif",
+                display: "inline-block",
+              }}
+            >
+              Coded with ❤️ and ☕️ by{" "}
+              <br />
+              <a
+                href="https://github.com/ShadowStormez"
+                style={{
+                  background: "linear-gradient(to right, #F2C94C, #F2994A)", // Modern browsers
+                  WebkitBackgroundClip: "text",
+                  WebkitTextFillColor: "transparent",
+                  textDecoration: "none",
+                  fontWeight: "bold",
+                }}
+              >
+                ShadowStorme
+              </a>{" "}
+              &{" "}
+              <a
+                href="https://github.com/s4j4d"
+                style={{
+                  background: "linear-gradient(to right, #ff4d4d, #cc0000)",
+                  WebkitBackgroundClip: "text",
+                  WebkitTextFillColor: "transparent",
+                  textDecoration: "none",
+                  fontWeight: "bold",
+                }}
+              >
+                s4j4d
+              </a>
+            </span>
+          </div>
 
 
 
-    </MenuStyle>
+        </MenuStyle>
       </div>
     </div>
   );
 }
 
 
-       
