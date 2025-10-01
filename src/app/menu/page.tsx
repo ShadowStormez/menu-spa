@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState, useRef, useCallback } from "react";
+import { useEffect, useState, useRef, useCallback, useMemo } from "react";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import MenuStyle from "./page.style";
@@ -28,20 +28,28 @@ export default function MenuPage() {
 
   const isLoading = isRestaurantLoading || isMenuLoading;
   const finalMenuData = menuData?.data?.length ? menuData : toyMenuData;
-  // Find the category with title "پاییز"
-  const autumnCategory = finalMenuData?.data.find(
-    (category: Category) => category.category === "پاییز"
+
+  // Memoize autumn category to prevent recalculation
+  const autumnCategory = useMemo(() =>
+    finalMenuData?.data.find((category: Category) => category.category === "پاییز"),
+    [finalMenuData]
+  );
+
+  // Memoize sorted categories to prevent re-sorting on every render
+  const sortedCategories = useMemo(() =>
+    [...(finalMenuData?.data || [])].sort((a, b) => a.sortPosition - b.sortPosition),
+    [finalMenuData]
   );
 
 
-  // In MenuPage component - replace handleTabClick
-  const handleTabClick = (categoryId: string) => {
+  // Memoize handleTabClick to prevent TabList re-renders
+  const handleTabClick = useCallback((categoryId: string) => {
     const element = categoryRefs.current[categoryId];
     if (element) {
       // Direct scroll instead of smooth scroll through all items
       element.scrollIntoView({ block: 'start' });
     }
-  };
+  }, []); // No dependencies - function never changes
 
 
   // In MenuPage.tsx - Move useCallback to the top level, outside useEffect
@@ -194,15 +202,14 @@ export default function MenuPage() {
           />
           <div ref={tabListRef}>
             <TabList
-              categories={finalMenuData?.data || []}
+              categories={sortedCategories}
               activeCategory={activeCategory}
               onTabClick={handleTabClick}
               isLoading={isLoading}
             />
           </div>
-          {[...(finalMenuData?.data || [])]
-            .sort((a, b) => a.sortPosition - b.sortPosition)
-            .map((category) => (
+          {useMemo(() =>
+            sortedCategories.map((category) => (
               <div
                 key={category._id}
                 ref={(el: HTMLDivElement | null) => {
@@ -216,7 +223,8 @@ export default function MenuPage() {
                   isLoading={isLoading}
                 />
               </div>
-            ))}
+            )), [sortedCategories, isLoading]
+          )}
 
           <Footer address={restaurantData?.data?.address} phone={restaurantData?.data?.phone} />
           <ScrollToTopButton />
