@@ -29,7 +29,7 @@ import {
   DialogContent,
   DialogImageContainer,
 } from "./CategorySection.style";
-import { Left, Down, Caramel, Chocolate, Coconut, Cookie, Hazelnut, Irish, Vanilla,ChocCaramel,ChocVanilla,ChocHazel } from "@/app/assets/icons";
+import { Left, Down, Caramel, Chocolate, Coconut, Cookie, Hazelnut, Irish, Vanilla } from "@/app/assets/icons";
 import { CategoryHeaderSkeleton, ImageSkeleton, ItemDescSkeleton, ItemTitleSkeleton, PriceSkeleton, SelectorButtonSkeleton, SelectorLabelSkeleton } from './Skeleton.style';
 
 interface CategorySectionProps {
@@ -51,9 +51,9 @@ const FLAVOR_OPTIONS = [
   { name: "کارامل", icon: Caramel },
   { name: "فندق", icon: Hazelnut },
   { name: "کوکی", icon: Cookie },
-  { name: "شکلات کارامل", icon: ChocCaramel },
-  { name: "شکلات فندق", icon: ChocHazel },
-  { name: "شکلات وانیل", icon: ChocVanilla },
+  { name: "شکلات کارامل" },
+  { name: "شکلات فندق" },
+  { name: "شکلات وانیل" },
 
 ];
 
@@ -130,7 +130,7 @@ const CategorySection = ({ title, items, categoryId,isLoading = false }: Categor
 
   const getModifiedDescription = (originalDesc: string, itemName: string, flavor?: string): string => {
   if (itemName === "هات چاکلت" && flavor === "فندق") {
-    return `${originalDesc} تکه های فندق به دلخواه`;
+    return `${originalDesc} ، تکه های فندق به دلخواه`;
   }
   return originalDesc;
 };
@@ -399,7 +399,9 @@ const CategorySection = ({ title, items, categoryId,isLoading = false }: Categor
                             }}
                           >
                             {flavor.name}
+                            {flavor.icon && (
                             <Image src={flavor.icon} alt={flavor.name} width={20} height={20} />
+                            )}
                           </button>
                         );
                       })}
@@ -488,7 +490,9 @@ const CategorySection = ({ title, items, categoryId,isLoading = false }: Categor
                       <ItemTitle>
                         {getItemTitle(processedItem.name, processedItem.flavor)}
                       </ItemTitle>
-                      {getModifiedDescription(processedItem.description, processedItem.name, processedItem.flavor)}
+                      <ItemDesc>
+                        {getModifiedDescription(processedItem.description, processedItem.name, processedItem.flavor)}
+                        </ItemDesc>
                     </>
                   )}
 
@@ -629,7 +633,9 @@ const CategorySection = ({ title, items, categoryId,isLoading = false }: Categor
                                 }}
                               >
                                 {flavorOption.name}
+                                {flavorOption.icon && (
                                 <Image src={flavorOption.icon} alt={flavorOption.name} width={20} height={20} />
+                                )}
                               </button>
                             );
                           })}
