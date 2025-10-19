@@ -61,9 +61,7 @@ export const ItemImageWrap = styled.div<{ isFallback: boolean }>`
       margin: 0;
       font-size: 24px;
       font-weight: bold;
-      background: linear-gradient(-90deg, hsla(33, 100%, 53%, 1) 0%, hsla(58, 100%, 68%, 1) 100%);
-        -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
+      color: rgb(253, 224, 71)
           }
 
     }

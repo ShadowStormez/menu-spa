@@ -11,6 +11,10 @@ export { default as Cookie } from "./Cookie-min.png";
 export { default as Hazelnut } from "./Hazelnut-min.png";
 export { default as Irish } from "./Irish-min.png";
 export { default as Vanilla } from "./Vanilla-min.png";
+export { default as ChocCaramel } from "./chocolate-caramel.png";
+export { default as ChocVanilla } from "./chocolate-vanilla.png";
+export { default as ChocHazel } from "./chocolate-hazel.png";
+
 
 
 
