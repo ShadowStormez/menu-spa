@@ -179,7 +179,10 @@ const CategorySection = ({ title, items, categoryId,isLoading = false }: Categor
     if (flavor && flavor !== "هیچکدوم") {
       if (itemName.includes("هات چاکلت")) {
         selectedPrice = String(Number(selectedPrice) + 34);
-      } else {
+      } else if (itemName.includes("لاته")) {
+        selectedPrice = String(Number(selectedPrice) + 26);
+      }
+       else {
         selectedPrice = String(Number(selectedPrice) + 30);
       }
     }
