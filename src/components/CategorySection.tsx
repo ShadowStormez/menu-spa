@@ -180,7 +180,7 @@ const CategorySection = ({ title, items, categoryId,isLoading = false }: Categor
       if (itemName.includes("هات چاکلت")) {
         selectedPrice = String(Number(selectedPrice) + 34);
       } else if (itemName.includes("لاته")) {
-        selectedPrice = String(Number(selectedPrice) + 26);
+        selectedPrice = String(Number(selectedPrice) + 21);
       }
        else {
         selectedPrice = String(Number(selectedPrice) + 30);
