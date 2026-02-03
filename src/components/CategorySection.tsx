@@ -130,7 +130,7 @@ const CategorySection = ({ title, items, categoryId,isLoading = false }: Categor
 
   const getModifiedDescription = (originalDesc: string, itemName: string, flavor?: string): string => {
   if (itemName === "هات چاکلت" && flavor === "فندق") {
-    return `${originalDesc} ، تکه های فندق به دلخواه`;
+    return `${originalDesc} ،سیروپ فندق، تکه های فندق`;
   }
   return originalDesc;
 };
