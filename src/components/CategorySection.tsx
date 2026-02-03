@@ -137,7 +137,7 @@ const CategorySection = ({ title, items, categoryId,isLoading = false }: Categor
 
   const getFlavorOptions = (itemName: string) => {
     if (itemName === "هات چاکلت") {
-      return FLAVOR_OPTIONS.filter(f => ["فندق", "کوکی"].includes(f.name));
+      return FLAVOR_OPTIONS.filter(f => ["فندق"].includes(f.name));
     }
     if (itemName === "فراپاچینو") {
       return FLAVOR_OPTIONS.filter(f => ["کارامل", "شکلات", "آیریش"].includes(f.name));
@@ -178,7 +178,7 @@ const CategorySection = ({ title, items, categoryId,isLoading = false }: Categor
 
     if (flavor && flavor !== "هیچکدوم") {
       if (itemName.includes("هات چاکلت")) {
-        selectedPrice = String(Number(selectedPrice) + 34);
+        selectedPrice = String(Number(selectedPrice) + 60);
       } else if (itemName.includes("لاته")) {
         selectedPrice = String(Number(selectedPrice) + 21);
       }
