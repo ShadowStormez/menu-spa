@@ -6,7 +6,6 @@ import IcedAmericano from "@/app/assets/icons/LogoFinal.png";
 import { getImageUrl } from "@/app/utils/getImageUrl";
 import { Item } from "@/app/types/all-menus";
 import styled from "@emotion/styled";
-import Skeleton from '@mui/material/Skeleton';
 import {
   CategorySectionContainer,
   CategoryHeaderContainer,
