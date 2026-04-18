@@ -7,7 +7,7 @@ import { getImageUrl } from "@/app/utils/getImageUrl";
 import { Item } from "@/app/types/all-menus";
 import styled from "@emotion/styled";
 import {
-  CategorySectionContainer,
+  CategorySectionContainer, 
   CategoryHeaderContainer,
   CategoryHeader,
   HeaderLine,
