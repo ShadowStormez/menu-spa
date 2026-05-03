@@ -1,4 +1,4 @@
-FROM node:18-alpine AS base
+FROM registry.hamdocker.ir/mapsahr-lazycoders/menyou-spa:dd21ac0e-8ab16c AS base
 
 FROM base AS deps
 
@@ -7,7 +7,7 @@ WORKDIR /app
 
 COPY package.json ./
 
-RUN npm update && npm install
+# RUN npm update && npm install
 
 
 FROM base AS builder
