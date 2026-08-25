@@ -77,41 +77,22 @@ export default function MenuPage() {
     }
   }, [activeCategory]);
 
-  // Throttled scroll event listener for tablist fixed state
+  // rAF-throttled scroll event listener for tablist fixed state
   useEffect(() => {
-    let timeoutId: NodeJS.Timeout | null = null;
-    let lastScrollTime = 0;
-    const throttleDelay = 16; // ~60fps
+    let ticking = false;
 
-    const throttledScrollHandler = () => {
-      const now = Date.now();
-
-      if (timeoutId) {
-        clearTimeout(timeoutId);
-      }
-
-      // If enough time has passed, execute immediately
-      if (now - lastScrollTime >= throttleDelay) {
-        handleScroll();
-        lastScrollTime = now;
-      } else {
-        // Otherwise, schedule for later
-        timeoutId = setTimeout(() => {
+    const scrollHandler = () => {
+      if (!ticking) {
+        requestAnimationFrame(() => {
           handleScroll();
-          lastScrollTime = Date.now();
-          timeoutId = null;
-        }, throttleDelay - (now - lastScrollTime));
+          ticking = false;
+        });
+        ticking = true;
       }
     };
 
-    window.addEventListener('scroll', throttledScrollHandler, { passive: true });
-
-    return () => {
-      window.removeEventListener('scroll', throttledScrollHandler);
-      if (timeoutId) {
-        clearTimeout(timeoutId);
-      }
-    };
+    window.addEventListener('scroll', scrollHandler, { passive: true });
+    return () => window.removeEventListener('scroll', scrollHandler);
   }, [handleScroll]);
 
   // Set up intersection observer for category tracking
